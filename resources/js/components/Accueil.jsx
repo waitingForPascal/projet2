@@ -6,7 +6,7 @@ import { Card, Button, Space } from "antd";
 export default function Accueil() {
     const [data, setData] = useState([]);
     const { Meta } = Card;
-
+    // const a = 'test';
     useEffect(() => {
         axios.get("/getListeBouteilleCellier").then((res) => {
             setData(res.data);
