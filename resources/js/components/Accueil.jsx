@@ -33,56 +33,58 @@ export default function Accueil() {
     };
     return (
         <div>
-            {data.map((bouteiile) => (
-                <div key={bouteiile.id_bouteille_cellier}>
-                    <Card
-                        hoverable
-                        style={{
-                            width: 340,
-                        }}
-                        cover={
-                            <img
-                                alt="example"
-                                // src="{bouteiile.image}"
-                                src="https://cdn.shopify.com/s/files/1/1057/2942/products/3-frontenac_720x.jpg?v=1631750927"
-                            />
-                        }
-                    >
-                        <Meta title={bouteiile.nom} />
-                        <br />
-                        <p>Quantité: {bouteiile.quantite}</p>
-                        <p>Pays: {bouteiile.pays}</p>
-                        <p>Type: {bouteiile.type}</p>
-                        <p>Millesime: {bouteiile.millesime}</p>
-                        <p>
-                            <a href="{bouteiile.url_saq}">Voir SAQ</a>
-                        </p>
-                        <Space>
-                            <Button>Modifier</Button>
-                            <Button
-                                type="primary"
-                                onClick={() => {
-                                    ajouterQuantite(
-                                        bouteiile.id_bouteille_cellier
-                                    );
-                                }}
-                            >
-                                Ajouter
-                            </Button>
-                            <Button
-                                danger
-                                onClick={() => {
-                                    reduireQuantite(
-                                        bouteiile.id_bouteille_cellier
-                                    );
-                                }}
-                            >
-                                Boire
-                            </Button>
-                        </Space>
-                    </Card>
-                </div>
-            ))}
+            <Row gutter={[0, 16]}>
+                {data.map((bouteiile) => (
+                    <Col xs={20} sm={16} md={12} lg={8} xl={6} xxl={4}>
+                        <Card
+                            hoverable
+                            style={{
+                                width: 300,
+                            }}
+                            cover={
+                                <img
+                                    alt="example"
+                                    // src="{bouteiile.image}"
+                                    src="https://cdn.shopify.com/s/files/1/1057/2942/products/3-frontenac_720x.jpg?v=1631750927"
+                                />
+                            }
+                        >
+                            <Meta title={bouteiile.nom} />
+                            <br />
+                            <p>Quantité: {bouteiile.quantite}</p>
+                            <p>Pays: {bouteiile.pays}</p>
+                            <p>Type: {bouteiile.type}</p>
+                            <p>Millesime: {bouteiile.millesime}</p>
+                            <p>
+                                <a href="{bouteiile.url_saq}">Voir SAQ</a>
+                            </p>
+                            <Space>
+                                <Button>Modifier</Button>
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        ajouterQuantite(
+                                            bouteiile.id_bouteille_cellier
+                                        );
+                                    }}
+                                >
+                                    Ajouter
+                                </Button>
+                                <Button
+                                    danger
+                                    onClick={() => {
+                                        reduireQuantite(
+                                            bouteiile.id_bouteille_cellier
+                                        );
+                                    }}
+                                >
+                                    Boire
+                                </Button>
+                            </Space>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
         </div>
     );
 }
