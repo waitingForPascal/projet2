@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import axios from "axios";
 import { Card, Button, Space } from "antd";
+import { Col, Row, List } from "antd";
 
 export default function Accueil() {
     const [data, setData] = useState([]);
     const { Meta } = Card;
-    // const a = 'test';
+
     useEffect(() => {
         axios.get("/getListeBouteilleCellier").then((res) => {
             setData(res.data);

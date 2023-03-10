@@ -2,17 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 export default function Ajout() {
-    const test = () => {
-        console.log(111);
-        
-    }
     return (
-        <div className="nouvelleBouteille" vertical layout>
-            Recherche : <input type="text" name="nom_bouteille" onChange={test}/>
-            <ul className="listeAutoComplete"></ul>
+        <div class="nouvelleBouteille" vertical layout>
+            Recherche : <input type="text" name="nom_bouteille" />
+            <ul class="listeAutoComplete"></ul>
             <div>
                 <p>
-                    Nom : <span data-id="" className="nom_bouteille"></span>
+                    Nom : <span data-id="" class="nom_bouteille"></span>
                 </p>
                 <p>
                     Millesime : <input name="millesime" />
