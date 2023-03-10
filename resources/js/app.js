@@ -18,4 +18,4 @@ import "./components/Accueil";
 import "./components/Entete";
 import "./components/Ajout";
 
-
+// 创建components里的组件，建立views，router,然后引入
