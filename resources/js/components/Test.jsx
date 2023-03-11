@@ -1,0 +1,16 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+export default function Test() {
+    return <div>Test</div>;
+}
+
+if (document.getElementById("test")) {
+    const Index = ReactDOM.createRoot(document.getElementById("test"));
+
+    Index.render(
+        <React.StrictMode>
+            <Test />
+        </React.StrictMode>
+    );
+}
