@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Link } from "react";
 import ReactDOM from "react-dom/client";
 import axios from "axios";
 import { Card, Button, Space } from "antd";
@@ -10,6 +10,7 @@ export default function Accueil() {
 
     useEffect(() => {
         axios.get("/getListeBouteilleCellier").then((res) => {
+            console.log(res.data);
             setData(res.data);
         });
     }, []);
@@ -36,7 +37,15 @@ export default function Accueil() {
         <div>
             <Row gutter={[0, 16]}>
                 {data.map((bouteiile) => (
-                    <Col xs={20} sm={16} md={12} lg={8} xl={6} xxl={4}>
+                    <Col
+                        xs={20}
+                        sm={16}
+                        md={12}
+                        lg={8}
+                        xl={6}
+                        xxl={4}
+                        key={bouteiile.id}
+                    >
                         <Card
                             hoverable
                             style={{
@@ -60,13 +69,18 @@ export default function Accueil() {
                                 <a href="{bouteiile.url_saq}">Voir SAQ</a>
                             </p>
                             <Space>
-                                <Button>Modifier</Button>
+                                <Button>
+                                    {/* <a
+                                        href={`/modifier/${bouteiile.id_bouteille_cellier}`}
+                                    >
+                                        
+                                    </a> */}
+                                    Modifier
+                                </Button>
                                 <Button
                                     type="primary"
                                     onClick={() => {
-                                        ajouterQuantite(
-                                            bouteiile.id_bouteille_cellier
-                                        );
+                                        ajouterQuantite(bouteiile.id);
                                     }}
                                 >
                                     Ajouter
@@ -74,9 +88,7 @@ export default function Accueil() {
                                 <Button
                                     danger
                                     onClick={() => {
-                                        reduireQuantite(
-                                            bouteiile.id_bouteille_cellier
-                                        );
+                                        reduireQuantite(bouteiile.id);
                                     }}
                                 >
                                     Boire
