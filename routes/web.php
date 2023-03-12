@@ -14,6 +14,8 @@ use App\Http\Controllers\CellierController ;
 |
 */
 // -----------------------test
+
+
 Route::get('/react', function () {
     return view('react');
 });
@@ -23,9 +25,7 @@ Route::get('/test', function () {
 });
 
 
-
-
-
+Auth::routes();
 
 Route::get('/ajout', function () {
     return view('ajout');
@@ -35,6 +35,7 @@ Route::get('/ajout', function () {
 
 
 Route::get('/', [CellierController::class, 'index']);
+Route::get('/home', [CellierController::class, 'index']);
 Route::get('/accueil', [CellierController::class, 'index'])->name('accueil');
 
 
