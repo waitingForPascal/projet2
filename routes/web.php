@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BouteilleController ;
 use App\Http\Controllers\CellierController ;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,9 +32,6 @@ Auth::routes();
 Route::get('/ajout', function () {
     return view('ajout');
 });
-
-
-
 
 Route::get('/', [CellierController::class, 'index']);
 Route::get('/home', [CellierController::class, 'index']);

@@ -50,6 +50,11 @@
                         </a>
                     </li>
                     <li class="navEntete-item">
+                        <a class="navEntete-link" href="#" role="button" href="#}}">
+                            Mes celliers
+                        </a>
+                    </li>
+                    <li class="navEntete-item">
                         <a class="" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
