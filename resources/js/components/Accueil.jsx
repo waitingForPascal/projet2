@@ -16,7 +16,7 @@ export default function Accueil() {
     }, []);
 
     const ajouterQuantite = (id) => {
-        console.log(id);
+        // console.log(id);
         const quantite = { quantite: data[id - 1]?.quantite + 1 };
         axios.patch(`/bouteille/${id}`, quantite).then((res) => {
             axios.get("/getListeBouteilleCellier").then((res) => {
@@ -33,6 +33,42 @@ export default function Accueil() {
             });
         });
     };
+
+
+    // obtenir les informations de la bouteille qu'on clique dessus
+    const handleModBouteille = (bouteiile) => {
+        setmodBouteille(bouteiile);
+        // rendre le modal être visible
+        // console.log(bouteiile);
+        setIsOpen(true);
+        // Voici le fonctionnement asynchrone, s'il y a pas setTimeout, on ne peut pas obtenir les information de bouteille Lorsqu'on ouvre le formulaire pour la première fois
+        setTimeout(() => {
+            modBouteilleForm.current.setFieldsValue(bouteiile);
+        }, 0);
+    };
+
+    const modBouteilleFormOk = () => {
+        // vilidation de form
+        modBouteilleForm.current.validateFields().then((value) => {
+            // console.log(value);
+            // console.log(modBouteille);
+            // envoyer une requête pour la modification de bouteille
+            axios
+                .patch(`/modBouteille/${modBouteille.bouteille_id}`, value)
+                .then((res) => {
+                    // Récupérer les données, actualiser la page
+
+                    // console.log(res.data);
+                    axios.get("/getListeBouteilleCellier").then((res) => {
+                        setData(res.data);
+                    });
+                });
+        });
+        // fermer le modal
+        setIsOpen(false);
+    };
+
+
     return (
         <div>
             <Row gutter={[0, 16]}>
