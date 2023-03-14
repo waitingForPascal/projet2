@@ -40,5 +40,3 @@ Route::get('/accueil', [CellierController::class, 'index'])->name('accueil');
 
 Route::get('/getListeBouteilleCellier', [BouteilleController::class, 'getListeBouteilleCellier']);
 Route::patch('/bouteille/{id}', [BouteilleController::class, 'update']);
-
-
