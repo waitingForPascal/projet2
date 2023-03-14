@@ -15,32 +15,30 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// ------------------------------test
-Route::get('/aaa', [BouteilleController::class, 'modifierUnBouteille']);
+// -----------------------test
+
+
+Route::get('/react', function () {
+    return view('react');
+});
 
 Route::get('/test', function () {
     return view('test');
 });
-// ------------------------------test
-
 
 
 Auth::routes();
 
-Route::get('/ajout', function () {
-    return view('ajout');
-});
 
 Route::get('/', [CellierController::class, 'index']);
 Route::get('/home', [CellierController::class, 'index']);
 Route::get('/accueil', [CellierController::class, 'index'])->name('accueil');
 
-// récupérer tous les bouteilles
+
 Route::get('/getListeBouteilleCellier', [BouteilleController::class, 'getListeBouteilleCellier']);
-// modificaiton la quantité de bouteille dans un cellier
 Route::patch('/bouteille/{id}', [BouteilleController::class, 'update']);
 
-Route::patch('/modBouteille/{id}', [BouteilleController::class, 'modifierUnBouteille']);
 
-
-
+Route::get('/ajout', function () {return view('ajout');});
+Route::get('/getBouteillesSAQ', [BouteilleController::class, 'index']);
+Route::post('/ajouteBouteillesCellier', [CellierBouteilleController::class, 'store']);

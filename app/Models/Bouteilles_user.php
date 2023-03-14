@@ -9,6 +9,9 @@ class Bouteilles_user extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'bouteilles_id',
+        'celliers_id',
+        'data_achat',
         'quantite'
     ];
 }
