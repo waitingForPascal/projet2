@@ -22,11 +22,11 @@ class BouteilleController extends Controller
     public function index()
     {
         //
-        $bouteilles = Bouteille::all();
+        // $bouteilles = Bouteille::all();
         
-        return $bouteilles;
+        // return $bouteilles;
 
-        return response()->json($bouteilles);
+        // return response()->json($bouteilles);
     }
 
     /**
