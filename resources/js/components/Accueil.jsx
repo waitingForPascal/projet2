@@ -39,7 +39,7 @@ export default function Accueil() {
     const handleModBouteille = (bouteiile) => {
         setmodBouteille(bouteiile);
         // rendre le modal être visible
-        // console.log(bouteiile);
+        console.log(bouteiile);
         setIsOpen(true);
         // Voici le fonctionnement asynchrone, s'il y a pas setTimeout, on ne peut pas obtenir les information de bouteille Lorsqu'on ouvre le formulaire pour la première fois
         setTimeout(() => {
@@ -50,7 +50,7 @@ export default function Accueil() {
     const modBouteilleFormOk = () => {
         // vilidation de form
         modBouteilleForm.current.validateFields().then((value) => {
-            // console.log(value);
+            console.log(value);
             // console.log(modBouteille);
             // envoyer une requête pour la modification de bouteille
             axios
