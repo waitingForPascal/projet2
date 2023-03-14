@@ -1,28 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, Link } from "react";
 import ReactDOM from "react-dom/client";
 import axios from "axios";
-import { Card, Button, Space, Modal, Input, Form, Select } from "antd";
+import { Card, Button, Space } from "antd";
 import { Col, Row, List } from "antd";
 
 export default function Accueil() {
     const [data, setData] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
-    const [modBouteille, setmodBouteille] = useState(null);
-    const modBouteilleForm = useRef(null);
-
     const { Meta } = Card;
 
-    // obtenir toutes les bouteilles dans tous les celliers,Il y a des répétitions, qui doivent être optimisées plus tard
     useEffect(() => {
         axios.get("/getListeBouteilleCellier").then((res) => {
             console.log(res.data);
-            const listBouteille = res.data.filter((item) => {});
             setData(res.data);
         });
     }, []);
 
     const ajouterQuantite = (id) => {
-        console.log(id);
+        // console.log(id);
         const quantite = { quantite: data[id - 1]?.quantite + 1 };
         axios.patch(`/bouteille/${id}`, quantite).then((res) => {
             axios.get("/getListeBouteilleCellier").then((res) => {
@@ -40,11 +34,12 @@ export default function Accueil() {
         });
     };
 
+
     // obtenir les informations de la bouteille qu'on clique dessus
     const handleModBouteille = (bouteiile) => {
         setmodBouteille(bouteiile);
         // rendre le modal être visible
-        console.log(bouteiile);
+        // console.log(bouteiile);
         setIsOpen(true);
         // Voici le fonctionnement asynchrone, s'il y a pas setTimeout, on ne peut pas obtenir les information de bouteille Lorsqu'on ouvre le formulaire pour la première fois
         setTimeout(() => {
@@ -56,7 +51,7 @@ export default function Accueil() {
         // vilidation de form
         modBouteilleForm.current.validateFields().then((value) => {
             // console.log(value);
-            console.log(modBouteille);
+            // console.log(modBouteille);
             // envoyer une requête pour la modification de bouteille
             axios
                 .patch(`/modBouteille/${modBouteille.bouteille_id}`, value)
@@ -72,6 +67,7 @@ export default function Accueil() {
         // fermer le modal
         setIsOpen(false);
     };
+
 
     return (
         <div>
@@ -104,18 +100,17 @@ export default function Accueil() {
                             <p>Quantité: {bouteiile.quantite}</p>
                             <p>Pays: {bouteiile.pays}</p>
                             <p>Type: {bouteiile.type}</p>
-                            <p>Prix: {bouteiile.prix_saq}</p>
-
+                            <p>Millesime: {bouteiile.millesime}</p>
                             <p>
                                 <a href="{bouteiile.url_saq}">Voir SAQ</a>
                             </p>
                             <Space>
-                                <Button
-                                    onClick={() =>
-                                        // cliquer ce botton pour afficher le modal de form pour la modification
-                                        handleModBouteille(bouteiile)
-                                    }
-                                >
+                                <Button>
+                                    {/* <a
+                                        href={`/modifier/${bouteiile.id_bouteille_cellier}`}
+                                    >
+                                        
+                                    </a> */}
                                     Modifier
                                 </Button>
                                 <Button
@@ -139,6 +134,7 @@ export default function Accueil() {
                     </Col>
                 ))}
             </Row>
+
 
             <Modal
                 open={isOpen}
@@ -226,6 +222,7 @@ export default function Accueil() {
                     </Form.Item>
                 </Form>
             </Modal>
+
         </div>
     );
 }
