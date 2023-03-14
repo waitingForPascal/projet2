@@ -17,11 +17,6 @@ class CellierController extends Controller
      */
     public function index()
     {
-        //
-        // $celliers = Cellier::all();
-        // var_dump($celliers[0]);
-        // exit;
-        // return response()->json($celliers);
         return view('accueil');
     }
 
@@ -90,17 +85,4 @@ class CellierController extends Controller
     {
         //
     }
-
-    // public function getListeBouteilleCellier(Cellier $cellier)
-    // {
-    //     //
-    //     $celliers = Cellier::all();
-    //     $bouteilles = Bouteille::all();
-    //     $types = Type::all();
-    //     // $data = [...$celliers,...$bouteilles,...$types];
-    //     $data = [$celliers,$bouteilles,$types];
-    //     // return $data;
-    //     // return $data;
-    //     return response()->json($data);
-    // }
 }

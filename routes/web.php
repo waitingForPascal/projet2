@@ -42,3 +42,4 @@ Route::patch('/bouteille/{id}', [BouteilleController::class, 'update']);
 Route::get('/ajout', function () {return view('ajout');});
 Route::get('/getBouteillesSAQ', [BouteilleController::class, 'index']);
 Route::post('/ajouteBouteillesCellier', [CellierBouteilleController::class, 'store']);
+Route::post('/ajouteBouteillesCellier', [CellierBouteilleController::class, 'store']);
