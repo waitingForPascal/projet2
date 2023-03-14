@@ -10,9 +10,6 @@ class Bouteille extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nom',
-        'pays',
-        'type',
-        'prix_saq'
+        'quantite'
     ];
 }
