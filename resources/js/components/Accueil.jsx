@@ -151,6 +151,11 @@ export default function Accueil() {
                 onOk={() => modBouteilleFormOk()}
             >
                 {/* Rechercher l'utilisation de useRef */}
+
+
+                
+                  {/* formulaire de modification */}
+
                 <Form ref={modBouteilleForm} layout="vertical">
                     <Form.Item
                         name="nom"
