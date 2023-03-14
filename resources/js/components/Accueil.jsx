@@ -134,6 +134,95 @@ export default function Accueil() {
                     </Col>
                 ))}
             </Row>
+
+
+            <Modal
+                open={isOpen}
+                title="Modification de bouteille"
+                okText="Mettre à jour"
+                cancelText="Annuler"
+                onCancel={() => {
+                    setIsOpen(false);
+                }}
+                onOk={() => modBouteilleFormOk()}
+            >
+                {/* Rechercher l'utilisation de useRef */}
+
+
+                
+                  {/* formulaire de modification */}
+
+                <Form ref={modBouteilleForm} layout="vertical">
+                    <Form.Item
+                        name="nom"
+                        label="Nom"
+                        rules={[
+                            {
+                                required: true,
+                                message:
+                                    "Please input the title of collection!",
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="prix_saq"
+                        label="Prix"
+                        rules={[
+                            {
+                                required: true,
+                                message:
+                                    "Please input the title of collection!",
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="pays"
+                        label="Pays"
+                        rules={[
+                            {
+                                required: true,
+                                message:
+                                    "Please input the title of collection!",
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="type"
+                        label="Type"
+                        rules={[
+                            {
+                                required: true,
+                                message:
+                                    "Please input the title of collection!",
+                            },
+                        ]}
+                    >
+                        <Select
+                            style={{
+                                width: 120,
+                            }}
+                            // Ici, vous devez obtenir les données de la table des types à partir de la base de données
+                            options={[
+                                {
+                                    value: "Vin rouge",
+                                    label: "Vin rouge",
+                                },
+                                {
+                                    value: "Vin blanc",
+                                    label: "Vin blanc",
+                                },
+                            ]}
+                        />
+                    </Form.Item>
+                </Form>
+            </Modal>
+
         </div>
     );
 }
