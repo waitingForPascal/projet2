@@ -55,7 +55,7 @@ export default function Accueil() {
     const modBouteilleFormOk = () => {
         // vilidation de form
         modBouteilleForm.current.validateFields().then((value) => {
-            // console.log(value);
+            console.log(value);
             // console.log(modBouteille);
             // envoyer une requête pour la modification de bouteille
             axios
