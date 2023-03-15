@@ -37,6 +37,7 @@ Route::get('/accueil', [CellierController::class, 'index'])->name('accueil');
 
 // récupérer tous les bouteilles
 Route::get('/getListeBouteilleCellier', [BouteilleController::class, 'getListeBouteilleCellier']);
+
 // modificaiton la quantité de bouteille dans un cellier
 Route::patch('/bouteille/{id}', [BouteilleController::class, 'update']);
 
