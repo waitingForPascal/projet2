@@ -40,6 +40,18 @@
             </span>
         @enderror
 
+
+        <label for="privilege">{{ __('Name') }}</label>
+        <select name="privilege" id="privilege" class=" @error('privilege') is-invalid @enderror" >
+            <option value="admin">Admin</option>
+            <option value="membre">Membre</option>
+        </select>
+        @error('name')
+            <span class="error_message" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+
         <input type="submit" value="{{ __('Register') }}" class="login_submit">
     </form>
 </div>
