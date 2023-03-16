@@ -1,14 +1,9 @@
-.nouvelleBouteille{
-    display: flex;
-    gap: 10%;
-    padding: 20px;
+.tableCelliers {
+    margin: auto;
 }
 
-.nouvelleBouteille img{
-    max-width: 200px;
+.tableCelliers td, th{
+    margin: auto;
+    border: 1px solid rgb(59, 58, 58);
 }
 
-.select-titre{
-    font-style: italic;
-    color: rgb(80, 79, 79);
-}

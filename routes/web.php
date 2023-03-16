@@ -47,4 +47,5 @@ Route::get('/getBouteillesSAQ', [BouteilleController::class, 'index']);
 Route::post('/ajouteBouteilleCellier' , [CellierBouteilleController::class, 'store']);
 
 Route::get('/cellier', function () {return view('cellier');})->name('mesCellier');
+Route::get('/getTousCelliers', [CellierController::class, 'index']);
 Route::get('/getCelliersUsager/{user_id}', [CellierController::class, 'cellierUsager']);

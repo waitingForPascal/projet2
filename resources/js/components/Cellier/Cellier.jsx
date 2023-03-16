@@ -1,35 +1,87 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import axios from "axios";
-import { Card, Button, Space, Modal, Input, Form, Select , Col, Row, List} from "antd";
+import { Table, Card, Button, Space, Modal, Input, Form, Select , Col, Row, List} from "antd";
 import "./Cellier.css"
 
 const cellierDiv = document.getElementById('cellier');
-const userId = cellierDiv.getAttribute('data-set-userId');
 const userPrivilege = cellierDiv.getAttribute('data-set-privilege');
-
+const userId = cellierDiv.getAttribute('data-set-userId');
+let codePrivilege = 0;
 
 
 export default function Cellier() {
 
-    const user_id = userId;
-    const [userCellier, setUserCellier] = useState([]);
+    const [celliers , setCelliers] = useState([]);
 
-    useEffect(() => {
-        axios.get(`/getCelliersUsager/${user_id}`).then((res) => {
-            setUserCellier(res.data);
-        });
-    }, []);
 
-    if(!userCellier.length) {
-        console.log("Tu n'as pas de cellier");
-    } else console.log("Voilà");
+    if(userPrivilege === "usager") {
+        useEffect(() => {
+            axios.get(`/getCelliersUsager/${userId}`).then((res) => {
+                console.log(res.data);
+                setCelliers(res.data);
+            });
+        }, []);
+
     
+     
+    }
+
+    else if(userPrivilege === "admin") {
+        codePrivilege = 1;
+        useEffect(() => {
+            axios.get('/getTousCelliers').then((res) => {
+                console.log(res.data);
+                setCelliers(res.data);
+            });
+        }, []);
+    }
+
+    const voirCellier = (id_cellier) => {
+        console.log(id_cellier);
+        //axios.post(`/ajouteBouteilleCellier/`).then((res) => {
+           //console.log(res);
+         //});
+        
+    };
+      
+
 
     return (
-        <div className="nouvelleBouteille" vertical layout>
-            <h3>{userId}</h3>
-        </div>
+    <div>
+        <table className="tableCelliers">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Nom du cellier</th>
+                    {codePrivilege ? (
+                        <th>Nom d'usager</th>
+                    ):(<></>)}
+                    <th>Détail</th>
+                </tr>
+            </thead>
+            <tbody>
+                {celliers.map((item, index) => (
+                    <tr>
+                        <td key={index}>{index+1}</td>
+                        <td key={index}>{item.nom}</td>
+                        {codePrivilege ? (
+                        <td key={index}>{item.name}</td>
+                        ):(<></>)}
+
+                        <td>
+                        <Button
+                        type="link"
+                        name="voirCellier"
+                        onClick={() => { voirCellier(item.id);}}
+
+                    >Voir le cellier</Button>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
     );
 
 }

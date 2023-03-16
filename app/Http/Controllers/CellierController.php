@@ -20,7 +20,10 @@ class CellierController extends Controller
         //
         //return "Gestion des celliers est en construction !";
         
-        $celliers = Cellier::all();
+        //$celliers = Cellier::all();
+        $celliers = Cellier::select('celliers.id', 'celliers.nom', 'celliers.user_id','users.name')
+                    ->join('users', 'users.id', '=', 'celliers.user_id')
+                    ->get();
         return response()->json($celliers);
     }
 
