@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BouteilleController ;
 use App\Http\Controllers\CellierController ;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\CellierBouteilleController ;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,5 +43,6 @@ Route::patch('/bouteille/{id}', [BouteilleController::class, 'update']);
 
 Route::patch('/modBouteille/{id}', [BouteilleController::class, 'modifierUnBouteille']);
 
-
+Route::get('/getBouteillesSAQ', [BouteilleController::class, 'index']);
+Route::post('/ajouteBouteilleCellier' , [CellierBouteilleController::class, 'store']);
 
