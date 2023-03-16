@@ -37,11 +37,11 @@ export default function Cellier() {
         }, []);
     }
 
-    const voirCellier = (id_cellier) => {
-        console.log(id_cellier);
-        //axios.post(`/ajouteBouteilleCellier/`).then((res) => {
-           //console.log(res);
-         //});
+    const voirCellier = (idCellier) => {
+        //console.log(id_cellier);
+        axios.get(`/getCellier/${idCellier}`).then((res) => {
+           console.log(res);
+         });
         
     };
       

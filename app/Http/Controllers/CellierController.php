@@ -41,12 +41,26 @@ class CellierController extends Controller
                     ->where('user_id','=',$idUsager)
                     ->get();
         return $celliers;
-        //$user = Auth::user()->name;
-        
-        // var_dump($celliers[0]);
-        // exit;
+
+    }
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cellierParId(Request $request)
+    {
+        //
         //return "Gestion des celliers est en construction !";
-        //return response()->json($celliers);
+        
+        $idCellier = $request->cellier_id;
+        $cellier = Cellier::select('celliers.id', 'celliers.nom', 'celliers.user_id','users.name', 'bouteilles_users.bouteille_id' )
+                            ->join('users', 'users.id', '=', 'celliers.user_id')
+                            ->join('bouteilles_users', 'bouteilles_users.cellier_id', '=', 'celliers.id')
+                            ->where('celliers.id','=',$idCellier)
+                     ->get();
+        return response()->json($cellier);
+
     }
 
     /**
