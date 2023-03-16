@@ -16,5 +16,6 @@ import "./components/Test";
 import "./components/Accueil";
 import "./components/Entete";
 import "./components/Ajout/Ajout";
+import "./components/Cellier/Cellier";
 
 // 创建components里的组件，建立views，router,然后引入

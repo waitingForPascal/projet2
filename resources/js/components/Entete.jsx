@@ -8,7 +8,7 @@ export default function Entete() {
             <nav>
                 <ul>
                     <li>
-                        <a href="/accueil">Mon cellier</a>
+                        <a href="/getTousCelliers">Mes cellier</a>
                     </li>
                     <li>
                         <a href="/ajout">Ajouter une bouteille au cellier</a>

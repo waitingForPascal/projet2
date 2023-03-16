@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cellier;
 use App\Models\Bouteille;
 use App\Models\Type;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CellierController extends Controller
@@ -18,11 +18,32 @@ class CellierController extends Controller
     public function index()
     {
         //
-        // $celliers = Cellier::all();
+        //return "Gestion des celliers est en construction !";
+        
+        $celliers = Cellier::all();
+        return response()->json($celliers);
+    }
+
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cellierUsager(Request $request)
+    {
+        //
+        //return "Gestion des celliers est en construction !";
+        $idUsager =  $request->user_id;
+        $celliers = Cellier::select()
+                    ->where('user_id','=',$idUsager)
+                    ->get();
+        return $celliers;
+        //$user = Auth::user()->name;
+        
         // var_dump($celliers[0]);
         // exit;
-        // return response()->json($celliers);
-        return view('accueil');
+        //return "Gestion des celliers est en construction !";
+        //return response()->json($celliers);
     }
 
     /**

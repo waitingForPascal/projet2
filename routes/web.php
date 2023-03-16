@@ -31,9 +31,9 @@ Route::get('/ajout', function () {
     return view('ajout');
 });
 
-Route::get('/', [CellierController::class, 'index']);
-Route::get('/home', [CellierController::class, 'index']);
-Route::get('/accueil', [CellierController::class, 'index'])->name('accueil');
+Route::get('/', [CellierBouteilleController::class, 'index']);
+Route::get('/home', [CellierBouteilleController::class, 'index']);
+Route::get('/accueil', [CellierBouteilleController::class, 'index'])->name('accueil');
 
 // récupérer tous les bouteilles
 Route::get('/getListeBouteilleCellier', [BouteilleController::class, 'getListeBouteilleCellier']);
@@ -46,3 +46,5 @@ Route::patch('/modBouteille/{id}', [BouteilleController::class, 'modifierUnBoute
 Route::get('/getBouteillesSAQ', [BouteilleController::class, 'index']);
 Route::post('/ajouteBouteilleCellier' , [CellierBouteilleController::class, 'store']);
 
+Route::get('/cellier', function () {return view('cellier');})->name('mesCellier');
+Route::get('/getCelliersUsager/{user_id}', [CellierController::class, 'cellierUsager']);
