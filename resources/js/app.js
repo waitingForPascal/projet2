@@ -12,10 +12,9 @@ import "./bootstrap";
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import "./components/Example";
 import "./components/Test";
 import "./components/Accueil";
 import "./components/Entete";
-import "./components/Ajout/Ajout";
+import "./components/Ajout";
 
 // 创建components里的组件，建立views，router,然后引入

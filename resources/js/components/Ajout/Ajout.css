@@ -1,9 +1,0 @@
-.nouvelleBouteille{
-    display: flex;
-    gap: 10%;
-    padding: 20px;
-}
-
-.nouvelleBouteille img{
-    max-width: 200px;
-}
