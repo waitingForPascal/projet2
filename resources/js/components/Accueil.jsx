@@ -104,7 +104,7 @@ export default function Accueil() {
                             <p>Quantité: {bouteiile.quantite}</p>
                             <p>Pays: {bouteiile.pays}</p>
                             <p>Type: {bouteiile.type}</p>
-                            <p>Prix: {bouteiile.prix_saq}</p>
+                            <p>Prix: {bouteiile.prix}</p>
 
                             <p>
                                 <a href="{bouteiile.url_saq}">Voir SAQ</a>
@@ -166,7 +166,7 @@ export default function Accueil() {
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        name="prix_saq"
+                        name="prix"
                         label="Prix"
                         rules={[
                             {
