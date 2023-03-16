@@ -13,6 +13,7 @@ let codePrivilege = 0;
 export default function Cellier() {
 
     const [celliers , setCelliers] = useState([]);
+    const [unCellier, setUnCellier] = useState([]);
 
 
     if(userPrivilege === "usager") {

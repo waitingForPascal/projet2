@@ -54,9 +54,10 @@ class CellierController extends Controller
         //return "Gestion des celliers est en construction !";
         
         $idCellier = $request->cellier_id;
-        $cellier = Cellier::select('celliers.id', 'celliers.nom', 'celliers.user_id','users.name', 'bouteilles_users.bouteille_id' )
+        $cellier = Cellier::select('celliers.id', 'celliers.nom', 'celliers.user_id','users.name', 'bouteilles_users.bouteille_id','bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description' )
                             ->join('users', 'users.id', '=', 'celliers.user_id')
                             ->join('bouteilles_users', 'bouteilles_users.cellier_id', '=', 'celliers.id')
+                            ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_users.bouteille_id')
                             ->where('celliers.id','=',$idCellier)
                      ->get();
         return response()->json($cellier);
