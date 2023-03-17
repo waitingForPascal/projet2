@@ -37,19 +37,20 @@ export default function Cellier() {
         }, []);
     }
     
+    // const voirCellier = (idCellier) => {
+
+    //     axios.post(`/voirCellier/`,idCellier).then((res) => {
+    //        console.log(res);
+    //      });
+        
+    // };
+
     const voirCellier = (idCellier) => {
-        axios.get(`/test/`,idCellier).then((res) => {
+        axios.get(`/getCellier/${idCellier}`).then((res) => {
             console.log(res.data);
             unCellier = res.data;
         });
     }
-
-    // const voirCellier = (idCellier) => {
-    //     axios.get(`/getCellier/${idCellier}`).then((res) => {
-    //         console.log(res.data);
-    //         unCellier = res.data;
-    //     });
-    //}
 
     const ajouteUnCellier= (userId) => {
         let codeErr = 0;
@@ -72,7 +73,11 @@ export default function Cellier() {
                 }
                         
                 axios.post(`/ajouteCellier/`,objCellier).then((res) => {
+
                     console.log(res);
+                    axios.get('/getTousCelliers').then((res) => {
+                        setCelliers(res.data);
+                    });
                 });
                 setNomErrMessage('');
             }
