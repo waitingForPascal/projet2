@@ -37,19 +37,18 @@ export default function Cellier() {
         }, []);
     }
     
-    // const voirCellier = (idCellier) => {
-
-    //     console.log(idCellier);                
-    //     axios.get(`/test`).then((res) => {
-    //         console.log(res.data);
-    //     });
-    // }
-
     const voirCellier = (idCellier) => {
         axios.post(`/voirCellier`,idCellier).then((res) => {
             console.log(res.data);
             unCellier = res.data;
         });
+    }
+
+    // const voirCellier = (idCellier) => {
+    //     axios.get(`/getCellier/${idCellier}`).then((res) => {
+    //         console.log(res.data);
+    //         unCellier = res.data;
+    //     });
     }
 
     const ajouteUnCellier= (userId) => {
