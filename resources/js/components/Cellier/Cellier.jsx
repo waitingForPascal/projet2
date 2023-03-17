@@ -45,12 +45,62 @@ export default function Cellier() {
         
     // };
 
+
+
     const voirCellier = (idCellier) => {
         axios.get(`/getCellier/${idCellier}`).then((res) => {
-            console.log(res.data);
             unCellier = res.data;
+            console.log(unCellier);
+            const a = document.getElementById("tableCellies");
+            //const templateCellier = unCellier[0].nom;`
+             const templateCellier = `
+            <div id="templateCellier">
+
+                <h1>Sous construction (under construction ) !!!!!!!!!!!!!</h1>
+                <br>
+                <br>
+                <div>
+                    <Button type="primary" name="ajouterBouteilleCellier">Ajouter une bouteille</Button>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom de la bouteille</th>
+                            <th>Modiffier</th>
+                            <th>Effacer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {unCellier.map((item, index) => (
+                            <tr>
+                                <td key={index}>{index+1}</td>
+                                <td key={index}>{item.nom}</td>
+                                <a href="#">Modiffier</a>
+                                <a href="#">Effacer</a>
+                            <tr>
+                        </tbody>
+                </table>
+            </div>
+            `;
+            a.innerHTML = templateCellier;
         });
     }
+
+
+
+    const test = (unCellier) => {
+        console.log(unCellier);
+        
+        const template = document.getElementById('templateCellier');
+        const clone = document.importNode(template.content, true);
+        
+        // axios.post(`/voirCellier`,unCellier).then((res) => {
+        //     console.log(res);
+        //   });
+        
+    };
 
     const ajouteUnCellier= (userId) => {
         let codeErr = 0;
@@ -106,7 +156,7 @@ export default function Cellier() {
     
    
     return (
-        <>
+    <div id="tableCellies">
         <div className="divAjoutCellier">
             <input type="text" 
                     placeholder={nomPlaceholder} 
@@ -115,7 +165,7 @@ export default function Cellier() {
             <span className="spanErr">{nomErrMessage}</span>
             <Button type="primary" name="ajouterBouteilleCellier" onClick={() => { ajouteUnCellier(userId); }}>Ajouter un cellier</Button>
         </div>
-        <table className="tableCelliers">
+        <table className="tableCelliers" id="tableCelliers">
             <thead>
                 <tr>
                     <th>N°</th>
@@ -148,7 +198,17 @@ export default function Cellier() {
                 ))}
             </tbody>
         </table>
-        </>
+
+
+
+
+
+
+
+        <template id="templateCellier">
+            <h2>Détails du cellier</h2>
+        </template>
+    </div>
     );
 
 }
