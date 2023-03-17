@@ -49,7 +49,7 @@ export default function Cellier() {
     //         console.log(res.data);
     //         unCellier = res.data;
     //     });
-    }
+    //}
 
     const ajouteUnCellier= (userId) => {
         let codeErr = 0;
