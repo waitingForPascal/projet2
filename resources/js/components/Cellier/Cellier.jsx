@@ -38,7 +38,7 @@ export default function Cellier() {
     }
     
     const voirCellier = (idCellier) => {
-        axios.post(`/voirCellier`,idCellier).then((res) => {
+        axios.get(`/test/`,idCellier).then((res) => {
             console.log(res.data);
             unCellier = res.data;
         });
