@@ -73,7 +73,6 @@ export default function Cellier() {
                 }
                         
                 axios.post(`/ajouteCellier/`,objCellier).then((res) => {
-
                     console.log(res);
                     axios.get('/getTousCelliers').then((res) => {
                         setCelliers(res.data);
