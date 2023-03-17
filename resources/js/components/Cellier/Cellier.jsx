@@ -90,7 +90,7 @@ export default function Cellier() {
                     setNomErrMessage('Ce nom a déjà été utilisé !');
                     break;
                 case 3:
-                    setNomErrMessage('Entrez au moins trois caractères (lettres et chiffres) !');
+                    setNomErrMessage('Entrez au moins 3 caractères (lettres et chiffres) !');
                     break;
                 default:
                     break;
@@ -108,7 +108,10 @@ export default function Cellier() {
     return (
         <>
         <div className="divAjoutCellier">
-            <input type="text" placeholder={nomPlaceholder} onChange={(event) => setNomCellier(event.target.value)} />
+            <input type="text" 
+                    placeholder={nomPlaceholder} 
+                    onChange={(event) => setNomCellier(event.target.value)} 
+                    required/>
             <span className="spanErr">{nomErrMessage}</span>
             <Button type="primary" name="ajouterBouteilleCellier" onClick={() => { ajouteUnCellier(userId); }}>Ajouter un cellier</Button>
         </div>
@@ -121,7 +124,6 @@ export default function Cellier() {
                         <th>Nom d'usager</th>
                     ):(<></>)}
                     <th>Détail</th>
-                    <th>ffffffffff</th>
                 </tr>
             </thead>
             <tbody>
