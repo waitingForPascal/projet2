@@ -50,3 +50,5 @@ Route::get('/cellier', function () {return view('cellier');})->name('mesCellier'
 Route::get('/getTousCelliers', [CellierController::class, 'index']);
 Route::get('/getCelliersUsager/{user_id}', [CellierController::class, 'cellierUsager']);
 Route::get('/getCellier/{cellier_id}', [CellierController::class, 'cellierParId']);
+Route::post('/ajouteCellier' , [CellierController::class, 'store']);
+

@@ -7,6 +7,7 @@ use App\Models\Bouteille;
 use App\Models\Type;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CellierController extends Controller
 {
@@ -82,7 +83,14 @@ class CellierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $objCellier = $request->json()->all();
+
+        DB::table('celliers')->insert([
+                  'nom'     => $objCellier['nomCellier'],
+                  'user_id' => $objCellier['userId']
+              ]);
+
+            return $objCellier;
     }
 
     /**
