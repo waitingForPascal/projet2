@@ -10,13 +10,13 @@ const userPrivilege = cellierDiv.getAttribute('data-set-privilege');
 const userId = cellierDiv.getAttribute('data-set-userId');
 let codePrivilege = 0;
 let unCellier = [];
-let nomPlaceholder = "Au moins trois caractères"
-
+let nomPlaceholder = "Au moins trois caractères";
 
 export default function Cellier() {
-
+    
     const [celliers , setCelliers] = useState([]);
     const [nomCellier, setNomCellier] = useState('');
+    const [nomErrMessage, setNomErrMessage] = useState('');
     
     if(userPrivilege === "usager") {
         useEffect(() => {
@@ -37,8 +37,16 @@ export default function Cellier() {
         }, []);
     }
     
+    // const voirCellier = (idCellier) => {
+
+    //     console.log(idCellier);                
+    //     axios.get(`/test`).then((res) => {
+    //         console.log(res.data);
+    //     });
+    // }
+
     const voirCellier = (idCellier) => {
-        axios.get(`/getCellier/${idCellier}`).then((res) => {
+        axios.post(`/voirCellier`,idCellier).then((res) => {
             console.log(res.data);
             unCellier = res.data;
         });
@@ -46,11 +54,9 @@ export default function Cellier() {
 
     const ajouteUnCellier= (userId) => {
         let codeErr = 0;
-        console.log(codeErr);
-
         if(nomCellier == "") codeErr = 1;
         if(nomCellier != "") {
-            const nomRegex = /^[A-Za-z0-9\s\-éèêëàâäôöûüùçîïœæÿ]{3,}$/;
+            const nomRegex = /^[A-Za-z0-9\s\-ÉéÈèÊêëàÀâÂäÄÔôöÖûÛüÙùÇçÎîïÏœæÿ]{3,}$/;
             celliers.forEach(cellier =>{
                 if(cellier.user_id == userId) {
                     if(cellier.nom == nomCellier) {
@@ -59,7 +65,6 @@ export default function Cellier() {
                     }
                     else if (!nomRegex.test(nomCellier)) codeErr = 3;
                 }
-
             });
             if (!codeErr) {
                 let objCellier = {
@@ -70,11 +75,29 @@ export default function Cellier() {
                 axios.post(`/ajouteCellier/`,objCellier).then((res) => {
                     console.log(res);
                 });
+                setNomErrMessage('');
             }
         }
-        if(!codeErr) console.log("Khata");
-        console.log(codeErr);
-        
+        if (codeErr) {
+            switch (codeErr) {
+                case 1:
+                    setNomErrMessage('Le champ du nom ne peut pas être vide !');
+                    break;
+                case 2:
+                    setNomErrMessage('Ce nom a déjà été utilisé !');
+                    break;
+                case 3:
+                    setNomErrMessage('Entrez au moins trois caractères (lettres et chiffres) !');
+                    break;
+                default:
+                    break;
+            }
+            const spanErr = ReactDOM.createRoot(document.getElementById("spanErr"));
+            spanErr.innerHTML = "11"
+            console.log(spanErr);
+            
+
+          }
     }
     
     
@@ -83,7 +106,7 @@ export default function Cellier() {
         <>
         <div className="divAjoutCellier">
             <input type="text" placeholder={nomPlaceholder} onChange={(event) => setNomCellier(event.target.value)} />
-            
+            <span className="spanErr">{nomErrMessage}</span>
             <Button type="primary" name="ajouterBouteilleCellier" onClick={() => { ajouteUnCellier(userId); }}>Ajouter un cellier</Button>
         </div>
         <table className="tableCelliers">
@@ -95,6 +118,7 @@ export default function Cellier() {
                         <th>Nom d'usager</th>
                     ):(<></>)}
                     <th>Détail</th>
+                    <th>ffffffffff</th>
                 </tr>
             </thead>
             <tbody>
@@ -113,6 +137,8 @@ export default function Cellier() {
                                 onClick={() => { voirCellier(item.id);}}
                             >Voir le cellier</Button>
                         </td>
+
+
                     </tr>
                 ))}
             </tbody>

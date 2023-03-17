@@ -56,6 +56,20 @@ export default function Ajout() {
         
     };
 
+
+    const voirCellier = (idCellier, Idusager) => {
+
+        let objCellier = {
+            'id'      : idCellier,
+            'user_id' : Idusager
+        }
+
+        axios.get(`/ajouteBouteilleCellier/`,objCellier).then((res) => {
+           console.log(res);
+         });
+        
+    };
+
     return (
         <div className="nouvelleBouteille" vertical layout>
             <Row gutter={[0, 16]}>

@@ -18,7 +18,7 @@ use App\Http\Controllers\CellierBouteilleController ;
 // ------------------------------test
 Route::get('/aaa', [BouteilleController::class, 'modifierUnBouteille']);
 
-Route::get('/test', function () {
+Route::get('test', function () {
     return view('test');
 });
 // ------------------------------test
@@ -51,4 +51,5 @@ Route::get('/getTousCelliers', [CellierController::class, 'index']);
 Route::get('/getCelliersUsager/{user_id}', [CellierController::class, 'cellierUsager']);
 Route::get('/getCellier/{cellier_id}', [CellierController::class, 'cellierParId']);
 Route::post('/ajouteCellier' , [CellierController::class, 'store']);
+Route::post('/voirCellier', [CellierController::class, 'voir']);
 
