@@ -81,8 +81,9 @@ export default function Cellier() {
    
     return (
         <>
-        <div>
+        <div className="divAjoutCellier">
             <input type="text" placeholder={nomPlaceholder} onChange={(event) => setNomCellier(event.target.value)} />
+            
             <Button type="primary" name="ajouterBouteilleCellier" onClick={() => { ajouteUnCellier(userId); }}>Ajouter un cellier</Button>
         </div>
         <table className="tableCelliers">
