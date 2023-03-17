@@ -50,7 +50,7 @@ export default function Cellier() {
 
         if(nomCellier == "") codeErr = 1;
         if(nomCellier != "") {
-            const nomRegex = /^[A-Za-z0-9\s\-]{3,}$/;
+            const nomRegex = /^[A-Za-z0-9\s\-éèêëàâäôöûüùçîïœæÿ]{3,}$/;
             celliers.forEach(cellier =>{
                 if(cellier.user_id == userId) {
                     if(cellier.nom == nomCellier) {
