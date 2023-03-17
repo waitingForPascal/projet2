@@ -38,11 +38,20 @@ export default function Cellier() {
     }
     
     // const voirCellier = (idCellier) => {
+<<<<<<< HEAD
     //     axios.get(`/voirCellier`,idCellier).then((res) => {
     //         console.log(res.data);
     //         unCellier = res.data;
     //     });
     // }
+=======
+
+    //     axios.post(`/voirCellier/`,idCellier).then((res) => {
+    //        console.log(res);
+    //      });
+        
+    // };
+>>>>>>> hamid
 
     const voirCellier = (idCellier) => {
         axios.get(`/getCellier/${idCellier}`).then((res) => {
@@ -73,6 +82,9 @@ export default function Cellier() {
                         
                 axios.post(`/ajouteCellier/`,objCellier).then((res) => {
                     console.log(res);
+                    axios.get('/getTousCelliers').then((res) => {
+                        setCelliers(res.data);
+                    });
                 });
                 setNomErrMessage('');
             }
