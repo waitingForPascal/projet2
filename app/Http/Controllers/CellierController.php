@@ -150,4 +150,15 @@ class CellierController extends Controller
     //     // return $data;
     //     return response()->json($data);
     // }
+
+    public function voir(Request $request)
+    {
+        return $request->json()->all();
+        //return view('/test', $request->json()->all());
+
+        // $celliers = Cellier::select()
+        //             ->where('user_id','=',$idUsager)
+        //             ->get();
+        //return $idUsager;
+    }
 }

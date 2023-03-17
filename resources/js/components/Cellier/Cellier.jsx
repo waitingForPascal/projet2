@@ -37,6 +37,13 @@ export default function Cellier() {
         }, []);
     }
     
+    // const voirCellier = (idCellier) => {
+    //     axios.get(`/voirCellier`,idCellier).then((res) => {
+    //         console.log(res.data);
+    //         unCellier = res.data;
+    //     });
+    // }
+
     const voirCellier = (idCellier) => {
         axios.get(`/getCellier/${idCellier}`).then((res) => {
             console.log(res.data);
@@ -110,6 +117,7 @@ export default function Cellier() {
                         <th>Nom d'usager</th>
                     ):(<></>)}
                     <th>Détail</th>
+                    <th>ffffffffff</th>
                 </tr>
             </thead>
             <tbody>
@@ -128,6 +136,8 @@ export default function Cellier() {
                                 onClick={() => { voirCellier(item.id);}}
                             >Voir le cellier</Button>
                         </td>
+
+
                     </tr>
                 ))}
             </tbody>
