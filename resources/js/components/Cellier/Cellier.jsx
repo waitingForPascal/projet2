@@ -38,20 +38,11 @@ export default function Cellier() {
     }
     
     // const voirCellier = (idCellier) => {
-<<<<<<< HEAD
     //     axios.get(`/voirCellier`,idCellier).then((res) => {
     //         console.log(res.data);
     //         unCellier = res.data;
     //     });
     // }
-=======
-
-    //     axios.post(`/voirCellier/`,idCellier).then((res) => {
-    //        console.log(res);
-    //      });
-        
-    // };
->>>>>>> hamid
 
     const voirCellier = (idCellier) => {
         axios.get(`/getCellier/${idCellier}`).then((res) => {
