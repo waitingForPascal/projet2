@@ -13,9 +13,16 @@ class cellierBouteilleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // il faut déplacer les deux fonctions
     public function index()
     {
         return view('accueil');
+    }
+
+    public function logout()
+    {
+        return view('auth.login');
     }
 
     /**
@@ -98,4 +105,11 @@ class cellierBouteilleController extends Controller
     {
         //
     }
+
+
+
+
+
+
+   
 }
