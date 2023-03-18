@@ -1,8 +1,9 @@
-.tableCelliers {
+/* .tableCelliers {
     margin: auto;
 }
 
-.tableCelliers td, th{
+.tableCelliers td,
+th {
     margin: auto;
     border: 1px solid rgb(59, 58, 58);
 }
@@ -11,10 +12,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-<<<<<<< HEAD
-    margin: auto;
-=======
->>>>>>> hamid
+
     margin: 40px 0;
     padding: 10px;
 }
@@ -22,8 +20,4 @@
 .spanErr {
     color: red;
     margin-bottom: 20px;
-}
-<<<<<<< HEAD
-
-=======
->>>>>>> hamid
+} */
