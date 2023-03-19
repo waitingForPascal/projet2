@@ -109,17 +109,7 @@ class BouteilleController extends Controller
         //
     }
 
-    public function getListeBouteilleCellier(Cellier $cellier)
-    {
-        $bouteilles = Bouteilles_user::select('bouteilles_users.id','bouteilles.id as id_bouteilles', 'celliers.id as id_bouteille_cellier','bouteilles_users.bouteille_id','bouteilles_users.date_achat','bouteilles_users.quantite', 'bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description', 'types.type','users.id as user_Id')
-        ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_users.bouteille_id')
-        ->join('celliers', 'celliers.id', '=', 'bouteilles_users.cellier_id')
-        ->join('types', 'types.id', '=', 'bouteilles.type')
-        ->join('users', 'users.id', '=', 'celliers.user_id')
-        ->get();
-        
-        return response()->json($bouteilles);
-    }
+     
 
     public function modifierUnBouteille(Request $request, Cellier $cellier, $id)
     {
