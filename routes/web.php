@@ -5,6 +5,7 @@ use App\Http\Controllers\BouteilleController ;
 use App\Http\Controllers\CellierController ;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CellierBouteilleController ;
+use App\Http\Controllers\UserController ;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,12 +35,13 @@ Route::patch('/bouteille/{id}', [BouteilleController::class, 'update']);
 // --------------------------------peut être utile à l'avenir end
 
 
+
 Route::get('/ajout', function () {
     return view('ajout');
 });
 
 Route::get('/', [CellierBouteilleController::class, 'index']);
-Route::get('/home', [CellierBouteilleController::class, 'index']);
+Route::get('/home', [CellierBouteilleController::class, 'accueil'])->middleware('auth');
 Route::get('/accueil', [CellierBouteilleController::class, 'index'])->name('accueil');
 Route::get('/logout', [CellierBouteilleController::class, 'logout'])->name('logout');
 
@@ -55,10 +57,15 @@ Route::delete('/deleteCellier/{id}' , [CellierController::class, 'destroy']);
 
 // récupérer les bouteilles dans le cellier spécial
 Route::get('/getCeillerBouteille/{id}', [CellierController::class, 'getListeBouteilleCellier']);
-
+// entrer dans un cellier précis
 Route::get('/cellier/{id}', function () {return view('cellier');});
 
+// vérifier si utilisateur est admin
+Route::get('/verificationUser', [UserController::class, 'index']);
+// aller vers page de gestion d'utilisateur
+Route::get('/listeUsager', [UserController::class, 'gestionUsager']);
 
+Route::get('/getTousUser', [UserController::class, 'getTousUser']);
 
 
 

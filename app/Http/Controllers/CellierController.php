@@ -26,7 +26,7 @@ class CellierController extends Controller
 
          $celliers = Cellier::where('user_id', $id_user_connecte)->get();
 
-         if(Auth::user()->name == 'admin') {
+         if(Auth::user()->privilege == 'admin') {
             $celliers = Cellier::all();
          }
          return response()->json($celliers);
@@ -125,10 +125,7 @@ class CellierController extends Controller
             'user_id' => Auth::user()->id
         ]);
 
-       
-        
-        
-            return true;
+        return true;
     }
 
     /**

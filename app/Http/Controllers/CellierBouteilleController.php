@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Bouteilles_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class cellierBouteilleController extends Controller
 {
@@ -17,12 +19,18 @@ class cellierBouteilleController extends Controller
     // il faut déplacer les deux fonctions
     public function index()
     {
-        return view('accueil');
+        return view('auth.login');
     }
 
     public function logout()
     {
+        Auth::logout();
         return view('auth.login');
+    }
+
+    public function accueil()
+    {
+        return view('accueil');
     }
 
     /**
