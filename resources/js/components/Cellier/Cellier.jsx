@@ -6,6 +6,7 @@ import {
     DeleteOutlined,
     EditOutlined, } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
 
 // import '../theme.less'; // Import the theme file
@@ -198,6 +199,28 @@ export default function Cellier() {
         {
             title: "Fonctionnalité",
             render: (item) => {
+                const supprimerBouteilleCellier = (idBouteille) => {
+                    console.log("Rah",idBouteille);
+                    confirm({
+                        title: "Voulez-vous supprimer ce cellier ?",
+                        icon: <ExclamationCircleFilled />,
+                        onOk() {
+                            deleteMethod(idBouteille);
+                        },
+                        onCancel() {},
+                    });
+                };
+                const deleteMethod = (idBouteille) => {
+                    // console.log(cellier);
+            
+                    axios.delete(`/supprimerBouteille/${idBouteille}`).then((res) => {
+                        // Récupérer les données, actualiser la page
+                        console.log(res.data);
+                        axios.get("/getListeBouteilleCellier").then((res) => {
+                            setData(res.data);
+                        });
+                    });
+                };
                 return (
                     <div>
                         <Button
@@ -205,7 +228,7 @@ export default function Cellier() {
                             danger
                             shape="circle"
                             icon={<DeleteOutlined />}
-                            onClick={() => confirmMethod(item)}
+                            onClick={() => supprimerBouteilleCellier(item.id)}
                         ></Button>
                         <Button
                             type="primary"
@@ -233,8 +256,7 @@ export default function Cellier() {
                     'data_achat'    : value.dateAchat,
                     'quantite'      : value.quantite
                 }
-                console.log("ooooooooooooooooooooooooooooooo", objBouteille);
-                                axios.post(`/ajouteBouteilleCellier/`,objBouteille).then((res) => {
+                axios.post(`/ajouteBouteilleCellier/`,objBouteille).then((res) => {
                      console.log(res);   
                 }).then((res) => {
                    axios.get(`/getCeillerBouteille/${id}`).then((res) => {
@@ -272,61 +294,6 @@ export default function Cellier() {
                 onOk={() => ajouterBoutteilAuCeliierFormOk()}
                 onCancel={() => {
                     setModalAjouteBoutteilAuCellier(false);
-                }}
-            >
-                {/* Rechercher l'utilisation de useRef */}
-                <Form ref={ajouteBoutteilAuCeliierForm} layout="vertical">
-                    <p>Séléctionnez une bouteiile : 
-                        <select data-id="" className="nom_bouteille" onChange={choisirVin}>
-                            <option value="0"><i class="select-titre">Selectionnez le vin</i></option>
-                            {bouteilleSaq.map((bouteiile) => (
-                                <option value={bouteiile.id}>{bouteiile.nom}</option>
-                                ) )}
-                        </select>
-                    </p>
-                    <div className="elmFormBoutteilCellier">
-                        <Form.Item
-                            name="quantite"
-                            label="Quantite"
-                            rules={[
-                                {
-                                    required: true,
-                                    message:
-                                        "Veuillez entrer la quantité !",
-                                },
-                            ]}
-                        >
-                            <Input type="number" min="1" step="1"/>
-                        </Form.Item>
-                    </div>
-                    <div className="elmFormBoutteilCellier">
-                        <Form.Item
-                            name="dateAchat"
-                            label="Date d'achat"
-                            rules={[
-                                {
-                                    required: true,
-                                    message:
-                                        "Veuillez entrer la date d'achat !",
-                                },
-                            ]}
-                        >
-                            <Input type="date"/>
-
-                        </Form.Item>
-                    </div>
-                </Form>
-            </Modal>
-
-            {/* modal supprimer une boutteil du cellier */}
-                <Modal
-                open={modalSupprimeBoutteilCellier}
-                title= "Ajouter une nouvelle bouteil au cellier"
-                okText="Ajouter"
-                cancelText="Annuler"
-                onOk={() => modalSupprimeBoutteilCellierFormOk()}
-                onCancel={() => {
-                    setModalSupprimeBoutteilCellier(false);
                 }}
             >
                 {/* Rechercher l'utilisation de useRef */}
