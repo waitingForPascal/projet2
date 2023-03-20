@@ -15,7 +15,7 @@ import "./bootstrap";
 import "./components/Test";
 import "./components/Accueil";
 import "./components/Entete";
-import "./components/Cellier";
+import "./components/Cellier/Cellier";
 import "./components/ListeUsager/ListeUsager";
 import "./components/Ajout/Ajout";
 

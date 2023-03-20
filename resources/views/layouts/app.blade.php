@@ -68,7 +68,7 @@
         </nav>
 
 
-        <main class="">
+        <main class="wrapper-contenu">
             @yield('content')
         </main>
 
