@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Button, Table, Input, Typography, Space } from "antd";
-import { SearchOutlined } from '@ant-design/icons';
+import { 
+    SearchOutlined,
+    DeleteOutlined,
+    EditOutlined, } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import "./Cellier.css";
 
@@ -172,6 +175,28 @@ export default function Cellier() {
                 compare: (a, b) => a.prix - b.prix,
             },
         },
+        {
+            title: "Fonctionnalité",
+            render: (item) => {
+                return (
+                    <div>
+                        <Button
+                            className="userBtn"
+                            danger
+                            shape="circle"
+                            icon={<DeleteOutlined />}
+                            onClick={() => confirmMethod(item)}
+                        ></Button>
+                        <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<EditOutlined />}
+                            onClick={() => handleUpdate(item)}
+                        ></Button>
+                    </div>
+                );
+            },
+        }
     ];
 
     return (
