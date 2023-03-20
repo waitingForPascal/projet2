@@ -197,7 +197,21 @@ export default function Cellier() {
                 );
             },
         }
+        
     ];
+
+    const AjouteBoutteilAuCellier = (id_cellier) => {
+        console.log("Test",id_cellier);
+        // setmodCellier(cellier);
+
+        // setIsOpen(true);
+        // // console.log(cellier);
+
+        // // Voici le fonctionnement asynchrone, s'il y a pas setTimeout, on ne peut pas obtenir les information de bouteille Lorsqu'on ouvre le formulaire pour la première fois
+        // setTimeout(() => {
+        //     modBouteilleForm.current.setFieldsValue(cellier);
+        // }, 0);
+    };
 
     return (
         // <div style={{ width: "80%", margin: "auto" }}>
@@ -217,7 +231,12 @@ export default function Cellier() {
             </div>
             <Table columns={columns} dataSource={data} />
             <div className="button-middle">
-                <Button type="primary">Ajouter une nouvelle bouteille</Button>
+                <Button type="primary"
+                    onClick={() =>
+                        AjouteBoutteilAuCellier(id)
+                    }
+                >
+                Ajouter une nouvelle bouteil</Button>
             </div>
         </div>
         
