@@ -22,9 +22,6 @@ export default function Entete() {
                             <a href="/listeUsager">Liste d'utilisateur</a>
                         </li>
                     )}
-                    <li>
-                        <a href="/ajout">Ajouter une bouteille au cellier</a>
-                    </li>
                 </ul>
             </nav>
         </div>
