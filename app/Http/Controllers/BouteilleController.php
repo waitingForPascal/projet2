@@ -7,6 +7,7 @@ use App\Models\Cellier;
 use App\Models\Bouteille;
 use App\Models\Type;
 use App\Models\Bouteilles_user;
+use App\Models\SAQ;
 
 use Illuminate\Support\Facades\DB;
 
@@ -158,4 +159,21 @@ class BouteilleController extends Controller
 
         
     }
+
+
+    // public function importerBouteilles()
+    // {
+        // $page = 1;
+        // $nombreProduit = 48; //48 ou 96	
+        
+        // $saq = SAQ::getProduits();
+        // return $saq;
+        // for($i=0; $i<2;$i++)	//permet d'importer séquentiellement plusieurs pages.
+        // {
+        //     echo "<h2>page ". ($page+$i)."</h2>";
+        //     $nombre = $saq->getProduits($nombreProduit,$page+$i);
+        //     echo "importation : ". $nombre. "<br>";
+        
+        // }
+    // }
 }

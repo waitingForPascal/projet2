@@ -14,6 +14,7 @@ import {
 } from "antd";
 
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import "./Accueil.css";
 
 const { confirm } = Modal;
 
@@ -117,30 +118,25 @@ export default function Accueil() {
     };
     return (
         <div>
-            {/* ovrire le modal d'ajout de cellier */}
-            <Button
-                type="primary"
-                onClick={() => {
-                    setmodalAjoutCellier(true);
-                }}
-            >
-                Ajouter un cellier
-            </Button>
-            <Row gutter={[0, 16]}>
+
+        <p className="py-2">Liste de celliers</p>
+        <div>
+        <Row justify="center" align="middle" gutter={[0, 16]}>
                 {data.map((cellier) => (
                     <Col
                         xs={20}
                         sm={16}
                         md={12}
                         lg={8}
-                        xl={6}
+                        xl={8}
                         xxl={4}
                         key={cellier.id}
                     >
                         <Card
                             hoverable
+                            
                             style={{
-                                width: 300,
+                                width: 300, margin:0
                             }}
                             cover={
                                 <img
@@ -186,6 +182,22 @@ export default function Accueil() {
                     </Col>
                 ))}
             </Row>
+        </div>
+
+
+
+            {/* ovrire le modal d'ajout de cellier */}
+            <div className="button-middle">
+                <Button
+                    type="primary"
+                    onClick={() => {
+                        setmodalAjoutCellier(true);
+                    }}
+                >
+                    Ajouter un cellier
+                </Button>
+            </div>
+
             {/* modal modifier cellier */}
             <Modal
                 open={isOpen}

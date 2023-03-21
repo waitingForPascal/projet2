@@ -14,17 +14,21 @@ export default function Entete() {
     }, []);
     return (
         <div>
-            <h1>Un petit verre de vino ?</h1>
+            {/* <h1>Un petit verre de vino ?</h1> */}
             <nav>
                 <ul>
                     {admin && (
                         <li>
                             <a href="/listeUsager">Liste d'utilisateur</a>
                         </li>
+                        
                     )}
-                    <li>
-                        <a href="/ajout">Ajouter une bouteille au cellier</a>
-                    </li>
+                    {admin && (
+                        <li>
+                            <a href="/bouteille">Importer des bouteilles</a>
+                        </li>
+                        
+                    )}
                 </ul>
             </nav>
         </div>
