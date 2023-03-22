@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import { Button, Table, Input, Typography, Space } from "antd";
+import { Button, Table, Modal, Space, Form, Input, Col, Row} from "antd";
 import { 
     SearchOutlined,
     DeleteOutlined,
     EditOutlined, } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
 
 // import '../theme.less'; // Import the theme file
@@ -13,7 +14,27 @@ import "./Cellier.css";
 export default function Cellier() {
     const [data, setData] = useState([]);
     const id = window.location.pathname.split("/").pop();
-    // console.log(id);
+    const [modalAjouteBoutteilAuCellier, setModalAjouteBoutteilAuCellier] = useState(false);
+    const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
+    const ajouteBoutteilAuCeliierForm = useRef(null);
+    const [bouteilleSaq, setBouteilleSaq] = useState([]);
+    const [boutSelectione, setBoutSelectione] = useState([]);
+
+    
+    useEffect(() => {
+        axios.get("/getBouteillesSAQ").then((res) => {
+            setBouteilleSaq(res.data);
+        });
+    }, []);
+
+
+    const choisirVin = (elm) => {
+        bouteilleSaq.forEach(bouteiile => {
+            if(bouteiile.id == Number(elm.target.value)){
+                setBoutSelectione(bouteiile)
+            }
+        })
+    };
 
     useEffect(() => {
         // récupérer les bouteilles dans le cellier spécial
@@ -178,6 +199,28 @@ export default function Cellier() {
         {
             title: "Fonctionnalité",
             render: (item) => {
+                const supprimerBouteilleCellier = (idBouteille) => {
+                    console.log("Rah",idBouteille);
+                    confirm({
+                        title: "Voulez-vous supprimer ce cellier ?",
+                        icon: <ExclamationCircleFilled />,
+                        onOk() {
+                            deleteMethod(idBouteille);
+                        },
+                        onCancel() {},
+                    });
+                };
+                const deleteMethod = (idBouteille) => {
+                    // console.log(cellier);
+            
+                    axios.delete(`/supprimerBouteille/${idBouteille}`).then((res) => {
+                        // Récupérer les données, actualiser la page
+                        console.log(res.data);
+                        axios.get("/getListeBouteilleCellier").then((res) => {
+                            setData(res.data);
+                        });
+                    });
+                };
                 return (
                     <div>
                         <Button
@@ -185,7 +228,7 @@ export default function Cellier() {
                             danger
                             shape="circle"
                             icon={<DeleteOutlined />}
-                            onClick={() => confirmMethod(item)}
+                            onClick={() => supprimerBouteilleCellier(item.id)}
                         ></Button>
                         <Button
                             type="primary"
@@ -197,30 +240,106 @@ export default function Cellier() {
                 );
             },
         }
+        
     ];
+
+    const ajouterBoutteilAuCeliierFormOk = () => {
+
+        ajouteBoutteilAuCeliierForm.current
+             .validateFields()
+             .then((value) => {
+                console.log(value);
+
+                let objBouteille = {
+                    'bouteilles_id' : boutSelectione.id,
+                    'celliers_id'   : id,
+                    'data_achat'    : value.dateAchat,
+                    'quantite'      : value.quantite
+                }
+                axios.post(`/ajouteBouteilleCellier/`,objBouteille).then((res) => {
+                     console.log(res);   
+                }).then((res) => {
+                   axios.get(`/getCeillerBouteille/${id}`).then((res) => {
+                            setData(res.data);
+                        });
+                    });
+            })
+            setModalAjouteBoutteilAuCellier(false);
+    };
 
     return (
         // <div style={{ width: "80%", margin: "auto" }}>
         <div>
-            {/* ovrire le modal d'ajout de cellier */}
-            {/* <Button
-                type="primary"
-                // onClick={() => {
-                //     setmodalAjoutCellier(true);
-                // }}
-            >
-                Ajouter un bouteille
-            </Button> */}
             <div className="button-right">
                 <span></span>
                 <Button  type="primary" ghost>Retouner</Button>
             </div>
             <Table columns={columns} dataSource={data} />
             <div className="button-middle">
-                <Button type="primary">Ajouter une nouvelle bouteille</Button>
+                <Button type="primary"
+                    onClick={() =>
+                        setModalAjouteBoutteilAuCellier(id)
+                    }
+                >
+                Ajouter une nouvelle bouteil</Button>
             </div>
-        </div>
         
+
+                {/* modal ajouter un boutteil au cellier */}
+                <Modal
+                open={modalAjouteBoutteilAuCellier}
+                title= "Ajouter une nouvelle bouteil au cellier"
+                okText="Ajouter"
+                cancelText="Annuler"
+                onOk={() => ajouterBoutteilAuCeliierFormOk()}
+                onCancel={() => {
+                    setModalAjouteBoutteilAuCellier(false);
+                }}
+            >
+                {/* Rechercher l'utilisation de useRef */}
+                <Form ref={ajouteBoutteilAuCeliierForm} layout="vertical">
+                    <p>Séléctionnez une bouteiile : 
+                        <select data-id="" className="nom_bouteille" onChange={choisirVin}>
+                            <option value="0"><i class="select-titre">Selectionnez le vin</i></option>
+                            {bouteilleSaq.map((bouteiile) => (
+                                <option value={bouteiile.id}>{bouteiile.nom}</option>
+                                ) )}
+                        </select>
+                    </p>
+                    <div className="elmFormBoutteilCellier">
+                        <Form.Item
+                            name="quantite"
+                            label="Quantite"
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        "Veuillez entrer la quantité !",
+                                },
+                            ]}
+                        >
+                            <Input type="number" min="1" step="1"/>
+                        </Form.Item>
+                    </div>
+                    <div className="elmFormBoutteilCellier">
+                        <Form.Item
+                            name="dateAchat"
+                            label="Date d'achat"
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        "Veuillez entrer la date d'achat !",
+                                },
+                            ]}
+                        >
+                            <Input type="date"/>
+
+                        </Form.Item>
+                    </div>
+                </Form>
+            </Modal>
+        </div>
         
     );
 }

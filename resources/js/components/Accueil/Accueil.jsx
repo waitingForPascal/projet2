@@ -118,10 +118,16 @@ export default function Accueil() {
     };
     return (
         <div>
-
-        <p className="py-2">Liste de celliers</p>
-        <div>
-        <Row justify="center" align="middle" gutter={[0, 16]}>
+            {/* ovrire le modal d'ajout de cellier */}
+            <Button
+                type="primary"
+                onClick={() => {
+                    setmodalAjoutCellier(true);
+                }}
+            >
+                Ajouter un cellier
+            </Button>
+            <Row justify="center" align="middle"  gutter={[0, 16]}>
                 {data.map((cellier) => (
                     <Col
                         xs={20}
@@ -134,9 +140,8 @@ export default function Accueil() {
                     >
                         <Card
                             hoverable
-                            
                             style={{
-                                width: 300, margin:0
+                                width: 300,
                             }}
                             cover={
                                 <img
@@ -182,22 +187,6 @@ export default function Accueil() {
                     </Col>
                 ))}
             </Row>
-        </div>
-
-
-
-            {/* ovrire le modal d'ajout de cellier */}
-            <div className="button-middle">
-                <Button
-                    type="primary"
-                    onClick={() => {
-                        setmodalAjoutCellier(true);
-                    }}
-                >
-                    Ajouter un cellier
-                </Button>
-            </div>
-
             {/* modal modifier cellier */}
             <Modal
                 open={isOpen}
