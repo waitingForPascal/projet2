@@ -26,6 +26,7 @@ export default function Accueil() {
     const [modCellier, setmodCellier] = useState(null);
     const modBouteilleForm = useRef(null);
     const ajoutCellierForm = useRef(null);
+    const [admin, setadmin] = useState(false);
 
     const { Meta } = Card;
 
@@ -35,6 +36,17 @@ export default function Accueil() {
             // console.log(res.data);
 
             setData(res.data);
+        });
+    }, []);
+
+
+
+    useEffect(() => {
+        axios.get("/verificationUser").then((res) => {
+            console.log(res.data);
+            if (res.data == "admin") {
+                setadmin(true);
+            }
         });
     }, []);
 
@@ -118,8 +130,12 @@ export default function Accueil() {
     };
     return (
         <div>
+
             {/* ovrire le modal d'ajout de cellier */}
+
+            
             <Button
+                style={{visibility : admin ? "hidden" : "visible" }}
                 type="primary"
                 onClick={() => {
                     setmodalAjoutCellier(true);
