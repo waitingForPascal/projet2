@@ -14,6 +14,7 @@ import {
 } from "antd";
 
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import "./Accueil.css";
 
 const { confirm } = Modal;
 
@@ -142,14 +143,14 @@ export default function Accueil() {
             >
                 Ajouter un cellier
             </Button>
-            <Row gutter={[0, 16]}>
+            <Row justify="center" align="middle"  gutter={[0, 16]}>
                 {data.map((cellier) => (
                     <Col
                         xs={20}
                         sm={16}
                         md={12}
                         lg={8}
-                        xl={6}
+                        xl={8}
                         xxl={4}
                         key={cellier.id}
                     >

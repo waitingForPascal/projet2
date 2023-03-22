@@ -40,7 +40,7 @@
             </span>
         @enderror
 
-
+        <input type="hidden" name="privilege" value="usager">
         <input type="submit" value="{{ __('Register') }}" class="login_submit">
     </form>
 </div>

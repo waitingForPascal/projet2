@@ -6,6 +6,7 @@ use App\Http\Controllers\CellierController ;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CellierBouteilleController ;
 use App\Http\Controllers\UserController ;
+use App\Http\Controllers\SAQController ;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,4 +81,8 @@ Route::get('/getCelliersUsager/{user_id}', [CellierController::class, 'cellierUs
 Route::get('/getCellier/{cellier_id}', [CellierController::class, 'cellierParId']);
 
 Route::post('/voirCellier', [CellierController::class, 'voir']);
+
+// Route::get('/bouteille', [BouteilleController::class, 'importerBouteilles']);
+Route::get('/bouteille', [SAQController::class, 'index']);
+
 
