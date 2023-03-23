@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import { Button, Table, Modal, Space, Form, Input, Col, Row} from "antd";
-import { 
+import { Button, Select, Table, Modal, Space, Form, Input, Col, Row} from "antd";
+import {
     SearchOutlined,
     DeleteOutlined,
     EditOutlined, } from '@ant-design/icons';
@@ -17,13 +17,15 @@ export default function Cellier() {
     const [modalMethodEnregistrerBouteille, setModalMethodEnregistrerBouteille] = useState(false);
     const [modalAjouteBoutteilListeAuCellier, setModalAjouteBoutteilListeAuCellier] = useState(false);
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
+    const [modalModifierBoutteilCellier, setModalModifierBoutteilCellier] = useState(false);
     const ajouteBoutteilListeAuCellierForm = useRef(null);
     const [bouteilleSaq, setBouteilleSaq] = useState([]);
     const [boutSelectione, setBoutSelectione] = useState([]);
     const [idBoutASupprim, setIdBoutASupprim] = useState(null);
-    
+    const [objBoutAModifier, setIdBoutAModifier] = useState(null);
 
-    
+
+
     useEffect(() => {
         axios.get("/getBouteillesSAQ").then((res) => {
             setBouteilleSaq(res.data);
@@ -156,7 +158,7 @@ export default function Cellier() {
     });
 
 
-  
+
     const columns = [
         {
             title: "Nom",
@@ -202,28 +204,6 @@ export default function Cellier() {
         {
             title: "Fonctionnalité",
             render: (item) => {
-                const supprimerBouteilleCellier = (idBouteille) => {
-                    console.log("Rah",idBouteille);
-                    confirm({
-                        title: "Voulez-vous supprimer ce cellier ?",
-                        icon: <ExclamationCircleFilled />,
-                        onOk() {
-                            deleteMethod(idBouteille);
-                        },
-                        onCancel() {},
-                    });
-                };
-                const deleteMethod = (idBouteille) => {
-                    // console.log(cellier);
-            
-                    axios.delete(`/supprimerBouteille/${idBouteille}`).then((res) => {
-                        // Récupérer les données, actualiser la page
-                        console.log(res.data);
-                        axios.get("/getListeBouteilleCellier").then((res) => {
-                            setData(res.data);
-                        });
-                    });
-                };
                 return (
                     <div>
                         <Button
@@ -233,16 +213,18 @@ export default function Cellier() {
                             icon={<DeleteOutlined />}
                             onClick={() =>
                                 {
-                                    //console.log("Rahhal test", item.id);
                                     setIdBoutASupprim(item.id);
                                     setModalSupprimeBoutteilCellier(item.id)
                                 }}
-                        ></Button>
+                                ></Button>
                         <Button
                             type="primary"
                             shape="circle"
                             icon={<EditOutlined />}
-                            onClick={() => handleUpdate(item)}
+                            onClick={() => {
+                                setIdBoutAModifier(item);
+                                setModalModifierBoutteilCellier(item)
+                            }}
                         ></Button>
                     </div>
                 );
@@ -267,7 +249,7 @@ export default function Cellier() {
                     'quantite'      : value.quantite
                 }
                 axios.post(`/ajouteBouteilleCellier/`,objBouteille).then((res) => {
-                     console.log(res);   
+                     console.log(res);
                 }).then((res) => {
                    axios.get(`/getCeillerBouteille/${id}`).then((res) => {
                             setData(res.data);
@@ -285,6 +267,22 @@ export default function Cellier() {
                  setData(res.data);
              });
         });
+
+        const modCellierFormOk = () => {
+            // vilidation de form
+            modBouteilleForm.current.validateFields().then((value) => {
+                // envoyer une requête pour la modification de cellier
+                axios.patch(`/modCellier/${modCellier.id}`, value).then((res) => {
+                    // Récupérer les données, actualiser la page
+                    axios.get("/getTousCelliers").then((res) => {
+                        setData(res.data);
+                    });
+                });
+            });
+            // fermer le modal
+            setIsOpen(false);
+        };
+
     };
 
     return (
@@ -305,7 +303,7 @@ export default function Cellier() {
                 >
                 Ajouter une nouvelle bouteil</Button>
             </div>
-        
+
 
                 {/* modal ajouter un boutteil au cellier */}
                 <Modal
@@ -322,9 +320,9 @@ export default function Cellier() {
                 }}
             >
 
-                      
+
             </Modal>
-            
+
                 {/* modal ajouter une nouvelle boutteille au cellier */}
                 <Modal
                 open={modalAjouteBoutteilListeAuCellier}
@@ -338,7 +336,7 @@ export default function Cellier() {
             >
                 {/* Rechercher l'utilisation de useRef */}
                 <Form ref={ajouteBoutteilListeAuCellierForm} layout="vertical">
-                    <p>Séléctionnez une bouteiile : 
+                    <p>Séléctionnez une bouteiile :
                         <select data-id="" className="nom_bouteille" onChange={choisirVin}>
                             <option value="0"><i className="select-titre">Selectionnez le vin</i></option>
                             {bouteilleSaq.map((bouteiile) => (
@@ -398,8 +396,92 @@ export default function Cellier() {
             >
                 <p>Êtes-vous sûr de vouloir supprimer cette bouteille ?</p>
             </Modal>
-        </div>
-        
+
+            <Modal
+                open={modalModifierBoutteilCellier}
+                title="Modification de bouteille"
+                okText="Mettre à jour"
+                cancelText="Annuler"
+                onCancel={() => {
+                    setModalModifierBoutteilCellier(false);
+                }}
+                onOk={() => {
+                    console.log(objBoutAModifier);
+                }}
+                >
+
+                <Form  layout="vertical">
+                    <Form.Item
+                        name="nom"
+                        label="Nom"
+                        rules={[
+                            {
+                                required: true,
+                                message:
+                                "Please input the title of collection!",
+                            },
+                        ]}
+                >
+                <Input />
+                </Form.Item>
+                <Form.Item
+                    name="prix_saq"
+                    label="Prix"
+                    rules={[
+                        {
+                            required: true,
+                            message:
+                                "Please input the title of collection!",
+                        },
+                    ]}
+                >
+                <Input />
+                </Form.Item>
+                <Form.Item
+                    name="pays"
+                    label="Pays"
+                    rules={[
+                        {
+                            required: true,
+                            message:
+                                "Please input the title of collection!",
+                        },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name="type"
+                    label="Type"
+                    rules={[
+                        {
+                            required: true,
+                            message:
+                                "Please input the title of collection!",
+                        },
+                    ]}
+                >
+                <Select
+                    style={{
+                        width: 120,
+                    }}
+                    // Ici, vous devez obtenir les données de la table des types à partir de la base de données
+                    options={[
+                        {
+                            value: "Vin rouge",
+                            label: "Vin rouge",
+                        },
+                        {
+                            value: "Vin blanc",
+                            label: "Vin blanc",
+                        },
+                    ]}
+                />
+                </Form.Item>
+            </Form>
+        </Modal>
+    </div>
+
     );
 }
 
