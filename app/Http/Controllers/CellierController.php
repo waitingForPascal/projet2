@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cellier;
-use App\Models\Bouteilles_user;
+use App\Models\Bouteilles_cellier;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -75,10 +75,10 @@ class CellierController extends Controller
         //return "Gestion des celliers est en construction !";
         
         $idCellier = $request->cellier_id;
-        $cellier = Cellier::select('celliers.id', 'celliers.nom', 'celliers.user_id','users.name', 'bouteilles_users.bouteille_id','bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description' )
+        $cellier = Cellier::select('celliers.id', 'celliers.nom', 'celliers.user_id','users.name', 'bouteilles_celliers.bouteille_id','bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description' )
                             ->join('users', 'users.id', '=', 'celliers.user_id')
-                            ->join('bouteilles_users', 'bouteilles_users.cellier_id', '=', 'celliers.id')
-                            ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_users.bouteille_id')
+                            ->join('bouteilles_celliers', 'bouteilles_celliers.cellier_id', '=', 'celliers.id')
+                            ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
                             ->where('celliers.id','=',$idCellier)
                      ->get();
         return response()->json($cellier);
@@ -212,9 +212,9 @@ class CellierController extends Controller
     // obtenir les bouteilles dans le cellier spécial
     public function getListeBouteilleCellier($id)
     {
-        $bouteilles = Bouteilles_user::select('bouteilles_users.id','bouteilles.id as id_bouteille', 'celliers.id as id_cellier','bouteilles_users.bouteille_id','bouteilles_users.date_achat','bouteilles_users.quantite', 'bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description', 'types.type')
-        ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_users.bouteille_id')
-        ->join('celliers', 'celliers.id', '=', 'bouteilles_users.cellier_id')
+        $bouteilles = Bouteilles_cellier::select('bouteilles_celliers.id','bouteilles.id as id_bouteille', 'celliers.id as id_cellier','bouteilles_celliers.bouteille_id','bouteilles_celliers.date_achat','bouteilles_celliers.quantite', 'bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description', 'types.type')
+        ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
+        ->join('celliers', 'celliers.id', '=', 'bouteilles_celliers.cellier_id')
         ->join('types', 'types.id', '=', 'bouteilles.type')
         ->where('celliers.id', '=', $id)
         ->get();

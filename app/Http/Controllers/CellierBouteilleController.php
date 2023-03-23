@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bouteilles_user;
+use App\Models\Bouteilles_cellier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +19,9 @@ class cellierBouteilleController extends Controller
     // il faut déplacer les deux fonctions
     public function index()
     {
+        if(Auth::check()) {
+            return view('accueil');
+        }
         return view('auth.login');
     }
 
@@ -58,7 +61,7 @@ class cellierBouteilleController extends Controller
         $objBouteille = $request->json()->all();
 
         
-         DB::table('bouteilles_users')->insert([
+         DB::table('bouteilles_celliers')->insert([
                  'date_achat'   => $objBouteille['data_achat'],
                  'quantite'     => $objBouteille['quantite'],
                  'bouteille_id' => $objBouteille['bouteilles_id'],
