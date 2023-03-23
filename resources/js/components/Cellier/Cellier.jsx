@@ -25,9 +25,8 @@ export default function Cellier() {
     const [boutSelectione, setBoutSelectione] = useState([]);
     const [idBoutASupprim, setIdBoutASupprim] = useState(null);
     const [objBoutAModifier, setIdBoutAModifier] = useState(null);
-    
 
-    
+
     useEffect(() => {
         axios.get("/getBouteillesSAQ").then((res) => {
             setBouteilleSaq(res.data);
@@ -160,7 +159,7 @@ export default function Cellier() {
     });
 
 
-  
+
     const columns = [
         {
             title: "Nom",
@@ -251,7 +250,7 @@ export default function Cellier() {
                     'quantite'      : value.quantite
                 }
                 axios.post(`/ajouteBouteilleCellier/`,objBouteille).then((res) => {
-                     console.log(res);   
+                     console.log(res);
                 }).then((res) => {
                    axios.get(`/getCeillerBouteille/${id}`).then((res) => {
                             setData(res.data);
@@ -308,7 +307,7 @@ export default function Cellier() {
             // fermer le modal
             setIsOpen(false);
         };
-    
+
     };
 
     return (
@@ -329,7 +328,7 @@ export default function Cellier() {
                 >
                 Ajouter une nouvelle bouteil</Button>
             </div>
-        
+
 
                 {/* modal ajouter un boutteil au cellier */}
                 <Modal
@@ -347,9 +346,9 @@ export default function Cellier() {
                 }}
             >
 
-                      
+
             </Modal>
-            
+
                 {/* modal ajouter une nouvelle boutteille au cellier */}
                 <Modal
                 open={modalAjouteBoutteilListeAuCellier}
@@ -363,7 +362,7 @@ export default function Cellier() {
             >
                 {/* Modal ajout une bouteille listée */}
                 <Form ref={ajouteBoutteilListeAuCellierForm} layout="vertical">
-                    <p>Séléctionnez une bouteiile : 
+                    <p>Séléctionnez une bouteiile :
                         <select data-id="" className="nom_bouteille" onChange={choisirVin}>
                             <option value="0"><i className="select-titre">Selectionnez le vin</i></option>
                             {bouteilleSaq.map((bouteiile) => (
@@ -463,7 +462,7 @@ export default function Cellier() {
                     console.log(objBoutAModifier);
                 }}
                 >
-                
+
                 <Form  layout="vertical">
                     <Form.Item
                         name="nom"
@@ -535,7 +534,7 @@ export default function Cellier() {
             </Form>
         </Modal>
     </div>
-        
+
     );
 }
 
