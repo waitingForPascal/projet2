@@ -16,7 +16,7 @@ export default function Cellier() {
     const id = window.location.pathname.split("/").pop();
     const [modalAjouteBoutteilAuCellier, setModalAjouteBoutteilAuCellier] = useState(false);
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
-    const ajouteBoutteilAuCeliierForm = useRef(null);
+    const ajouteBoutteilAuCellierForm = useRef(null);
     const [bouteilleSaq, setBouteilleSaq] = useState([]);
     const [boutSelectione, setBoutSelectione] = useState([]);
 
@@ -243,9 +243,9 @@ export default function Cellier() {
         
     ];
 
-    const ajouterBoutteilAuCeliierFormOk = () => {
+    const ajouterBoutteilAuCellierFormOk = () => {
 
-        ajouteBoutteilAuCeliierForm.current
+        ajouteBoutteilAuCellierForm.current
              .validateFields()
              .then((value) => {
                 console.log(value);
@@ -291,16 +291,16 @@ export default function Cellier() {
                 title= "Ajouter une nouvelle bouteil au cellier"
                 okText="Ajouter"
                 cancelText="Annuler"
-                onOk={() => ajouterBoutteilAuCeliierFormOk()}
+                onOk={() => ajouterBoutteilAuCellierFormOk()}
                 onCancel={() => {
                     setModalAjouteBoutteilAuCellier(false);
                 }}
             >
                 {/* Rechercher l'utilisation de useRef */}
-                <Form ref={ajouteBoutteilAuCeliierForm} layout="vertical">
+                <Form ref={ajouteBoutteilAuCellierForm} layout="vertical">
                     <p>Séléctionnez une bouteiile : 
                         <select data-id="" className="nom_bouteille" onChange={choisirVin}>
-                            <option value="0"><i class="select-titre">Selectionnez le vin</i></option>
+                            <option value="0"><i className="select-titre">Selectionnez le vin</i></option>
                             {bouteilleSaq.map((bouteiile) => (
                                 <option value={bouteiile.id}>{bouteiile.nom}</option>
                                 ) )}
