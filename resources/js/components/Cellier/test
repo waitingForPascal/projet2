@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Button, Table, Modal, Space, Form, Input, Col, Row} from "antd";
-import { 
+import {
     SearchOutlined,
     DeleteOutlined,
     EditOutlined, } from '@ant-design/icons';
@@ -14,15 +14,15 @@ import "./Cellier.css";
 export default function Cellier() {
     const [data, setData] = useState([]);
     const id = window.location.pathname.split("/").pop();
-    const [modalMethodEnregistrerBouteille, setModalMethodEnregistrerBouteille] = useState(false);
-    const [modalAjouteBoutteilListeAuCellier, setModalAjouteBoutteilListeAuCellier] = useState(false);
+    const [modalAjouteBoutteilAuCellier, setModalAjouteBoutteilAuCellier] = useState(false);
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
-    const ajouteBoutteilListeAuCellierForm = useRef(null);
+    const ajouteBoutteilAuCellierForm = useRef(null);
     const [bouteilleSaq, setBouteilleSaq] = useState([]);
     const [boutSelectione, setBoutSelectione] = useState([]);
     const [idBoutASupprim, setIdBoutASupprim] = useState(null);
 
-    
+
+
     useEffect(() => {
         axios.get("/getBouteillesSAQ").then((res) => {
             setBouteilleSaq(res.data);
@@ -155,7 +155,7 @@ export default function Cellier() {
     });
 
 
-  
+
     const columns = [
         {
             title: "Nom",
@@ -201,20 +201,9 @@ export default function Cellier() {
         {
             title: "Fonctionnalité",
             render: (item) => {
-                const supprimerBouteilleCellier = (idBouteille) => {
-                    console.log("Rah",idBouteille);
-                    confirm({
-                        title: "Voulez-vous supprimer ce cellier ?",
-                        icon: <ExclamationCircleFilled />,
-                        onOk() {
-                            deleteMethod(idBouteille);
-                        },
-                        onCancel() {},
-                    });
-                };
                 const deleteMethod = (idBouteille) => {
                     // console.log(cellier);
-            
+
                     axios.delete(`/supprimerBouteille/${idBouteille}`).then((res) => {
                         // Récupérer les données, actualiser la page
                         console.log(res.data);
@@ -254,7 +243,7 @@ export default function Cellier() {
 
     const ajouterBoutteilAuCellierFormOk = () => {
 
-        ajouteBoutteilListeAuCellierForm.current
+        ajouteBoutteilAuCellierForm.current
              .validateFields()
              .then((value) => {
                 console.log(value);
@@ -266,17 +255,18 @@ export default function Cellier() {
                     'quantite'      : value.quantite
                 }
                 axios.post(`/ajouteBouteilleCellier/`,objBouteille).then((res) => {
-                     console.log(res);   
+                     console.log(res);
                 }).then((res) => {
                    axios.get(`/getCeillerBouteille/${id}`).then((res) => {
                             setData(res.data);
                         });
                     });
             })
-            setModalAjouteBoutteilListeAuCellier(false);
+            setModalAjouteBoutteilAuCellier(false);
     };
 
     const supprimerBouteilleCellier = (idBouteille) => {
+        //console.log("Est-ce que ça marche bien?",idBouteille);
         axios.delete(`/deleteBouteilleCellier/${idBouteille}`).then((res) => {
             console.log(res);
        }).then((res) => {
@@ -291,53 +281,33 @@ export default function Cellier() {
         <div>
             <div className="button-right">
                 <span></span>
-                <Button  type="primary" ghost>
-                    <a href="/home" className="nonDecoration">Retouner</a>
-                </Button>
+                <Button  type="primary" ghost>Retouner</Button>
             </div>
             <Table columns={columns} dataSource={data} />
             <div className="button-middle">
                 <Button type="primary"
                     onClick={() =>
-                        setModalMethodEnregistrerBouteille(id)
+                        setModalAjouteBoutteilAuCellier(id)
                     }
                 >
                 Ajouter une nouvelle bouteil</Button>
             </div>
-        
+
 
                 {/* modal ajouter un boutteil au cellier */}
                 <Modal
-                open={modalMethodEnregistrerBouteille}
-                title= "Auquel des éléments suivants appartient la bouteille souhaitée ?"
-                okText="Bouteille listée chez sac"
-                cancelText="Bouteille non listée"
-                onOk={() => {
-                    setModalMethodEnregistrerBouteille(false);
-                    setModalAjouteBoutteilListeAuCellier(true);
-                }}
-                onCancel={() => {
-                    setModalMethodEnregistrerBouteille(false);
-                }}
-            >
-
-                      
-            </Modal>
-            
-                {/* modal ajouter une nouvelle boutteille au cellier */}
-                <Modal
-                open={modalAjouteBoutteilListeAuCellier}
-                title= "Ajouter une nouvelle bouteille listée au cellier"
+                open={modalAjouteBoutteilAuCellier}
+                title= "Ajouter une nouvelle bouteil au cellier"
                 okText="Ajouter"
                 cancelText="Annuler"
                 onOk={() => ajouterBoutteilAuCellierFormOk()}
                 onCancel={() => {
-                    setModalAjouteBoutteilListeAuCellier(false);
+                    setModalAjouteBoutteilAuCellier(false);
                 }}
             >
                 {/* Rechercher l'utilisation de useRef */}
-                <Form ref={ajouteBoutteilListeAuCellierForm} layout="vertical">
-                    <p>Séléctionnez une bouteiile : 
+                <Form ref={ajouteBoutteilAuCellierForm} layout="vertical">
+                    <p>Séléctionnez une bouteiile :
                         <select data-id="" className="nom_bouteille" onChange={choisirVin}>
                             <option value="0"><i className="select-titre">Selectionnez le vin</i></option>
                             {bouteilleSaq.map((bouteiile) => (
@@ -379,7 +349,7 @@ export default function Cellier() {
                 </Form>
             </Modal>
 
-            {/* modal supprimer une boutteille uu cellier */}
+            {/* modal ajouter un boutteil au cellier */}
             <Modal
                 open={modalSupprimeBoutteilCellier}
                 title="Voulez-vous supprimer la bouteille ?"
@@ -398,7 +368,7 @@ export default function Cellier() {
                 <p>Êtes-vous sûr de vouloir supprimer cette bouteille ?</p>
             </Modal>
         </div>
-        
+
     );
 }
 

@@ -26,6 +26,10 @@
     display: flex !important;
   }
 
+  .nonDecoration{
+    text-decoration: none;
+  }
+
 
   
   
