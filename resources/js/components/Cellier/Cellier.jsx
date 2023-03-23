@@ -21,6 +21,7 @@ export default function Cellier() {
     const [bouteilleSaq, setBouteilleSaq] = useState([]);
     const [boutSelectione, setBoutSelectione] = useState([]);
     const [idBoutASupprim, setIdBoutASupprim] = useState(null);
+    
 
     
     useEffect(() => {
@@ -310,7 +311,7 @@ export default function Cellier() {
                 <Modal
                 open={modalMethodEnregistrerBouteille}
                 title= "Auquel des éléments suivants appartient la bouteille souhaitée ?"
-                okText="Bouteille listée chez sac"
+                okText="Bouteille listée chez SAQ"
                 cancelText="Bouteille non listée"
                 onOk={() => {
                     setModalMethodEnregistrerBouteille(false);
@@ -372,7 +373,7 @@ export default function Cellier() {
                                 },
                             ]}
                         >
-                            <Input type="date"/>
+                            <Input type="date" defaultValue={new Date().toLocaleDateString('fr-CA')}/>
 
                         </Form.Item>
                     </div>
