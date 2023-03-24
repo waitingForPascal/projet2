@@ -23,29 +23,9 @@ class CellierController extends Controller
 
          // obtenir les information d'usager connecté
          $id_user_connecte = Auth::user()->id;
-
          $celliers = Cellier::where('user_id', $id_user_connecte)->get();
-
-        //  if(Auth::user()->privilege == 'admin') {
-        //     $celliers = Cellier::all();
-        //  }
          return response()->json($celliers);
 
-
-
-
-
-
-
-
-        //
-        //return "Gestion des celliers est en construction !";
-        
-        //$celliers = Cellier::all();
-        // $celliers = Cellier::select('celliers.id', 'celliers.nom', 'celliers.user_id','users.name')
-        //             ->join('users', 'users.id', '=', 'celliers.user_id')
-        //             ->get();
-       
     }
 
         /**
@@ -103,6 +83,7 @@ class CellierController extends Controller
      */
     public function store(Request $request)
     {
+        //return $request->json()->all();
         DB::table('celliers')->insert([
             'nom'     => $request->nom,
             'user_id' => Auth::user()->id
@@ -166,15 +147,7 @@ class CellierController extends Controller
 
     public function voir(Request $request)
     {
-        //return $request->json()->all();
-
         return view('test', ['data' => $request->json()->all()]);
-
-
-        // $celliers = Cellier::select()
-        //             ->where('user_id','=',$idUsager)
-        //             ->get();
-        //return $idUsager;
     }
 
 

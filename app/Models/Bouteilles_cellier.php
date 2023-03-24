@@ -9,6 +9,9 @@ class Bouteilles_cellier extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'quantite'
+        'date_achat',
+        'quantite',
+        'bouteille_id',
+        'cellier_id'
     ];
 }

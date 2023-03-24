@@ -11,8 +11,20 @@ class Bouteille extends Model
 
     protected $fillable = [
         'nom',
+        'image',
         'pays',
+        'code_saq',
+        'description',
+        'prix',
+        'note',
+        'millesime',
+        'garde_jusqua',
+        'url_saq',
+        'url_img',
+        'format',
         'type',
-        'prix'
+        'genreListe'
     ];
 }
+
+

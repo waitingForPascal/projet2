@@ -118,5 +118,6 @@ Route::post('/voirCellier', [CellierController::class, 'voir']);
 
 // Route::get('/bouteille', [BouteilleController::class, 'importerBouteilles']);
 Route::get('/bouteille', [SAQController::class, 'index']);
+Route::post('/ajouteBouteilleNl' , [BouteilleController::class, 'storeNl']);
 
 

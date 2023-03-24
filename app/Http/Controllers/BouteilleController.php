@@ -50,7 +50,38 @@ class BouteilleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeNl(Request $request)
+    {
+            $nouvelleBouteille = new Bouteille;
+
+            $nouvelleBouteille->nom = $request->nom;
+            $nouvelleBouteille->image = $request->image;
+            $nouvelleBouteille->pays = $request->pays;
+            $nouvelleBouteille->code_saq = $request->code_saq;
+            $nouvelleBouteille->description = $request->description;
+            $nouvelleBouteille->prix = $request->prix;
+            $nouvelleBouteille->note = $request->note;
+            $nouvelleBouteille->millesime = $request->millesime;
+            $nouvelleBouteille->garde_jusqua = $request->garde_jusqua;
+            $nouvelleBouteille->url_saq = $request->url_saq;
+            $nouvelleBouteille->url_img = $request->url_img;
+            $nouvelleBouteille->format = $request->format;
+            $nouvelleBouteille->type = $request->type;
+            $nouvelleBouteille->ganreListe = $request->ganreListe;
+
+
+            $data = $nouvelleBouteille->toArray();
+            $id = DB::table('bouteilles')->insertGetId($data);
+            return $id;
     }
 
     /**
