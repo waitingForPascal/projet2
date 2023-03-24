@@ -68,7 +68,7 @@ Route::get('/listeUsager', [UserController::class, 'gestionUsager']);
 
 Route::get('/getTousUser', [UserController::class, 'getTousUser']);
 
-
+Route::delete('/deleteBouteilleCellier/{id}' , [CellierBouteilleController::class, 'destroy']);
 
 
 Route::patch('/modBouteille/{id}', [BouteilleController::class, 'modifierUnBouteille']);

@@ -17,7 +17,6 @@ import "./components/Accueil/Accueil";
 import "./components/Entete/Entete";
 import "./components/Cellier/Cellier";
 import "./components/ListeUsager/ListeUsager";
-import "./components/Ajout/Ajout";
 import "./components/Bouteille/Bouteille";
 
 // import "./components/Cellier/Cellier";
