@@ -103,23 +103,6 @@ class CellierController extends Controller
      */
     public function store(Request $request)
     {
-        // $objCellier = $request->json()->all();
-
-        // DB::table('celliers')->insert([
-        //           'nom'     => $objCellier['nomCellier'],
-        //           'user_id' => $objCellier['userId']
-        //       ]);
-
-            // return $objCellier;
-
-            
-        // $id = Auth::user()->id;
-
-        // $Cellier = Cellier::create([
-        //     'nom' => $request->nom,
-        //     'user_id' => Auth::user()->id
-        // ]);
-
         DB::table('celliers')->insert([
             'nom'     => $request->nom,
             'user_id' => Auth::user()->id

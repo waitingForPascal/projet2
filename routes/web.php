@@ -46,7 +46,7 @@ Route::get('/home', [CellierBouteilleController::class, 'accueil'])->middleware(
 Route::get('/accueil', [CellierBouteilleController::class, 'index'])->name('accueil');
 Route::get('/logout', [CellierBouteilleController::class, 'logout'])->name('logout');
 
-
+// -----------------------------------------------------------------------------celliers
 // récupérer tous les celliers ou les celliers personnels
 Route::get('/getTousCelliers', [CellierController::class, 'index']);
 // modificaiton de cellier
@@ -61,14 +61,21 @@ Route::get('/getCeillerBouteille/{id}', [CellierController::class, 'getListeBout
 // entrer dans un cellier précis
 Route::get('/cellier/{id}', function () {return view('cellier');});
 
+// ----------------------------------------------------------------------------------usager
 // vérifier si utilisateur est admin
 Route::get('/verificationUser', [UserController::class, 'index']);
 // aller vers page de gestion d'utilisateur
 Route::get('/listeUsager', [UserController::class, 'gestionUsager']);
-
+// récupérer tous les usagers
 Route::get('/getTousUser', [UserController::class, 'getTousUser']);
+// modificaiton d'usager
+Route::patch('/modUser/{id}', [UserController::class, 'update']);
+// Supprimer un usager
+Route::delete('/deleteUser/{id}' , [UserController::class, 'destroy']);
 
 
+
+Route::delete('/deleteBouteilleCellier/{id}' , [CellierBouteilleController::class, 'destroy']);
 
 
 Route::patch('/modBouteille/{id}', [BouteilleController::class, 'modifierUnBouteille']);

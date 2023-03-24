@@ -56,18 +56,18 @@ class cellierBouteilleController extends Controller
     public function store(Request $request)
     {
 
-        
-        
+
+
         $objBouteille = $request->json()->all();
 
-        
+
          DB::table('bouteilles_celliers')->insert([
                  'date_achat'   => $objBouteille['data_achat'],
                  'quantite'     => $objBouteille['quantite'],
                  'bouteille_id' => $objBouteille['bouteilles_id'],
                  'cellier_id'   => $objBouteille['celliers_id'],
              ]);
-            
+
             //return $objBouteille;
 
 
@@ -113,9 +113,10 @@ class cellierBouteilleController extends Controller
      * @param  \App\Models\cellierBouteille  $cellierBouteille
      * @return \Illuminate\Http\Response
      */
-    public function destroy(cellierBouteille $cellierBouteille)
+    public function destroy($id)
     {
-        //
+        DB::table('bouteilles_celliers')->where('id', $id)->delete();
+        return true;
     }
 
 
@@ -123,5 +124,6 @@ class cellierBouteilleController extends Controller
 
 
 
-   
+
+
 }

@@ -1,17 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import { Link } from "react-router-dom";
 import axios from "axios";
-import {
-    Card,
-    Button,
-    Space,
-    Modal,
-    Input,
-    Form,
-    Col,
-    Row,
-} from "antd";
+import { Card, Button, Space, Modal, Input, Form, Col, Row } from "antd";
 
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Accueil.css";
@@ -38,8 +28,6 @@ export default function Accueil() {
             setData(res.data);
         });
     }, []);
-
-
 
     useEffect(() => {
         axios.get("/verificationUser").then((res) => {
@@ -130,12 +118,10 @@ export default function Accueil() {
     };
     return (
         <div>
-
             {/* ovrire le modal d'ajout de cellier */}
 
-            
             <Button
-                style={{visibility : admin ? "hidden" : "visible" }}
+                style={{ visibility: admin ? "hidden" : "visible" }}
                 type="primary"
                 onClick={() => {
                     setmodalAjoutCellier(true);
@@ -143,7 +129,7 @@ export default function Accueil() {
             >
                 Ajouter un cellier
             </Button>
-            <Row justify="center" align="middle"  gutter={[0, 16]}>
+            <Row justify="center" align="middle" gutter={[0, 16]}>
                 {data.map((cellier) => (
                     <Col
                         xs={20}

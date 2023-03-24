@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -83,9 +84,15 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, $id)
     {
         //
+        DB::table('users')->where('id', $id)->update([
+            'name' => $request['name'],
+            'email' => $request['email']
+        ]);
+
+        return true;
     }
 
     /**
@@ -94,8 +101,10 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $user, $id)
     {
         //
+        DB::table('users')->where('id', $id)->delete();
+        return true;
     }
 }
