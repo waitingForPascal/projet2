@@ -27,9 +27,23 @@ export default function Cellier() {
     const [boutSelectione, setBoutSelectione] = useState([]);
     const [idBoutASupprim, setIdBoutASupprim] = useState(null);
     const [objBoutAModifier, setObjBoutAModifier] = useState(null);
-    const [idBoutNl, setIdBoutNl] = useState(null);
+    const [listePays, setListePays] = useState([]);
     const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
     const { Panel } = Collapse;
+    
+
+    
+    useEffect(() => {
+        axios.get("https://restcountries.com/v2/all")
+          .then(response => {
+            const liste = response.data.map(pays => ({ value: pays.name, label: pays.name }));
+            setListePays(liste);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }, []);
+
     useEffect(() => {
         axios.get("/getBouteillesSAQ").then((res) => {
             setBouteilleSaq(res.data);
@@ -311,7 +325,7 @@ export default function Cellier() {
         const showErrorModal = () => {
             Modal.error({
               title: 'Erreur',
-              content: 'Cette bouteille existe déjà !',
+              content: 'Le nom choisi n\'est pas autorisé ! Veuillez choisir un autre nom.',
               okText: 'OK',
             });
         };
@@ -331,7 +345,7 @@ export default function Cellier() {
             let objNouvelleBout = {
                 nom: formData.nom,
                 image: formData.image ? formData.image : null,
-                pays: formData.pays ? formData.pays : null,
+                pays: formData.pays ? formData.pays : "-----",
             	code_saq: null,
                 description: formData.description ? formData.description : null,
                 prix: formData.prix,
@@ -555,7 +569,21 @@ export default function Cellier() {
                     </Form.Item>
                     <Collapse bordered={false}>
                         <Panel header="Options supplémentaires" key="1">
-                            <Form.Item label="Pays" name="pays" type="text"><Input /></Form.Item>
+                        <Form.Item label="Veuillez sélectionner le pays" name="pays">
+                                <Select 
+                                     showSearch
+                                    filterOption={
+                                        (input, option) =>
+                                        option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    {listePays.map((pays) => (
+                                        <Option key={pays.value} value={pays.value} label={pays.label}>
+                                            {pays.label}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
                             <Form.Item label="Date achat" name="date_achat"><Input type="date" /></Form.Item>
                             <Form.Item label="Millesime" name="millesime"><Input type="date" /></Form.Item>
                             <Form.Item label="Garde" name="garde_jusqua"><Input type="date" /></Form.Item>
