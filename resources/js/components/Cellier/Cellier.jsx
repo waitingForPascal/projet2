@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 
-import {Button, Select, Table, Modal, Space, Form, Input, DatePicker} from "antd";
+import {Button, Select, Table, Modal, Space, Form, Input, Collapse} from "antd";
 import {SearchOutlined, DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
@@ -27,6 +27,8 @@ export default function Cellier() {
     const [boutSelectione, setBoutSelectione] = useState([]);
     const [idBoutASupprim, setIdBoutASupprim] = useState(null);
     const [objBoutAModifier, setIdBoutAModifier] = useState(null);
+    const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
+    const { Panel } = Collapse;
 
     useEffect(() => {
         axios.get("/getBouteillesSAQ").then((res) => {
@@ -308,6 +310,7 @@ export default function Cellier() {
     
     const ajouterBoutteilNlAuCellierFormOk = (formData) => {
         console.log("test",formData);
+        console.log("Hey!", formulaireBtNlValide);
         //setModalAjouteBoutteilNonListeAuCellier(false);
     };
     
@@ -368,7 +371,7 @@ export default function Cellier() {
                 title="Quel type de bouteille, listé ou non-listé voulez-vous ajouter?"
                 onCancel={() => setModalMethodEnregistrerBouteille(false)}
                 footer={[
-                    <Button key="listée" type="primary" 
+                    <Button key="listee"  
                             onClick={() => {
                             setModalMethodEnregistrerBouteille(false);
                             setModalAjouteBoutteilListeAuCellier(true);
@@ -452,31 +455,63 @@ export default function Cellier() {
             <Modal
                visible={modalAjouteBoutteilNonListeAuCellier}
                title="Ajouter une nouvelle bouteille non listée"
-               okText="Ajouter"
-               cancelText="Annuler"
-               onOk={() => {
-                 // récupérez les données du formulaire
-                 const formData = ajouteBoutteilNonListeAuCellierForm.current.getFieldsValue();
-                 ajouterBoutteilNlAuCellierFormOk(formData);
-               }}
-               onCancel={() => {
-                 setModalAjouteBoutteilNonListeAuCellier(false);
-               }}
-             >
+               onCancel={() => {setModalAjouteBoutteilNonListeAuCellier(false)}}
+               footer={[
+                <Button key="Ajouter" type="primary"
+                        disabled={!formulaireBtNlValide}
+                        onClick={() => {
+                            // récupérez les données du formulaire
+                            const formData = ajouteBoutteilNonListeAuCellierForm.current.getFieldsValue();
+                            ajouterBoutteilNlAuCellierFormOk(formData);
+                        }}>
+                    Ajouter
+                </Button>,
+                <Button key="annuler" onClick={() => setModalAjouteBoutteilNonListeAuCellier(false)}>
+                    Annuler
+                </Button>,
+            ]}>
+             
                {/* formulaire d'ajout d'une bouteille non listée */}
-               <Form ref={ajouteBoutteilNonListeAuCellierForm} layout="vertical">
-                    <Form.Item label="Nom" name="nom" type="text"><Input /></Form.Item>
-                    <Form.Item label="Pays" name="pays" type="text"><Input /></Form.Item>
-                    <Form.Item label="Quantité" name="quantite"><Input type="number" min={1} step={1} /></Form.Item>
-                    <Form.Item label="Prix" name="prix"><Input type="number" step={0.01} min="0"/></Form.Item>
-                    <Form.Item label="Millesime" name="millesime"><Input type="date" /></Form.Item>
-                    <Form.Item label="Date achat" name="date_achat"><Input type="date" /></Form.Item>
-                    <Form.Item label="Garde" name="garde_jusqua"><Input type="date" /></Form.Item>
-                    <Form.Item label="Notes" name="notes"><Input type="number" min={0} max={5} /></Form.Item>
-                    <Form.Item label="Image" name="image"><Input /></Form.Item>
-                    <Form.Item label="Format" name="format"><Input /></Form.Item>
-                    <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
-                    </Form>
+               <Form ref={ajouteBoutteilNonListeAuCellierForm} 
+                     layout="vertical" 
+                     validateTrigger='onBlur'
+                     onValuesChange={(changedValues, allValues) => {
+                        setFormulaireBtNlValide(
+                            allValues.nom &&
+                            allValues.quantite &&
+                            allValues.prix &&
+                            allValues.date_achat
+                        );
+                        console.log(formulaireBtNlValide);
+                      }}>
+                    <Form.Item label="Nom" name="nom" type="text" minlength="3"
+                                rules={[{ required: true, message: 'Veuillez entrer le nom de la bouteille.' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label="Quantité" name="quantite"
+                                rules={[{ required: true, message: 'Veuillez entrer la quantité de la bouteille.' }]}>
+                        <Input type="number" min={1} step={1} />
+                    </Form.Item>
+                    <Form.Item label="Prix" name="prix"
+                                rules={[{ required: true, message: 'Veuillez entrer le prix de la bouteille.' }]}>
+                        <Input type="number" step={0.01} min="0"/>
+                    </Form.Item>
+                    <Form.Item label="Date achat" name="date_achat"
+                                rules={[{ required: true, message: 'Veuillez entrer la date d\'achat de la bouteille.' }]}>
+                        <Input type="date" />
+                    </Form.Item>
+                    <Collapse bordered={false}>
+                        <Panel header="Options supplémentaires" key="1">
+                            <Form.Item label="Pays" name="pays" type="text"><Input /></Form.Item>
+                            <Form.Item label="Millesime" name="millesime"><Input type="date" /></Form.Item>
+                            <Form.Item label="Garde" name="garde_jusqua"><Input type="date" /></Form.Item>
+                            <Form.Item label="Notes" name="notes"><Input type="number" min={0} max={5} /></Form.Item>
+                            <Form.Item label="Image" name="image"><Input /></Form.Item>
+                            <Form.Item label="Format" name="format"><Input /></Form.Item>
+                            <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
+                        </Panel>
+                    </Collapse>
+                </Form>
             </Modal>
 
             {/* modal supprimer une boutteille du cellier */}
@@ -546,8 +581,7 @@ export default function Cellier() {
                                 message:
                                     "Please input the title of collection!",
                             },
-                        ]}
-                    >
+                        ]}>
                         <Input />
                     </Form.Item>
                     <Form.Item
