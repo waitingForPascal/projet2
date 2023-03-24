@@ -73,27 +73,8 @@ class cellierBouteilleController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\cellierBouteille  $cellierBouteille
-     * @return \Illuminate\Http\Response
-     */
-    public function show(cellierBouteille $cellierBouteille)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\cellierBouteille  $cellierBouteille
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(cellierBouteille $cellierBouteille)
-    {
-        //
-    }
+   
+    
 
     /**
      * Update the specified resource in storage.
@@ -102,9 +83,19 @@ class cellierBouteilleController extends Controller
      * @param  \App\Models\cellierBouteille  $cellierBouteille
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CellierBouteille $cellierBouteille)
+    public function update(Request $request,  $id)
     {
-        //
+        
+        DB::table('bouteilles_celliers')
+        ->where('bouteille_id', $id)
+        ->where('cellier_id', $request['id_cellier'])
+        ->update([
+            'quantite' => $request['quantite'],
+            'date_achat' => $request['date_achat'],
+        ]);
+        
+        return true;
+
     }
 
     /**

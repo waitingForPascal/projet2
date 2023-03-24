@@ -162,18 +162,7 @@ class CellierController extends Controller
         return true;
     }
 
-    // public function getListeBouteilleCellier(Cellier $cellier)
-    // {
-    //     //
-    //     $celliers = Cellier::all();
-    //     $bouteilles = Bouteille::all();
-    //     $types = Type::all();
-    //     // $data = [...$celliers,...$bouteilles,...$types];
-    //     $data = [$celliers,$bouteilles,$types];
-    //     // return $data;
-    //     // return $data;
-    //     return response()->json($data);
-    // }
+   
 
     public function voir(Request $request)
     {
