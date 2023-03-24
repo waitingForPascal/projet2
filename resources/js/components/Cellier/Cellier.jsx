@@ -30,13 +30,12 @@ export default function Cellier() {
     const [idBoutNl, setIdBoutNl] = useState(null);
     const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
     const { Panel } = Collapse;
-
     useEffect(() => {
         axios.get("/getBouteillesSAQ").then((res) => {
             setBouteilleSaq(res.data);
         });
     }, []);
-
+    
     const choisirVin = (elm) => {
         bouteilleSaq.forEach((bouteiile) => {
             if (bouteiile.id == Number(elm.target.value)) {
@@ -44,7 +43,7 @@ export default function Cellier() {
             }
         });
     };
-
+    
     useEffect(() => {
         // récupérer les bouteilles dans le cellier spécial
         axios.get(`/getCeillerBouteille/${id}`).then((res) => {
@@ -52,7 +51,7 @@ export default function Cellier() {
             setData(res.data);
         });
     }, []);
-
+    
     // Faire la recherche
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
@@ -75,10 +74,10 @@ export default function Cellier() {
             close,
         }) => (
             <div
-                style={{
-                    padding: 8,
-                }}
-                onKeyDown={(e) => e.stopPropagation()}
+            style={{
+                padding: 8,
+            }}
+            onKeyDown={(e) => e.stopPropagation()}
             >
                 <Input
                     ref={searchInput}
@@ -94,7 +93,7 @@ export default function Cellier() {
                         marginBottom: 8,
                         display: "block",
                     }}
-                />
+                    />
                 <Space>
                     <Button
                         type="primary"
@@ -106,7 +105,7 @@ export default function Cellier() {
                         style={{
                             width: 90,
                         }}
-                    >
+                        >
                         Search
                     </Button>
                     <Button
@@ -117,7 +116,7 @@ export default function Cellier() {
                         style={{
                             width: 90,
                         }}
-                    >
+                        >
                         Reset
                     </Button>
                     <Button
@@ -130,7 +129,7 @@ export default function Cellier() {
                             setSearchText(selectedKeys[0]);
                             setSearchedColumn(dataIndex);
                         }}
-                    >
+                        >
                         Filter
                     </Button>
                     <Button
@@ -139,7 +138,7 @@ export default function Cellier() {
                         onClick={() => {
                             close();
                         }}
-                    >
+                        >
                         close
                     </Button>
                 </Space>
@@ -147,36 +146,36 @@ export default function Cellier() {
         ),
         filterIcon: (filtered) => (
             <SearchOutlined
-                style={{
-                    color: filtered ? "#1890ff" : undefined,
-                }}
+            style={{
+                color: filtered ? "#1890ff" : undefined,
+            }}
             />
-        ),
-        onFilter: (value, record) =>
+            ),
+            onFilter: (value, record) =>
             record[dataIndex]
-                .toString()
-                .toLowerCase()
-                .includes(value.toLowerCase()),
-        onFilterDropdownOpenChange: (visible) => {
-            if (visible) {
-                setTimeout(() => searchInput.current?.select(), 100);
-            }
-        },
-        render: (text) =>
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase()),
+            onFilterDropdownOpenChange: (visible) => {
+                if (visible) {
+                    setTimeout(() => searchInput.current?.select(), 100);
+                }
+            },
+            render: (text) =>
             searchedColumn === dataIndex ? (
                 <Highlighter
-                    highlightStyle={{
-                        backgroundColor: "#ffc069",
-                        padding: 0,
-                    }}
-                    searchWords={[searchText]}
-                    autoEscape
-                    textToHighlight={text ? text.toString() : ""}
+                highlightStyle={{
+                    backgroundColor: "#ffc069",
+                    padding: 0,
+                }}
+                searchWords={[searchText]}
+                autoEscape
+                textToHighlight={text ? text.toString() : ""}
                 />
-            ) : (
-                text
-            ),
-    });
+                ) : (
+                    text
+                    ),
+                });
 
     const columns = [
         {
@@ -235,7 +234,7 @@ export default function Cellier() {
                                 setIdBoutASupprim(item.id);
                                 setModalSupprimeBoutteilCellier(item.id);
                             }}
-                        ></Button>
+                            ></Button>
                         <Button
                             type="primary"
                             shape="circle"
@@ -244,13 +243,13 @@ export default function Cellier() {
                                 setObjBoutAModifier(item);
                                 setModalModifierBoutteilCellier(item);
                             }}
-                        ></Button>
+                            ></Button>
                     </div>
                 );
             },
         },
     ];
-
+    
     const ajouterBoutteilAuCellierFormOk = () => {
         ajouteBoutteilListeAuCellierForm.current
             .validateFields()
@@ -258,12 +257,12 @@ export default function Cellier() {
                 // console.log(value);
 
                 let objBouteille = {
-                    bouteilles_id: boutSelectione.id,
-                    celliers_id: id,
-                    data_achat: value.dateAchat,
+                    bouteille_id: boutSelectione.id,
+                    cellier_id: id,
+                    date_achat: value.dateAchat,
                     quantite: value.quantite,
                 };
-
+                                
                 //verifier si le bouteille va être ajouté est déjà dans ce cellier, si oui patch(modifier la quantité), si non post
                 if (
                     data.some((item) => item.bouteille_id == boutSelectione.id)
@@ -280,7 +279,7 @@ export default function Cellier() {
                                     bouteilleDansCellier.quantite +
                                     Number(objBouteille.quantite),
                                     id_cellier: bouteilleDansCellier.id_cellier,
-                                    date_achat: objBouteille.data_achat,
+                                    date_achat: objBouteille.date_achat,
                             }
                         ).then((res) => {
                             axios
@@ -290,7 +289,7 @@ export default function Cellier() {
                                 });
                         });
                 } else {
-                    // console.log("post");
+                    console.log(objBouteille);
                     axios
                         .post(`/ajouteBouteilleCellier`, objBouteille)
                         .then((res) => {
@@ -308,12 +307,6 @@ export default function Cellier() {
     
     
     const ajouterBoutteilNlAuCellierFormOk = (formData) => {
-        
-        const maintenant = new Date();
-        const dateAujourdhui = maintenant.toISOString().slice(0,10);
-        const date = new Date(dateAujourdhui);
-
-        console.log(date, typeof(date));
         
         const showErrorModal = () => {
             Modal.error({
@@ -348,38 +341,31 @@ export default function Cellier() {
             	url_saq: null,
                 url_img: null,
                 format: formData.format ? formData.format : null,
-                type: formData.type,
+                type: formData.type_vin,
                 ganreListe: 0
             };
 
-
-        axios.post(`/ajouteBouteilleNl`, objNouvelleBout)
+            axios.post(`/ajouteBouteilleNl`, objNouvelleBout)
             .then((res) => {
-                console.log(res.data);
-                let objBoutCellier = {
-                    cellier_id: Number(id),
-                    bouteille_id: Number(res.data),
-                    date_achat: formData.date_achat,
-                    quantite: Number(formData.quantite)
+                let objBouteille = {
+                    bouteille_id: res.data,
+                    cellier_id: id,
+                    date_achat: formData.date_achat ? formData.date_achat : Aujourdhui,
+                    quantite: formData.quantite
                 };
-            
-                axios.post(`/ajouteBouteilleCellier`, objBoutCellier)
+
+            console.log(objBouteille);
+            axios.post(`/ajouteBouteilleCellier`, objBouteille)
                     .then((res) => {
                         console.log(res);
                         axios.get(`/getCeillerBouteille/${id}`)
                             .then((res) => {
                                 setData(res.data);
+                                console.log(res.data);
                         });
                 });
         });
-
-        //console.log(objNouvelleBout);
-        //let a = new Date().getFullYear;
-        //console.log(a);
-
-
-
-        
+   
         }
     };
     
@@ -510,7 +496,7 @@ export default function Cellier() {
                                 },
                             ]}
                         >
-                            <Input type="date" min={Aujourdhui} max={Aujourdhui} />
+                            <Input type="date" min={Aujourdhui} max={Aujourdhui}/>
                             {/* <DatePicker defaultValue={Aujourdhui}  /> */}
                         </Form.Item>
                     </div>
@@ -545,9 +531,7 @@ export default function Cellier() {
                             allValues.nom &&
                             allValues.quantite &&
                             allValues.prix &&
-                            allValues.type_vin &&
-                            allValues.date_achat
-
+                            allValues.type_vin
                         );
                         //console.log(formulaireBtNlValide);
                       }}>
@@ -563,8 +547,6 @@ export default function Cellier() {
                                 rules={[{ required: true, message: 'Veuillez entrer le prix de la bouteille.' }]}>
                         <Input type="number" step={0.01} min="0"/>
                     </Form.Item>
-                    <Form.Item label="Date achat" name="date_achat" rules={[{ required: true, message: 'Veuillez choisir la date d\'achat.' }]}>
-                        <Input type="date" /></Form.Item>
                     <Form.Item label="Type de vin" name="type_vin" rules={[{ required: true, message: 'Veuillez choisir le type de vin.' }]}>
                         <Select>
                             <Option value="1">Vin rouge</Option>
@@ -574,6 +556,7 @@ export default function Cellier() {
                     <Collapse bordered={false}>
                         <Panel header="Options supplémentaires" key="1">
                             <Form.Item label="Pays" name="pays" type="text"><Input /></Form.Item>
+                            <Form.Item label="Date achat" name="date_achat"><Input type="date" /></Form.Item>
                             <Form.Item label="Millesime" name="millesime"><Input type="date" /></Form.Item>
                             <Form.Item label="Garde" name="garde_jusqua"><Input type="date" /></Form.Item>
                             <Form.Item label="Note" name="note"><Input type="number" min={0} max={5} /></Form.Item>

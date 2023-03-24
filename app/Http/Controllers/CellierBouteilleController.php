@@ -62,10 +62,10 @@ class cellierBouteilleController extends Controller
 
 
          DB::table('bouteilles_celliers')->insert([
-                 'date_achat'   => $objBouteille['data_achat'],
+                 'date_achat'   => $objBouteille['date_achat'],
                  'quantite'     => $objBouteille['quantite'],
-                 'bouteille_id' => $objBouteille['bouteilles_id'],
-                 'cellier_id'   => $objBouteille['celliers_id'],
+                 'bouteille_id' => $objBouteille['bouteille_id'],
+                 'cellier_id'   => $objBouteille['cellier_id'],
              ]);
 
             //return $objBouteille;
