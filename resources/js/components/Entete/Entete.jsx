@@ -21,13 +21,16 @@ export default function Entete() {
                         <li>
                             <a href="/listeUsager">Liste d'utilisateur</a>
                         </li>
-                        
                     )}
                     {admin && (
                         <li>
                             <a href="/bouteille">Importer des bouteilles</a>
                         </li>
-                        
+                    )}
+                    {admin && (
+                        <li>
+                            <a href="/statistique">Statistiques</a>
+                        </li>
                     )}
                 </ul>
             </nav>

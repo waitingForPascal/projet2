@@ -1,7 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 
-import { Button, Select, Table, Modal, Space, Form, Input } from "antd";
+import {
+    Button,
+    Select,
+    Table,
+    Modal,
+    Space,
+    Form,
+    Input,
+    DatePicker,
+} from "antd";
 
 import {
     SearchOutlined,
@@ -11,10 +20,12 @@ import {
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
+import moment from "moment";
 
 // import '../theme.less'; // Import the theme file
 
 export default function Cellier() {
+    const today = moment().format("YYYY-MM-DD");
     const [data, setData] = useState([]);
     const id = window.location.pathname.split("/").pop();
 
@@ -55,11 +66,12 @@ export default function Cellier() {
             }
         });
     };
-
+    // console.log(boutSelectione);
+    // console.log(data);
     useEffect(() => {
         // récupérer les bouteilles dans le cellier spécial
         axios.get(`/getCeillerBouteille/${id}`).then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             setData(res.data);
         });
     }, []);
@@ -227,6 +239,7 @@ export default function Cellier() {
         {
             title: "Prix",
             dataIndex: "prix",
+            key: "prix",
             sorter: {
                 compare: (a, b) => a.prix - b.prix,
             },
@@ -265,7 +278,7 @@ export default function Cellier() {
         ajouteBoutteilListeAuCellierForm.current
             .validateFields()
             .then((value) => {
-                console.log(value);
+                // console.log(value);
 
                 let objBouteille = {
                     bouteilles_id: boutSelectione.id,
@@ -273,54 +286,79 @@ export default function Cellier() {
                     data_achat: value.dateAchat,
                     quantite: value.quantite,
                 };
-                axios
-                    .post(`/ajouteBouteilleCellier/`, objBouteille)
-                    .then((res) => {
-                        console.log(res);
-                    })
-                    .then((res) => {
-                        axios.get(`/getCeillerBouteille/${id}`).then((res) => {
-                            setData(res.data);
+
+                //verifier si le bouteille va être ajouté est déjà dans ce cellier, si oui patch(modifier la quantité), si non post
+                if (
+                    data.some((item) => item.bouteille_id == boutSelectione.id)
+                ) {
+                    // console.log("patch");
+                    const bouteilleDansCellier = data.find(
+                        (item) => item.bouteille_id == boutSelectione.id
+                    );
+
+                    axios
+                        .patch(
+                            `/ajouteBouteilleCellierPatch/${boutSelectione.id}`,
+                            {
+                                quantite:
+                                    bouteilleDansCellier.quantite +
+                                    Number(objBouteille.quantite),
+                                id_cellier: bouteilleDansCellier.id_cellier,
+                                date_achat: objBouteille.data_achat,
+                            }
+                        )
+                        .then((res) => {
+                            axios
+                                .get(`/getCeillerBouteille/${id}`)
+                                .then((res) => {
+                                    setData(res.data);
+                                });
                         });
-                    });
+                } else {
+                    // console.log("post");
+                    axios
+                        .post(`/ajouteBouteilleCellier`, objBouteille)
+                        .then((res) => {
+                            axios
+                                .get(`/getCeillerBouteille/${id}`)
+                                .then((res) => {
+                                    setData(res.data);
+                                });
+                        });
+                }
             });
         setModalAjouteBoutteilListeAuCellier(false);
     };
 
     const ajouterBoutteilNlAuCellierFormOk = () => {
-        ajouteBoutteilNonListeAuCellierForm.current
-            .validateFields()
-            .then((value) => {
-                console.log(value);
+        // ajouteBoutteilNonListeAuCellierForm.current
+        //     .validateFields()
+        //     .then((value) => {
+        //         console.log(value);
 
-                // let objBouteille = {
-                //     'bouteilles_id' : boutSelectione.id,
-                //     'celliers_id'   : id,
-                //     'data_achat'    : value.dateAchat,
-                //     'quantite'      : value.quantite
-                // }
-                // axios.post(`/ajouteBouteilleCellier/`,objBouteille).then((res) => {
-                //      console.log(res);
-                // }).then((res) => {
-                //    axios.get(`/getCeillerBouteille/${id}`).then((res) => {
-                //             setData(res.data);
-                //         });
-                //     });
-            });
+        //         // let objBouteille = {
+        //         //     'bouteilles_id' : boutSelectione.id,
+        //         //     'celliers_id'   : id,
+        //         //     'data_achat'    : value.dateAchat,
+        //         //     'quantite'      : value.quantite
+        //         // }
+        //         // axios.post(`/ajouteBouteilleCellier/`,objBouteille).then((res) => {
+        //         //      console.log(res);
+        //         // }).then((res) => {
+        //         //    axios.get(`/getCeillerBouteille/${id}`).then((res) => {
+        //         //             setData(res.data);
+        //         //         });
+        //         //     });
+        //     });
         setModalAjouteBoutteilListeAuCellier(false);
     };
 
     const supprimerBouteilleCellier = (idBouteille) => {
-        axios
-            .delete(`/deleteBouteilleCellier/${idBouteille}`)
-            .then((res) => {
-                console.log(res);
-            })
-            .then((res) => {
-                axios.get(`/getCeillerBouteille/${id}`).then((res) => {
-                    setData(res.data);
-                });
+        axios.delete(`/deleteBouteilleCellier/${idBouteille}`).then((res) => {
+            axios.get(`/getCeillerBouteille/${id}`).then((res) => {
+                setData(res.data);
             });
+        });
 
         const modCellierFormOk = () => {
             // vilidation de form
@@ -402,13 +440,9 @@ export default function Cellier() {
                             className="nom_bouteille"
                             onChange={choisirVin}
                         >
-                            <option value="0">
-                                <i className="select-titre">
-                                    Selectionnez le vin
-                                </i>
-                            </option>
+                            <option value="0">Selectionnez le vin</option>
                             {bouteilleSaq.map((bouteiile) => (
-                                <option value={bouteiile.id}>
+                                <option value={bouteiile.id} key={bouteiile.id}>
                                     {bouteiile.nom}
                                 </option>
                             ))}
@@ -440,7 +474,8 @@ export default function Cellier() {
                                 },
                             ]}
                         >
-                            <Input type="date" />
+                            <Input type="date" min={today} max={today} />
+                            {/* <DatePicker defaultValue={today}  /> */}
                         </Form.Item>
                     </div>
                 </Form>

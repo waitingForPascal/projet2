@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CellierBouteilleController ;
 use App\Http\Controllers\UserController ;
 use App\Http\Controllers\SAQController ;
+use App\Http\Controllers\StatistiqueController ;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +40,10 @@ Route::patch('/bouteille/{id}', [BouteilleController::class, 'update']);
 
 Route::get('/ajout', function () {
     return view('ajout');
+});
+
+Route::get('/statistique', function () {
+    return view('statistique');
 });
 
 Route::get('/', [CellierBouteilleController::class, 'index']);
@@ -75,6 +80,27 @@ Route::delete('/deleteUser/{id}' , [UserController::class, 'destroy']);
 
 
 
+// ------------------------------------------------------------------------------Statistique
+// le nombre d'usager
+Route::get('/getNombreUsager', [StatistiqueController::class, 'nombreUsager']);
+// le nombre de cellier
+Route::get('/getNombreCellier', [StatistiqueController::class, 'nombreCellier']);
+//  le nombre de cellier par usager
+Route::get('/getNombreCellierUsager', [StatistiqueController::class, 'nombreCellierUsager']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Route::delete('/deleteBouteilleCellier/{id}' , [CellierBouteilleController::class, 'destroy']);
 
 
@@ -82,6 +108,7 @@ Route::patch('/modBouteille/{id}', [BouteilleController::class, 'modifierUnBoute
 
 Route::get('/getBouteillesSAQ', [BouteilleController::class, 'index']);
 Route::post('/ajouteBouteilleCellier' , [CellierBouteilleController::class, 'store']);
+Route::patch('/ajouteBouteilleCellierPatch/{id}' , [CellierBouteilleController::class, 'update']);
 // Route::get('/cellier', function () {return view('cellier');})->name('mesCellier');
 
 Route::get('/getCelliersUsager/{user_id}', [CellierController::class, 'cellierUsager']);
