@@ -54,7 +54,7 @@ export default function Accueil() {
         ajoutCellierForm.current
             .validateFields()
             .then((value) => {
-                console.log(value);
+                // console.log(value);
                 setmodalAjoutCellier(false);
                 ajoutCellierForm.current.resetFields();
                 axios
