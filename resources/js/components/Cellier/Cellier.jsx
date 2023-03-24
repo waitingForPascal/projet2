@@ -1,22 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 
-import {
-    Button,
-    Select,
-    Table,
-    Modal,
-    Space,
-    Form,
-    Input,
-    DatePicker,
-} from "antd";
-
-import {
-    SearchOutlined,
-    DeleteOutlined,
-    EditOutlined,
-} from "@ant-design/icons";
+import {Button, Select, Table, Modal, Space, Form, Input, DatePicker} from "antd";
+import {SearchOutlined, DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
@@ -29,22 +15,11 @@ export default function Cellier() {
     const [data, setData] = useState([]);
     const id = window.location.pathname.split("/").pop();
 
-    const [
-        modalMethodEnregistrerBouteille,
-        setModalMethodEnregistrerBouteille,
-    ] = useState(false);
-    const [
-        modalAjouteBoutteilListeAuCellier,
-        setModalAjouteBoutteilListeAuCellier,
-    ] = useState(false);
-    const [
-        modalAjouteBoutteilNonListeAuCellier,
-        setModalAjouteBoutteilNonListeAuCellier,
-    ] = useState(false);
-    const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] =
-        useState(false);
-    const [modalModifierBoutteilCellier, setModalModifierBoutteilCellier] =
-        useState(false);
+    const [modalMethodEnregistrerBouteille, setModalMethodEnregistrerBouteille] = useState(false);
+    const [modalAjouteBoutteilListeAuCellier, setModalAjouteBoutteilListeAuCellier] = useState(false);
+    const [modalAjouteBoutteilNonListeAuCellier, setModalAjouteBoutteilNonListeAuCellier] = useState(false);
+    const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
+    const [modalModifierBoutteilCellier, setModalModifierBoutteilCellier] = useState(false);
     const ajouteBoutteilListeAuCellierForm = useRef(null);
     const ajouteBoutteilNonListeAuCellierForm = useRef(null);
 
@@ -66,8 +41,7 @@ export default function Cellier() {
             }
         });
     };
-    // console.log(boutSelectione);
-    // console.log(data);
+
     useEffect(() => {
         // récupérer les bouteilles dans le cellier spécial
         axios.get(`/getCeillerBouteille/${id}`).then((res) => {
@@ -330,29 +304,13 @@ export default function Cellier() {
         setModalAjouteBoutteilListeAuCellier(false);
     };
 
-    const ajouterBoutteilNlAuCellierFormOk = () => {
-        // ajouteBoutteilNonListeAuCellierForm.current
-        //     .validateFields()
-        //     .then((value) => {
-        //         console.log(value);
-
-        //         // let objBouteille = {
-        //         //     'bouteilles_id' : boutSelectione.id,
-        //         //     'celliers_id'   : id,
-        //         //     'data_achat'    : value.dateAchat,
-        //         //     'quantite'      : value.quantite
-        //         // }
-        //         // axios.post(`/ajouteBouteilleCellier/`,objBouteille).then((res) => {
-        //         //      console.log(res);
-        //         // }).then((res) => {
-        //         //    axios.get(`/getCeillerBouteille/${id}`).then((res) => {
-        //         //             setData(res.data);
-        //         //         });
-        //         //     });
-        //     });
-        setModalAjouteBoutteilListeAuCellier(false);
+    
+    
+    const ajouterBoutteilNlAuCellierFormOk = (formData) => {
+        console.log("test",formData);
+        //setModalAjouteBoutteilNonListeAuCellier(false);
     };
-
+    
     const supprimerBouteilleCellier = (idBouteille) => {
         axios.delete(`/deleteBouteilleCellier/${idBouteille}`).then((res) => {
             axios.get(`/getCeillerBouteille/${id}`).then((res) => {
@@ -404,21 +362,31 @@ export default function Cellier() {
                 </Button>
             </div>
 
-            {/* modal ajouter un boutteil au cellier */}
+            {/* modal choisir la méthode d'ajouter un boutteil au cellier */}
             <Modal
-                open={modalMethodEnregistrerBouteille}
-                title="Auquel des éléments suivants appartient la bouteille souhaitée ?"
-                okText="Bouteille listée chez SAQ"
-                cancelText="Bouteille non listée"
-                onOk={() => {
-                    setModalMethodEnregistrerBouteille(false);
-                    setModalAjouteBoutteilListeAuCellier(true);
-                }}
-                onCancel={() => {
-                    setModalMethodEnregistrerBouteille(false);
-                    setModalAjouteBoutteilNonListeAuCellier(true);
-                }}
-            ></Modal>
+                visible={modalMethodEnregistrerBouteille}
+                title="Quel type de bouteille, listé ou non-listé voulez-vous ajouter?"
+                onCancel={() => setModalMethodEnregistrerBouteille(false)}
+                footer={[
+                    <Button key="listée" type="primary" 
+                            onClick={() => {
+                            setModalMethodEnregistrerBouteille(false);
+                            setModalAjouteBoutteilListeAuCellier(true);
+                            }}>
+                        Listée
+                    </Button>,
+                    <Button key="non-listée" 
+                            onClick={() => {
+                                setModalMethodEnregistrerBouteille(false);
+                                setModalAjouteBoutteilNonListeAuCellier(true);
+                            }}>
+                        Non-listée
+                    </Button>,
+                    <Button hidden key="annuler" onClick={() => setModalMethodEnregistrerBouteille(false)}>
+                        Annuler
+                    </Button>,
+                ]}>
+            </Modal>
 
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal
@@ -482,33 +450,33 @@ export default function Cellier() {
             </Modal>
 
             <Modal
-                open={modalAjouteBoutteilNonListeAuCellier}
-                title="Ajouter une nouvelle bouteille non listée"
-                okText="Ajouter"
-                cancelText="Annuler"
-                onOk={() => ajouterBoutteilNlAuCellierFormOk()}
-                onCancel={() => {
-                    setModalAjouteBoutteilNonListeAuCellier(false);
-                }}
-            >
-                {/* Modale ajout une bouteille non listée */}
-                <Form
-                    ref={ajouteBoutteilNonListeAuCellierForm}
-                    layout="vertical"
-                >
-                    Nom : <input name="nom" />
-                    Pays: <input name="pays" />
-                    Quantite :{" "}
-                    <input name="quantite" min="1" type="number" step="1" />
-                    Prix : <input name="prix" type="number" step="0.01" />
-                    Millesime : <input name="millesime" type="date" />
-                    Date achat : <input name="date_achat" type="date" />
-                    Garde : <input name="garde_jusqua" type="date" />
-                    Notes <input name="notes" type="number" min="0" max="5" />
-                    Image: <input name="image" />
-                    Format: <input name="format" />
-                    Description <textarea />
-                </Form>
+               visible={modalAjouteBoutteilNonListeAuCellier}
+               title="Ajouter une nouvelle bouteille non listée"
+               okText="Ajouter"
+               cancelText="Annuler"
+               onOk={() => {
+                 // récupérez les données du formulaire
+                 const formData = ajouteBoutteilNonListeAuCellierForm.current.getFieldsValue();
+                 ajouterBoutteilNlAuCellierFormOk(formData);
+               }}
+               onCancel={() => {
+                 setModalAjouteBoutteilNonListeAuCellier(false);
+               }}
+             >
+               {/* formulaire d'ajout d'une bouteille non listée */}
+               <Form ref={ajouteBoutteilNonListeAuCellierForm} layout="vertical">
+                    <Form.Item label="Nom" name="nom" type="text"><Input /></Form.Item>
+                    <Form.Item label="Pays" name="pays" type="text"><Input /></Form.Item>
+                    <Form.Item label="Quantité" name="quantite"><Input type="number" min={1} step={1} /></Form.Item>
+                    <Form.Item label="Prix" name="prix"><Input type="number" step={0.01} min="0"/></Form.Item>
+                    <Form.Item label="Millesime" name="millesime"><Input type="date" /></Form.Item>
+                    <Form.Item label="Date achat" name="date_achat"><Input type="date" /></Form.Item>
+                    <Form.Item label="Garde" name="garde_jusqua"><Input type="date" /></Form.Item>
+                    <Form.Item label="Notes" name="notes"><Input type="number" min={0} max={5} /></Form.Item>
+                    <Form.Item label="Image" name="image"><Input /></Form.Item>
+                    <Form.Item label="Format" name="format"><Input /></Form.Item>
+                    <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
+                    </Form>
             </Modal>
 
             {/* modal supprimer une boutteille du cellier */}
