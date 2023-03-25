@@ -29,6 +29,7 @@ export default function Cellier() {
     const [objBoutAModifier, setObjBoutAModifier] = useState(null);
     const [listePays, setListePays] = useState([]);
     const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
+    const [formulaireBtLiValide, setFormulaireBtLiValide] = useState(false);
     const { Panel } = Collapse;
     
 
@@ -303,7 +304,7 @@ export default function Cellier() {
                                 });
                         });
                 } else {
-                    console.log(objBouteille);
+                    //console.log(objBouteille);
                     axios
                         .post(`/ajouteBouteilleCellier`, objBouteille)
                         .then((res) => {
@@ -337,11 +338,6 @@ export default function Cellier() {
         } 
         else{
             setModalAjouteBoutteilNonListeAuCellier(false);
-       //console.log(`La date actuelle est ${cetteAnne}-${ceMois}-${ceJour}`);
-        //console.log(cetteAnne+"-"+ceMois+"-"+ceJour+"yahoo.com");
-
-        //console.log("test",formData);
-
             let objNouvelleBout = {
                 nom: formData.nom,
                 image: formData.image ? formData.image : null,
@@ -368,14 +364,13 @@ export default function Cellier() {
                     quantite: formData.quantite
                 };
 
-            console.log(objBouteille);
+            //console.log(objBouteille);
             axios.post(`/ajouteBouteilleCellier`, objBouteille)
                     .then((res) => {
-                        console.log(res);
+                        //console.log(res);
                         axios.get(`/getCeillerBouteille/${id}`)
                             .then((res) => {
                                 setData(res.data);
-                                console.log(res.data);
                         });
                 });
         });
@@ -473,12 +468,22 @@ export default function Cellier() {
                 }}
             >
                 {/* Modal ajout une bouteille listée */}
-                <Form ref={ajouteBoutteilListeAuCellierForm} layout="vertical">
+                <Form ref={ajouteBoutteilListeAuCellierForm} 
+                    layout="vertical"
+                    validateTrigger='onBlur'
+                    onValuesChange={(changedValues, allValues) => {
+                        console.log(allValues);
+                       setFormulaireBtLiValide(
+                           allValues.quantite &&
+                           allValues.prix
+                       );
+                       console.log(formulaireBtLiValide);
+                    }}>
                     <p>
                         Séléctionnez une bouteiile :
-                        <select className="nom_bouteille"
+                        <select name="nom"
+                                className="nom_bouteille"
                                 onChange={choisirVin}>
-                            <option value="0">Selectionnez le vin</option>
                                 {bouteilleSaq.map((bouteille) => (
                                     bouteille.ganreListe != 0 ? (<option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</option>) : null
                             ))}
@@ -549,27 +554,25 @@ export default function Cellier() {
                         );
                         //console.log(formulaireBtNlValide);
                       }}>
-                    <Form.Item label="Nom" name="nom" type="text" minLength="3"
+                    <Form.Item label="Nom (Obligatoire)" name="nom" type="text" minLength="3"
                                 rules={[{ required: true, message: 'Veuillez entrer le nom de la bouteille.' }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Quantité" name="quantite"
+                    <Form.Item label="Quantité (Obligatoire)" name="quantite"
                                 rules={[{ required: true, message: 'Veuillez entrer la quantité de la bouteille.' }]}>
                         <Input type="number" min={1} step={1} />
                     </Form.Item>
-                    <Form.Item label="Prix" name="prix"
+                    <Form.Item label="Prix (Obligatoire)" name="prix"
                                 rules={[{ required: true, message: 'Veuillez entrer le prix de la bouteille.' }]}>
                         <Input type="number" step={0.01} min="0"/>
                     </Form.Item>
-                    <Form.Item label="Type de vin" name="type_vin" rules={[{ required: true, message: 'Veuillez choisir le type de vin.' }]}>
+                    <Form.Item label="Type de vin (Obligatoire)" name="type_vin" rules={[{ required: true, message: 'Veuillez choisir le type de vin.' }]}>
                         <Select>
                             <Option value="1">Vin rouge</Option>
                             <Option value="2">Vin blanc</Option>
                         </Select>
                     </Form.Item>
-                    <Collapse bordered={false}>
-                        <Panel header="Options supplémentaires" key="1">
-                        <Form.Item label="Veuillez sélectionner le pays" name="pays">
+                    <Form.Item label="Veuillez sélectionner le pays (optionnelle)" name="pays">
                                 <Select 
                                      showSearch
                                     filterOption={
@@ -584,6 +587,8 @@ export default function Cellier() {
                                     ))}
                                 </Select>
                             </Form.Item>
+                    <Collapse bordered={false}>
+                        <Panel header="Options supplémentaires" key="1">
                             <Form.Item label="Date achat" name="date_achat"><Input type="date" /></Form.Item>
                             <Form.Item label="Millesime" name="millesime"><Input type="date" /></Form.Item>
                             <Form.Item label="Garde" name="garde_jusqua"><Input type="date" /></Form.Item>
