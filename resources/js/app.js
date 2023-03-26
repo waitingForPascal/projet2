@@ -19,6 +19,8 @@ import "./components/Cellier/Cellier";
 import "./components/ListeUsager/ListeUsager";
 import "./components/Ajout/Ajout";
 import "./components/Bouteille/Bouteille";
+import "./components/ImporterBouteille/ImporterBouteille";
+import "./components/BouteilleSAQ/BouteilleSAQ";
 
 // import "./components/Cellier/Cellier";
 
