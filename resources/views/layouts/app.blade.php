@@ -34,19 +34,19 @@
                 @guest
                     @if (Route::has('login'))
                         <li class="navEntete-item">
-                            <a class="navEntete-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="navEntete-link" href="{{ route('login') }}">Se connecter</a>
                         </li>
                     @endif
 
                     @if (Route::has('register'))
                         <li class="navEntete-item">
-                            <a class="navEntete-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="navEntete-link" href="{{ route('register') }}">Créer un compte</a>
                         </li>
                     @endif
                 @else
                     <li class="navEntete-item">
                         <a class="navEntete-link" href="#" role="button" href="#}}">
-                            Hi, {{ Auth::user()->name }}
+                            Bonjour, {{ Auth::user()->name }}
                         </a>
                     </li>
                    
@@ -55,7 +55,7 @@
                             >
                             <!-- onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();" -->
-                            {{ __('Logout') }}
+                            Déconnecter
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
