@@ -32,8 +32,6 @@ export default function Cellier() {
     const [formulaireBtLiValide, setFormulaireBtLiValide] = useState(false);
     const { Panel } = Collapse;
     
-
-    
     useEffect(() => {
         axios.get("https://restcountries.com/v2/all")
           .then(response => {
@@ -192,78 +190,76 @@ export default function Cellier() {
                     ),
                 });
 
-    const columns = [
-        {
-            title: "Nom",
-            dataIndex: "nom",
-            key: "nom",
-            width: "30%",
-            ...getColumnSearchProps("nom"),
-            sorter: (a, b) => a.nom.localeCompare(b.nom),
-        },
-        {
-            title: "Quantité",
-            dataIndex: "quantite",
-            key: "quantite",
-            width: "20%",
-            ...getColumnSearchProps("quantite"),
-            sorter: {
-                compare: (a, b) => a.quantite - b.quantite,
-            },
-        },
-        {
-            title: "Pays",
-            dataIndex: "pays",
-            key: "pays",
-            width: "20%",
-            ...getColumnSearchProps("pays"),
-            sorter: (a, b) => a.pays.localeCompare(b.pays),
-        },
-        {
-            title: "Type",
-            dataIndex: "type",
-            key: "type",
-            width: "20%",
-            ...getColumnSearchProps("type"),
-            sorter: (a, b) => a.type.localeCompare(b.type),
-        },
-        {
-            title: "Prix",
-            dataIndex: "prix",
-            key: "prix",
-            sorter: {
-                compare: (a, b) => a.prix - b.prix,
-            },
-        },
-        {
-            title: "Fonctionnalité",
-            render: (item) => {
-                return (
-                    <div>
-                        <Button
-                            className="userBtn"
-                            danger
-                            shape="circle"
-                            icon={<DeleteOutlined />}
-                            onClick={() => {
-                                setIdBoutASupprim(item.id);
-                                setModalSupprimeBoutteilCellier(item.id);
-                            }}
-                            ></Button>
-                        <Button
-                            type="primary"
-                            shape="circle"
-                            icon={<EditOutlined />}
-                            onClick={() => {
-                                setObjBoutAModifier(item);
-                                setModalModifierBoutteilCellier(item);
-                            }}
-                            ></Button>
-                    </div>
-                );
-            },
-        },
-    ];
+                const columns = [
+                    {
+                      title: "Nom",
+                      dataIndex: "nom",
+                      key: "nom",
+                      width: "30%",
+                      sorter: (a, b) => a.nom.localeCompare(b.nom),
+                    },
+                    {
+                      title: "Quantité",
+                      dataIndex: "quantite",
+                      key: "quantite",
+                      width: "20%",
+                      sorter: {
+                          compare: (a, b) => a.quantite - b.quantite,
+                      },
+                    },
+                    {
+                      title: "Pays",
+                      dataIndex: "pays",
+                      key: "pays",
+                      width: "20%",
+                      sorter: (a, b) => a.pays.localeCompare(b.pays),
+                    },
+                    {
+                      title: "Type",
+                      dataIndex: "type",
+                      key: "type",
+                      width: "20%",
+                      sorter: (a, b) => a.type.localeCompare(b.type),
+                    },
+                    {
+                      title: "Prix",
+                      dataIndex: "prix",
+                      key: "prix",
+                      sorter: {
+                          compare: (a, b) => a.prix - b.prix,
+                      },
+                    },
+                    {
+                      title: "Fonctionnalité",
+                      render: (item) => {
+                          return (
+                              <div>
+                                    <Button
+                                         className="userBtn"
+                                         danger
+                                         shape="circle"
+                                         icon={<DeleteOutlined />}
+                                         onClick={() => {
+                                             setIdBoutASupprim(item.id);
+                                             setModalSupprimeBoutteilCellier(item.id);
+                                         }}
+                                         >
+                                    </Button>
+                                    <Button
+                                         type="primary"
+                                         shape="circle"
+                                         icon={<EditOutlined />}
+                                         onClick={() => {
+                                             setObjBoutAModifier(item);
+                                             setModalModifierBoutteilCellier(item);
+                                         }}
+                                         >
+                                    </Button>
+                              </div>
+                          );
+                      },
+                    },
+                  ];
     
     const ajouterBoutteilAuCellierFormOk = () => {
         ajouteBoutteilListeAuCellierForm.current
@@ -352,7 +348,7 @@ export default function Cellier() {
                 url_img: null,
                 format: formData.format ? formData.format : null,
                 type: formData.type_vin,
-                ganreListe: 0
+                ganreliste: 0
             };
 
             axios.post(`/ajouteBouteilleNl`, objNouvelleBout)
@@ -415,10 +411,11 @@ export default function Cellier() {
                 </Button>
             </div>
             <Table
-                columns={columns}
-                dataSource={data}
-                pagination={{ pageSize: 5 }}
-                rowKey={(item) => item.id}
+                    columns={columns}
+                    dataSource={data}
+                    pagination={{ pageSize: 5 }}
+                    rowKey={(item) => item.id}
+                    className="responsive-table"
             />
             <div className="button-middle">
                 <Button
@@ -481,13 +478,23 @@ export default function Cellier() {
                     }}>
                     <p>
                         Séléctionnez une bouteiile :
-                        <select name="nom"
-                                className="nom_bouteille"
-                                onChange={choisirVin}>
-                                {bouteilleSaq.map((bouteille) => (
-                                    bouteille.ganreListe != 0 ? (<option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</option>) : null
-                            ))}
-                        </select>
+                        <Select
+                            showSearch
+                            placeholder="Sélectionnez une bouteille"
+                            optionFilterProp="children"
+                            onChange={choisirVin}
+                            filterOption={(input, option) =>
+                              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            {bouteilleSaq.map((bouteille) =>
+                              bouteille.ganreliste !== 0 ? (
+                                <Option key={bouteille.id} value={bouteille.id}>
+                                  {bouteille.nom}
+                                </Option>
+                              ) : null
+                            )}
+                        </Select>
                     </p>
                     <div className="elmFormBoutteilCellier">
                         <Form.Item
@@ -598,7 +605,7 @@ export default function Cellier() {
                             <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
                         </Panel>
                     </Collapse>
-                    <Form.Item hidden label="ganreListe" name="ganreListe" initialValue="0"><Input /></Form.Item>
+                    <Form.Item hidden label="ganreliste" name="ganreliste" initialValue="0"><Input /></Form.Item>
                 </Form>
             </Modal>
 
