@@ -32,8 +32,6 @@ export default function Cellier() {
     const [formulaireBtLiValide, setFormulaireBtLiValide] = useState(false);
     const { Panel } = Collapse;
     
-
-    
     useEffect(() => {
         axios.get("https://restcountries.com/v2/all")
           .then(response => {
@@ -481,13 +479,23 @@ export default function Cellier() {
                     }}>
                     <p>
                         Séléctionnez une bouteiile :
-                        <select name="nom"
-                                className="nom_bouteille"
-                                onChange={choisirVin}>
-                                {bouteilleSaq.map((bouteille) => (
-                                    bouteille.ganreListe != 0 ? (<option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</option>) : null
-                            ))}
-                        </select>
+                        <Select
+                            showSearch
+                            placeholder="Sélectionnez une bouteille"
+                            optionFilterProp="children"
+                            onChange={choisirVin}
+                            filterOption={(input, option) =>
+                              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            {bouteilleSaq.map((bouteille) =>
+                              bouteille.ganreListe !== 0 ? (
+                                <Option key={bouteille.id} value={bouteille.id}>
+                                  {bouteille.nom}
+                                </Option>
+                              ) : null
+                            )}
+                        </Select>
                     </p>
                     <div className="elmFormBoutteilCellier">
                         <Form.Item
