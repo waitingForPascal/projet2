@@ -3,5 +3,14 @@
     margin: 0 auto;
     width: 150px;
     background-color: #0e8388;
+    padding: 5px;
 }
 
+.btn-importer:hover{
+    background-color: #0e8388;
+    opacity: 0.9;
+}
+
+.btn-importer:active{
+    background-color: #044a4d;
+}

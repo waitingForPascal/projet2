@@ -192,7 +192,7 @@ class BouteilleController extends Controller
 
     public function bouteilleSAQ()
     {
-        return view('BouteilleSAQ');
+        return view('bouteilleSAQ');
     }
 
 
@@ -329,7 +329,7 @@ class BouteilleController extends Controller
 			// chercher id dans le table Type: s'il existe retourner son id, sonon, créer un nouveau ligne et retourner son id;
 			$Type = Type::where('type', $bte -> desc -> type)->first();
 			if (!$Type) {
-				$Type = Type::create(['type' => $type]);
+				$Type = Type::create(['type' => $Type]);
 			} 
 			$typeId =  $Type->id;
 
