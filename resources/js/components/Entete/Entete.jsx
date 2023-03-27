@@ -24,7 +24,9 @@ export default function Entete() {
                     )}
                     {admin && (
                         <li>
-                            <a href="/bouteille">Importer des bouteilles</a>
+                            <a href="/bouteilleSAQ">Importer des bouteilles du SAQ</a>
+                            {/* <a href="/importerBouteilles">Importer des bouteilles du SAQ</a> */}
+
                         </li>
                     )}
                     {admin && (

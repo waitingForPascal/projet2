@@ -23,6 +23,7 @@ class Bouteille extends Model
         'url_img',
         'format',
         'type',
+        'prix',
         'genreListe'
     ];
 }
