@@ -74,7 +74,7 @@ class BouteilleController extends Controller
             $nouvelleBouteille->url_img = $request->url_img;
             $nouvelleBouteille->format = $request->format;
             $nouvelleBouteille->type = $request->type;
-            $nouvelleBouteille->ganreListe = $request->ganreListe;
+            $nouvelleBouteille->ganreliste = $request->ganreliste;
 
 
             $data = $nouvelleBouteille->toArray();

@@ -30,6 +30,25 @@
     text-decoration: none;
   }
 
+  .responsive-table {
+    width: 100%;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .ant-table {
+      overflow-x: auto;
+      display: block;
+    }
+  
+    .ant-table td:nth-of-type(3),
+    .ant-table th:nth-of-type(3),
+    .ant-table td:nth-of-type(4),
+    .ant-table th:nth-of-type(5),
+    .ant-table td:nth-of-type(5),
+    .ant-table th:nth-of-type(5) {
+      display: none;
+    }
+  }
 
   
   
