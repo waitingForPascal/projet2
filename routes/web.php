@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CellierBouteilleController ;
 use App\Http\Controllers\UserController ;
 use App\Http\Controllers\SAQController ;
+use App\Http\Controllers\StatistiqueController ;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,12 +42,16 @@ Route::get('/ajout', function () {
     return view('ajout');
 });
 
+Route::get('/statistique', function () {
+    return view('statistique');
+});
+
 Route::get('/', [CellierBouteilleController::class, 'index']);
 Route::get('/home', [CellierBouteilleController::class, 'accueil'])->middleware('auth');
 Route::get('/accueil', [CellierBouteilleController::class, 'index'])->name('accueil');
 Route::get('/logout', [CellierBouteilleController::class, 'logout'])->name('logout');
 
-
+// -----------------------------------------------------------------------------celliers
 // récupérer tous les celliers ou les celliers personnels
 Route::get('/getTousCelliers', [CellierController::class, 'index']);
 // modificaiton de cellier
@@ -61,20 +66,49 @@ Route::get('/getCeillerBouteille/{id}', [CellierController::class, 'getListeBout
 // entrer dans un cellier précis
 Route::get('/cellier/{id}', function () {return view('cellier');});
 
+// ----------------------------------------------------------------------------------usager
 // vérifier si utilisateur est admin
 Route::get('/verificationUser', [UserController::class, 'index']);
 // aller vers page de gestion d'utilisateur
 Route::get('/listeUsager', [UserController::class, 'gestionUsager']);
-
+// récupérer tous les usagers
 Route::get('/getTousUser', [UserController::class, 'getTousUser']);
+// modificaiton d'usager
+Route::patch('/modUser/{id}', [UserController::class, 'update']);
+// Supprimer un usager
+Route::delete('/deleteUser/{id}' , [UserController::class, 'destroy']);
 
 
+
+// ------------------------------------------------------------------------------Statistique
+// le nombre d'usager
+Route::get('/getNombreUsager', [StatistiqueController::class, 'nombreUsager']);
+// le nombre de cellier
+Route::get('/getNombreCellier', [StatistiqueController::class, 'nombreCellier']);
+//  le nombre de cellier par usager
+Route::get('/getNombreCellierUsager', [StatistiqueController::class, 'nombreCellierUsager']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::delete('/deleteBouteilleCellier/{id}' , [CellierBouteilleController::class, 'destroy']);
 
 
 Route::patch('/modBouteille/{id}', [BouteilleController::class, 'modifierUnBouteille']);
 
 Route::get('/getBouteillesSAQ', [BouteilleController::class, 'index']);
 Route::post('/ajouteBouteilleCellier' , [CellierBouteilleController::class, 'store']);
+Route::patch('/ajouteBouteilleCellierPatch/{id}' , [CellierBouteilleController::class, 'update']);
 // Route::get('/cellier', function () {return view('cellier');})->name('mesCellier');
 
 Route::get('/getCelliersUsager/{user_id}', [CellierController::class, 'cellierUsager']);
@@ -82,6 +116,8 @@ Route::get('/getCellier/{cellier_id}', [CellierController::class, 'cellierParId'
 
 Route::post('/voirCellier', [CellierController::class, 'voir']);
 
+Route::get('/bouteille', [SAQController::class, 'index']);
+Route::post('/ajouteBouteilleNl' , [BouteilleController::class, 'storeNl']);
 Route::post('/importerBouteilles', [BouteilleController::class, 'importerBouteillesSAQ']);
 
 // Aller dans la page pour importer des bouteilles de SAQ

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bouteilles_user;
+use App\Models\Bouteilles_cellier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +19,9 @@ class cellierBouteilleController extends Controller
     // il faut déplacer les deux fonctions
     public function index()
     {
+        if(Auth::check()) {
+            return view('accueil');
+        }
         return view('auth.login');
     }
 
@@ -53,43 +56,25 @@ class cellierBouteilleController extends Controller
     public function store(Request $request)
     {
 
-        
-        
+
+
         $objBouteille = $request->json()->all();
 
-        
-         DB::table('bouteilles_users')->insert([
-                 'date_achat'   => $objBouteille['data_achat'],
+
+         DB::table('bouteilles_celliers')->insert([
+                 'date_achat'   => $objBouteille['date_achat'],
                  'quantite'     => $objBouteille['quantite'],
-                 'bouteille_id' => $objBouteille['bouteilles_id'],
-                 'cellier_id'   => $objBouteille['celliers_id'],
+                 'bouteille_id' => $objBouteille['bouteille_id'],
+                 'cellier_id'   => $objBouteille['cellier_id'],
              ]);
-            
+
             //return $objBouteille;
 
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\cellierBouteille  $cellierBouteille
-     * @return \Illuminate\Http\Response
-     */
-    public function show(cellierBouteille $cellierBouteille)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\cellierBouteille  $cellierBouteille
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(cellierBouteille $cellierBouteille)
-    {
-        //
-    }
+   
+    
 
     /**
      * Update the specified resource in storage.
@@ -98,9 +83,19 @@ class cellierBouteilleController extends Controller
      * @param  \App\Models\cellierBouteille  $cellierBouteille
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CellierBouteille $cellierBouteille)
+    public function update(Request $request,  $id)
     {
-        //
+        
+        DB::table('bouteilles_celliers')
+        ->where('bouteille_id', $id)
+        ->where('cellier_id', $request['id_cellier'])
+        ->update([
+            'quantite' => $request['quantite'],
+            'date_achat' => $request['date_achat'],
+        ]);
+        
+        return true;
+
     }
 
     /**
@@ -109,9 +104,10 @@ class cellierBouteilleController extends Controller
      * @param  \App\Models\cellierBouteille  $cellierBouteille
      * @return \Illuminate\Http\Response
      */
-    public function destroy(cellierBouteille $cellierBouteille)
+    public function destroy($id)
     {
-        //
+        DB::table('bouteilles_celliers')->where('id', $id)->delete();
+        return true;
     }
 
 
@@ -119,5 +115,6 @@ class cellierBouteilleController extends Controller
 
 
 
-   
+
+
 }

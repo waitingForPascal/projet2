@@ -1,14 +1,14 @@
-.nouvelleBouteille{
+.nouvelleBouteille {
     display: flex;
     gap: 10%;
     padding: 20px;
 }
 
-.nouvelleBouteille img{
+.nouvelleBouteille img {
     max-width: 200px;
 }
 
-.select-titre{
+.select-titre {
     font-style: italic;
     color: rgb(80, 79, 79);
 }

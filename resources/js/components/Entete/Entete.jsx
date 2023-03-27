@@ -21,7 +21,6 @@ export default function Entete() {
                         <li>
                             <a href="/listeUsager">Liste d'utilisateur</a>
                         </li>
-                        
                     )}
                     {admin && (
                         <li>
@@ -29,7 +28,11 @@ export default function Entete() {
                             {/* <a href="/importerBouteilles">Importer des bouteilles du SAQ</a> */}
 
                         </li>
-                        
+                    )}
+                    {admin && (
+                        <li>
+                            <a href="/statistique">Statistiques</a>
+                        </li>
                     )}
                 </ul>
             </nav>

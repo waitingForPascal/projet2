@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Cellier;
 use App\Models\Bouteille;
 use App\Models\Type;
-use App\Models\Bouteilles_user;
+use App\Models\Bouteilles_cellier;
 use App\Models\SAQ;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -48,7 +48,38 @@ class BouteilleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeNl(Request $request)
+    {
+            $nouvelleBouteille = new Bouteille;
+
+            $nouvelleBouteille->nom = $request->nom;
+            $nouvelleBouteille->image = $request->image;
+            $nouvelleBouteille->pays = $request->pays;
+            $nouvelleBouteille->code_saq = $request->code_saq;
+            $nouvelleBouteille->description = $request->description;
+            $nouvelleBouteille->prix = $request->prix;
+            $nouvelleBouteille->note = $request->note;
+            $nouvelleBouteille->millesime = $request->millesime;
+            $nouvelleBouteille->garde_jusqua = $request->garde_jusqua;
+            $nouvelleBouteille->url_saq = $request->url_saq;
+            $nouvelleBouteille->url_img = $request->url_img;
+            $nouvelleBouteille->format = $request->format;
+            $nouvelleBouteille->type = $request->type;
+            $nouvelleBouteille->ganreListe = $request->ganreListe;
+
+
+            $data = $nouvelleBouteille->toArray();
+            $id = DB::table('bouteilles')->insertGetId($data);
+            return $id;
     }
 
     /**
@@ -86,10 +117,10 @@ class BouteilleController extends Controller
     public function update(Request $request, Bouteille $bouteille, $id)
     {
         //
-        $cellier = Bouteilles_user::find($id);
+        $cellier = Bouteilles_cellier::find($id);
         $quantite =  $request['quantite'];
     
-        DB::table('bouteilles_users')->where('id', $id)->update([
+        DB::table('bouteilles_celliers')->where('id', $id)->update([
             'quantite' => $quantite
         ]);
 
@@ -142,9 +173,9 @@ class BouteilleController extends Controller
 // just pour test
     public function data(Cellier $cellier, $id)
     {
-        $bouteilles = Bouteilles_user::select('bouteilles_users.id','bouteilles.id as id_bouteilles', 'celliers.id as id_bouteille_cellier','bouteilles_users.bouteille_id','bouteilles_users.date_achat','bouteilles_users.quantite', 'bouteilles.nom', 'bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description', 'types.type','users.id as user_Id')
-        ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_users.bouteille_id')
-        ->join('celliers', 'celliers.id', '=', 'bouteilles_users.cellier_id')
+        $bouteilles = Bouteilles_cellier::select('bouteilles_celliers.id','bouteilles.id as id_bouteilles', 'celliers.id as id_bouteille_cellier','bouteilles_celliers.bouteille_id','bouteilles_celliers.date_achat','bouteilles_celliers.quantite', 'bouteilles.nom', 'bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description', 'types.type','users.id as user_Id')
+        ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
+        ->join('celliers', 'celliers.id', '=', 'bouteilles_celliers.cellier_id')
         ->join('types', 'types.id', '=', 'bouteilles.type')
         ->join('users', 'users.id', '=', 'celliers.user_id')
         ->get();
