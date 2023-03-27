@@ -30,18 +30,17 @@ export default function BouteilleSAQ() {
       };
       
     return (
-        <div className="login-box">
+        <div>
             <h3>Choissez le page et le nombre pour importer</h3>
-            <form onSubmit={handleSubmit}>
-            <label>
-                Page : 
+            <form onSubmit={handleSubmit} className='form-importer'>
+                
+                <label>Page : </label>
                 <input type="text" name="page" value={formValues.page} onChange={handleInputChange} />
-            </label>
-            <label>
-                Nombre : 
+                
+                <label>Nombre : </label>
                 <input type="text" name="nb" value={formValues.nb} onChange={handleInputChange} />
-            </label>
-            <Button type="primary" htmlType="submit">Submit</Button>
+              
+                <Button type="primary" htmlType="submit" className='btn-importer'>Soumettre </Button>
             </form>
 
             {responseData && (
