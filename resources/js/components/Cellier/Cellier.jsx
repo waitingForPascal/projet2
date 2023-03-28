@@ -31,13 +31,9 @@ export default function Cellier() {
     const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
     const [formulaireBtLiValide, setFormulaireBtLiValide] = useState(false);
     const { Panel } = Collapse;
-<<<<<<< HEAD
-    const [modUsager, setmodUsager] = useState(null);
+    const [modBouteille, setmodBouteille] = useState(null);
     const [isUpdate, setisUpdate] = useState(false);
 
-=======
-    
->>>>>>> 5a43f8e9eb9cf160249193cc976708430d06f3cf
     useEffect(() => {
         axios.get("https://restcountries.com/v2/all")
           .then(response => {
@@ -71,6 +67,18 @@ export default function Cellier() {
             setData(res.data);
         });
     }, []);
+
+     // Remplissez les champs du formulaire avec des valeurs par défaut
+     useEffect(() => {
+        if (modBouteilleForm.current) {
+          modBouteilleForm.current.setFieldsValue({
+            nom: 'Nom par défaut',
+            prix_saq: 'Prix par défaut',
+            pays: 'Pays par défaut',
+            type: 'Vin rouge', // Sélectionnez une option par défaut pour le champ "type"
+          });
+        }
+      }, []);
 
     // Faire la recherche
     const [searchText, setSearchText] = useState("");
@@ -253,35 +261,22 @@ export default function Cellier() {
                                          >
                                     </Button>
                                     <Button
-<<<<<<< HEAD
                                         type="primary"
                                         shape="circle"
                                         icon={<EditOutlined />}
                                         onClick={() => handleUpdate(item)}
                                     ></Button>
-=======
-                                         type="primary"
-                                         shape="circle"
-                                         icon={<EditOutlined />}
-                                         onClick={() => {
-                                             setObjBoutAModifier(item);
-                                             setModalModifierBoutteilCellier(item);
-                                         }}
-                                         >
-                                    </Button>
->>>>>>> 5a43f8e9eb9cf160249193cc976708430d06f3cf
                               </div>
                           );
                       },
                     },
                   ];
-<<<<<<< HEAD
 
                 const handleUpdate = (item) => {
                     //console.log("RAHHAL",item);
 
                     // Renregistrer les informations de la bouteille actuel
-                    setmodUsager(item);
+                    setmodBouteille(item);
                     //console.log("RAHHAL",item);
 
                     // ouvrir le modal
@@ -295,9 +290,6 @@ export default function Cellier() {
 
 
 
-=======
-    
->>>>>>> 5a43f8e9eb9cf160249193cc976708430d06f3cf
     const ajouterBoutteilAuCellierFormOk = () => {
         ajouteBoutteilListeAuCellierForm.current
             .validateFields()
@@ -386,7 +378,7 @@ export default function Cellier() {
                 url_img: null,
                 format: formData.format ? formData.format : null,
                 type: formData.type_vin,
-                ganreliste: 0
+                ganreListe: 0
             };
 
             axios.post(`/ajouteBouteilleNl`, objNouvelleBout)
@@ -524,11 +516,7 @@ export default function Cellier() {
                             }
                         >
                             {bouteilleSaq.map((bouteille) =>
-<<<<<<< HEAD
                               bouteille.ganreListe !== 0 ? (
-=======
-                              bouteille.ganreliste !== 0 ? (
->>>>>>> 5a43f8e9eb9cf160249193cc976708430d06f3cf
                                 <Option key={bouteille.id} value={bouteille.id}>
                                   {bouteille.nom}
                                 </Option>
@@ -645,7 +633,7 @@ export default function Cellier() {
                             <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
                         </Panel>
                     </Collapse>
-                    <Form.Item hidden label="ganreliste" name="ganreliste" initialValue="0"><Input /></Form.Item>
+                    <Form.Item hidden label="ganreListe" name="ganreListe" initialValue="0"><Input /></Form.Item>
                 </Form>
             </Modal>
 
