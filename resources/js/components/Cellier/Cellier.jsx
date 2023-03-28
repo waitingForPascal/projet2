@@ -31,9 +31,13 @@ export default function Cellier() {
     const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
     const [formulaireBtLiValide, setFormulaireBtLiValide] = useState(false);
     const { Panel } = Collapse;
+<<<<<<< HEAD
     const [modUsager, setmodUsager] = useState(null);
     const [isUpdate, setisUpdate] = useState(false);
 
+=======
+    
+>>>>>>> 5a43f8e9eb9cf160249193cc976708430d06f3cf
     useEffect(() => {
         axios.get("https://restcountries.com/v2/all")
           .then(response => {
@@ -249,16 +253,29 @@ export default function Cellier() {
                                          >
                                     </Button>
                                     <Button
+<<<<<<< HEAD
                                         type="primary"
                                         shape="circle"
                                         icon={<EditOutlined />}
                                         onClick={() => handleUpdate(item)}
                                     ></Button>
+=======
+                                         type="primary"
+                                         shape="circle"
+                                         icon={<EditOutlined />}
+                                         onClick={() => {
+                                             setObjBoutAModifier(item);
+                                             setModalModifierBoutteilCellier(item);
+                                         }}
+                                         >
+                                    </Button>
+>>>>>>> 5a43f8e9eb9cf160249193cc976708430d06f3cf
                               </div>
                           );
                       },
                     },
                   ];
+<<<<<<< HEAD
 
                 const handleUpdate = (item) => {
                     //console.log("RAHHAL",item);
@@ -278,6 +295,9 @@ export default function Cellier() {
 
 
 
+=======
+    
+>>>>>>> 5a43f8e9eb9cf160249193cc976708430d06f3cf
     const ajouterBoutteilAuCellierFormOk = () => {
         ajouteBoutteilListeAuCellierForm.current
             .validateFields()
@@ -366,7 +386,7 @@ export default function Cellier() {
                 url_img: null,
                 format: formData.format ? formData.format : null,
                 type: formData.type_vin,
-                ganreListe: 0
+                ganreliste: 0
             };
 
             axios.post(`/ajouteBouteilleNl`, objNouvelleBout)
@@ -504,7 +524,11 @@ export default function Cellier() {
                             }
                         >
                             {bouteilleSaq.map((bouteille) =>
+<<<<<<< HEAD
                               bouteille.ganreListe !== 0 ? (
+=======
+                              bouteille.ganreliste !== 0 ? (
+>>>>>>> 5a43f8e9eb9cf160249193cc976708430d06f3cf
                                 <Option key={bouteille.id} value={bouteille.id}>
                                   {bouteille.nom}
                                 </Option>
@@ -621,7 +645,7 @@ export default function Cellier() {
                             <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
                         </Panel>
                     </Collapse>
-                    <Form.Item hidden label="ganreListe" name="ganreListe" initialValue="0"><Input /></Form.Item>
+                    <Form.Item hidden label="ganreliste" name="ganreliste" initialValue="0"><Input /></Form.Item>
                 </Form>
             </Modal>
 
