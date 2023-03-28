@@ -100,6 +100,36 @@ class cellierBouteilleController extends Controller
 
     }
 
+
+
+            /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\cellierBouteille  $cellierBouteille
+     * @return \Illuminate\Http\Response
+     */
+    public function modiffier(Request $request, $id)
+
+    {
+        //return "Rahhal: Juste pour m'assourer ".$id;
+        //return "tester la quantité :".$request['type'];
+        DB::table('bouteilles_celliers')
+        ->where('id', $id)
+        ->where('cellier_id', $request['id_cellier'])
+        ->update([
+            'quantite' => $request['quantite'],
+            //'date_achat' => $request['date_achat'],
+            //'pays' => $request['pays'],
+            //'prix' => $request['prix'],
+            //'type' => $request['type'],
+            //'nom' => $request['nom']
+        ]);
+      
+        return true;
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *

@@ -68,18 +68,6 @@ export default function Cellier() {
         });
     }, []);
 
-     // Remplissez les champs du formulaire avec des valeurs par défaut
-     useEffect(() => {
-        if (modBouteilleForm.current) {
-          modBouteilleForm.current.setFieldsValue({
-            nom: 'Nom par défaut',
-            prix_saq: 'Prix par défaut',
-            pays: 'Pays par défaut',
-            type: 'Vin rouge', // Sélectionnez une option par défaut pour le champ "type"
-          });
-        }
-      }, []);
-
     // Faire la recherche
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
@@ -272,23 +260,35 @@ export default function Cellier() {
                     },
                   ];
 
-                const handleUpdate = (item) => {
-                    //console.log("RAHHAL",item);
+    const handleUpdate = (item) => {
+        //console.log("RAHHAL",item);
 
-                    // Renregistrer les informations de la bouteille actuel
-                    setmodBouteille(item);
-                    //console.log("RAHHAL",item);
+        // Renregistrer les informations de la bouteille actuel
+        setmodBouteille(item);
+        //console.log("RAHHAL",item);
 
-                    // ouvrir le modal
-                    setisUpdate(true);
+        // ouvrir le modal
+        setisUpdate(true);
 
-                    // mettre les informations de la bouteille dans le formulaire
-                    setTimeout(() => {
-                       modBouteilleForm.current.setFieldsValue(item);
-                    }, 0);
-                };
+        // mettre les informations de la bouteille dans le formulaire
+        setTimeout(() => {
+           modBouteilleForm.current.setFieldsValue(item);
+        }, 0);
+    };
 
-
+    const modBouteilleFormOk = () => {
+        console.log("Commencement fonctoin modBouteilleFormOk");
+        modBouteilleForm.current.validateFields().then((value) => {
+        axios.patch(`/modiffBouteilleCellier/${modBouteille.id}`, value).then((res) => {
+                 console.log(res.data);
+                axios.get(`/getCeillerBouteille/${id}`).then((res) => {
+                    setData(res.data);
+                });
+        });
+        // ferme le modal
+        setisUpdate(false);
+        });
+    };
 
     const ajouterBoutteilAuCellierFormOk = () => {
         ajouteBoutteilListeAuCellierForm.current
@@ -733,6 +733,20 @@ export default function Cellier() {
                             ]}
                         />
                     </Form.Item>
+                    <Form.Item name="id" label="id" hidden="true"><Input /></Form.Item>
+                    <Form.Item name="id_cellier"   label="id_cellier" hidden="true"><Input /></Form.Item>
+                    <Form.Item
+                            name="quantite"
+                            label="Quantite"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Veuillez entrer la quantité !",
+                                },
+                            ]}
+                        >
+                            <Input type="number" min="1" step="1" />
+                        </Form.Item>
                 </Form>
             </Modal>
         </div>
