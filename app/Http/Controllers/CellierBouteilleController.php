@@ -90,19 +90,15 @@ class cellierBouteilleController extends Controller
         ->where('bouteille_id', $id)
         ->where('cellier_id', $request['id_cellier'])
         ->update([
-            'nom' => $request['nom'],
-            'prix' => $request['prix'],
-            'pays' => $request['pays'],
-            'type' => $request['type'],
+            'quantite' => $request['quantite'],
+            'date_achat' => $request['date_achat'],
         ]);
 
         return true;
 
     }
 
-
-
-            /**
+        /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -110,24 +106,22 @@ class cellierBouteilleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function modiffier(Request $request, $id)
-
     {
-        //return "Rahhal: Juste pour m'assourer ".$id;
-        //return "tester la quantité :".$request['type'];
+        //return $request;
         DB::table('bouteilles_celliers')
-        ->where('id', $id)
-        ->where('cellier_id', $request['id_cellier'])
-        ->update([
-            'quantite' => $request['quantite'],
-            //'date_achat' => $request['date_achat'],
-            //'pays' => $request['pays'],
-            //'prix' => $request['prix'],
-            //'type' => $request['type'],
-            //'nom' => $request['nom']
-        ]);
-      
-        return true;
+            ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
+            ->where('bouteilles_celliers.id', $id)
+            ->where('bouteilles_celliers.cellier_id', $request['id_cellier'])
+            ->update([
+                'bouteilles_celliers.quantite' => $request['quantite'],
+                //'bouteilles.date_achat' => $request['date_achat'],
+                'bouteilles.pays' => $request['pays'],
+                'bouteilles.prix' => $request['prix'],
+                //'bouteilles.type' => $request['type'],
+                'bouteilles.nom' => $request['nom']
+            ]);
 
+        return true;
     }
 
     /**
@@ -141,12 +135,4 @@ class cellierBouteilleController extends Controller
         DB::table('bouteilles_celliers')->where('id', $id)->delete();
         return true;
     }
-
-
-
-
-
-
-
-
 }

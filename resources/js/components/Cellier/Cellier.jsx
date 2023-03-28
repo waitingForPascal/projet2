@@ -723,11 +723,11 @@ export default function Cellier() {
                             // Ici, vous devez obtenir les données de la table des types à partir de la base de données
                             options={[
                                 {
-                                    value: "Vin rouge",
+                                    value: "1",
                                     label: "Vin rouge",
                                 },
                                 {
-                                    value: "Vin blanc",
+                                    value: "2",
                                     label: "Vin blanc",
                                 },
                             ]}
