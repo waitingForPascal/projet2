@@ -77,7 +77,8 @@ Route::get('/getTousUser', [UserController::class, 'getTousUser']);
 Route::patch('/modUser/{id}', [UserController::class, 'update']);
 // Supprimer un usager
 Route::delete('/deleteUser/{id}' , [UserController::class, 'destroy']);
-
+//modification bouteille
+Route::patch('/modBoutielle/{id}', [CellierBouteilleController::class, 'update']);
 
 
 // ------------------------------------------------------------------------------Statistique

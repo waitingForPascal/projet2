@@ -73,8 +73,8 @@ class cellierBouteilleController extends Controller
 
     }
 
-   
-    
+
+
 
     /**
      * Update the specified resource in storage.
@@ -85,15 +85,17 @@ class cellierBouteilleController extends Controller
      */
     public function update(Request $request,  $id)
     {
-        
+
         DB::table('bouteilles_celliers')
         ->where('bouteille_id', $id)
         ->where('cellier_id', $request['id_cellier'])
         ->update([
-            'quantite' => $request['quantite'],
-            'date_achat' => $request['date_achat'],
+            'nom' => $request['nom'],
+            'prix' => $request['prix'],
+            'pays' => $request['pays'],
+            'type' => $request['type'],
         ]);
-        
+
         return true;
 
     }

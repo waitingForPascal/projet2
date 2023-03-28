@@ -67,7 +67,7 @@ export default function ListeUsager() {
         },
     ];
     const handleUpdate = (item) => {
-        // console.log(item);
+         console.log(item);
 
         // Enregistrer les informations de l'utilisateur actuel
         setmodUsager(item);

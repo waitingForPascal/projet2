@@ -53,7 +53,7 @@ class CellierController extends Controller
     {
         //
         //return "Gestion des celliers est en construction !";
-        
+
         $idCellier = $request->cellier_id;
         $cellier = Cellier::select('celliers.id', 'celliers.nom', 'celliers.user_id','users.name', 'bouteilles_celliers.bouteille_id','bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description' )
                             ->join('users', 'users.id', '=', 'celliers.user_id')
@@ -143,7 +143,7 @@ class CellierController extends Controller
         return true;
     }
 
-   
+
 
     public function voir(Request $request)
     {
@@ -157,15 +157,15 @@ class CellierController extends Controller
     // obtenir les bouteilles dans le cellier spécial
     public function getListeBouteilleCellier($id)
     {
-        $bouteilles = Bouteilles_cellier::select('bouteilles_celliers.id','bouteilles.id as id_bouteille', 'celliers.id as id_cellier','bouteilles_celliers.bouteille_id','bouteilles_celliers.date_achat','bouteilles_celliers.quantite', 'bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description', 'types.type', 'bouteilles.ganreListe')
+        $bouteilles = Bouteilles_cellier::select('bouteilles_celliers.id','bouteilles.id as id_bouteille', 'celliers.id as id_cellier','bouteilles_celliers.bouteille_id','bouteilles_celliers.date_achat','bouteilles_celliers.quantite', 'bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description', 'types.type', 'bouteilles.ganreliste')
         ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
         ->join('celliers', 'celliers.id', '=', 'bouteilles_celliers.cellier_id')
         ->join('types', 'types.id', '=', 'bouteilles.type')
         ->where('celliers.id', '=', $id)
         ->get();
-        
+
         return response()->json($bouteilles);
-        
+
     }
 }
 
