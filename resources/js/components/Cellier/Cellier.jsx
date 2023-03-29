@@ -342,7 +342,7 @@ export default function Cellier() {
                         });
                 }
             });
-        setModalAjouteBoutteilListeAuCellier(false);
+            setModalMethodEnregistrerBouteille(false);
     };
 
 
@@ -452,11 +452,11 @@ export default function Cellier() {
                     type="primary"
                     onClick={() => setModalMethodEnregistrerBouteille(id)}
                 >
-                    Ajouter une nouvelle bouteil
+                    Ajouter une nouvelle bouteille
                 </Button>
             </div>
 
-            {/* modal choisir la méthode d'ajouter un boutteil au cellier */}
+            {/* modal choisir la méthode d'ajouter un boutteil au cellier 
             <Modal
                 open={modalMethodEnregistrerBouteille}
                 title={<span><br />Voulez-vous ajouter une bouteille <strong>listée chez SAQ</strong> ou une bouteille <strong>non-listée</strong> ?<br /></span>}
@@ -483,46 +483,40 @@ export default function Cellier() {
                 ]}>
             </Modal>
 
+            */}
+
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal
-                open={modalAjouteBoutteilListeAuCellier}
+                open={modalMethodEnregistrerBouteille}
                 title="Ajouter une nouvelle bouteille listée au cellier"
                 okText="Ajouter"
                 cancelText="Annuler"
                 onOk={() => ajouterBoutteilAuCellierFormOk()}
                 onCancel={() => {
-                    setModalAjouteBoutteilListeAuCellier(false);
+                    setModalMethodEnregistrerBouteille(false);
                 }}
             >
                 {/* Modal ajout une bouteille listée */}
-                <Form ref={ajouteBoutteilListeAuCellierForm}
+                <Form ref={ajouteBoutteilListeAuCellierForm} 
                     layout="vertical"
                     validateTrigger='onBlur'
                     onValuesChange={(changedValues, allValues) => {
+                        console.log(allValues);
                        setFormulaireBtLiValide(
-                            allValues.quantite &&
-                            allValues.prix
+                           allValues.quantite &&
+                           allValues.prix
                        );
+                       //console.log(formulaireBtLiValide);
                     }}>
                     <p>
                         Séléctionnez une bouteiile :
-                        <Select
-                            showSearch
-                            placeholder="Sélectionnez une bouteille"
-                            optionFilterProp="children"
-                            onChange={choisirVin}
-                            filterOption={(input, option) =>
-                              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {bouteilleSaq.map((bouteille) =>
-                              bouteille.ganreListe !== 0 ? (
-                                <Option key={bouteille.id} value={bouteille.id}>
-                                  {bouteille.nom}
-                                </Option>
-                              ) : null
-                            )}
-                        </Select>
+                        <select name="nom"
+                                className="nom_bouteille"
+                                onChange={choisirVin}>
+                                {bouteilleSaq.map((bouteille) => (
+                                    bouteille.ganreListe != 0 ? (<option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</option>) : null
+                            ))}
+                        </select>
                     </p>
                     <div className="elmFormBoutteilCellier">
                         <Form.Item
