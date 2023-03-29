@@ -149,7 +149,7 @@ export default function Accueil() {
                                 <img
                                     alt="cellier"
                                     //src="{bouteiile.image}"
-                                    // src="https://cdn.shopify.com/s/files/1/1057/2942/products/3-frontenac_720x.jpg?v=1631750927"
+                                    //src="https://cdn.shopify.com/s/files/1/1057/2942/products/3-frontenac_720x.jpg?v=1631750927"
                                 />
                             }
                         >
