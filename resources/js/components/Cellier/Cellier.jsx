@@ -263,8 +263,7 @@ export default function Cellier() {
                   ];
 
     const handleUpdate = (item) => {
-        console.log("RAHHAL",item.ganreliste);
-
+        //console.log("RAHHAL",item.ganreliste);
         // Renregistrer les informations de la bouteille actuel
         setmodBouteille(item);
         //console.log("RAHHAL",item);
@@ -283,7 +282,7 @@ export default function Cellier() {
         const formValues = modBouteilleForm.current.getFieldsValue();
 
         // Désactiver les champs "nom", "pays" et "prix" si le champ "ganreliste" n'est pas nul
-        disableFieldsIfGenrelisteNotNull(formValues);
+        //disableFieldsIfGenrelisteNotNull(formValues);
 
         modBouteilleForm.current.validateFields().then((value) => {
         axios.patch(`/modiffBouteilleCellier/${modBouteille.id}`, value).then((res) => {
@@ -338,9 +337,7 @@ export default function Cellier() {
 
 
     const ajouterBoutteilAuCellierFormOk = () => {
-        ajouteBoutteilListeAuCellierForm.current
-            .validateFields()
-            .then((value) => {
+        formRef.current.validateFields().then((value) => {
                 console.log(value);
 
                 let objBouteille = {
@@ -515,30 +512,30 @@ export default function Cellier() {
                 }}
             >
                 {/* Modal ajout une bouteille listée */}
-                <Form
-        ref={formRef}
-        layout="vertical"
-        validateTrigger='onBlur'
-        onValuesChange={(changedValues, allValues) => {
-            setFormulaireBtLiValide(
-                allValues.quantite &&
-                allValues.prix
-            );
-        }}
-    >
-        Séléctionnez une bouteiile :
-        <Select
-            showSearch
-            className="nom_bouteille"
-            onChange={choisirVin}
-            filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-        >
-            {bouteilleSaq.map((bouteille) => (
-                (bouteille.ganreliste === null) ? (<Option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</Option>) : null
-            ))}
-        </Select>
+                <Form 
+                    ref={formRef}
+                    layout="vertical"
+                    validateTrigger='onBlur'
+                    onValuesChange={(changedValues, allValues) => {
+                        setFormulaireBtLiValide(
+                            allValues.quantite &&
+                            allValues.prix
+                        );
+                    }}
+                >
+                Séléctionnez une bouteiile :
+                <Select
+                    showSearch
+                    className="nom_bouteille"
+                    onChange={choisirVin}
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {bouteilleSaq.map((bouteille) => (
+                        (bouteille.ganreliste === null) ? (<Option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</Option>) : null
+                    ))}
+                </Select>
 
             <Form.Item
                 name="nom"
