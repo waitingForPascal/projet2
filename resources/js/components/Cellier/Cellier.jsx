@@ -261,7 +261,7 @@ export default function Cellier() {
                   ];
 
     const handleUpdate = (item) => {
-        //console.log("RAHHAL",item);
+        console.log("RAHHAL",item);
 
         // Renregistrer les informations de la bouteille actuel
         setmodBouteille(item);
