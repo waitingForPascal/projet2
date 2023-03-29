@@ -233,7 +233,7 @@ export default function Cellier() {
                       },
                     },
                     {
-                      title: "Fonctionnalité",
+                      title: "",
                       render: (item) => {
                           return (
                               <div>
@@ -278,6 +278,11 @@ export default function Cellier() {
 
     const modBouteilleFormOk = () => {
         console.log("Commencement fonctoin modBouteilleFormOk");
+        const formValues = modBouteilleForm.current.getFieldsValue();
+
+        // Désactiver les champs "nom", "pays" et "prix" si le champ "ganreliste" n'est pas nul
+        disableFieldsIfGenrelisteNotNull(formValues);
+
         modBouteilleForm.current.validateFields().then((value) => {
         axios.patch(`/modiffBouteilleCellier/${modBouteille.id}`, value).then((res) => {
                  console.log(res.data);
@@ -289,6 +294,46 @@ export default function Cellier() {
         setisUpdate(false);
         });
     };
+
+//     function disableFieldsIfGenrelisteNotNull(bouteille) {
+//         // Vérifier si le champ "ganreliste" de l'objet "bouteille" n'est pas nul
+//         if (bouteille.ganreliste !== null) {
+//             // Récupérer les champs "nom", "pays" et "prix" du formulaire
+//             const nomField = modBouteilleForm.current.getFieldInstance("nom");
+//             const paysField = modBouteilleForm.current.getFieldInstance("pays");
+//             const prixField = modBouteilleForm.current.getFieldInstance("prix");
+
+//             // Désactiver les champs "nom", "pays" et "prix"
+//             nomField.disabled = true;
+//             paysField.disabled = true;
+//             prixField.disabled = true;
+//         }
+//     }
+
+
+
+// const getNomPaysPrixRules = (bouteille) => {
+//     if (isGanreliste(bouteille)) {
+//         return [
+//             {
+//                 required: true,
+//                 message: "Veuillez entrer le nom, le pays et le prix !",
+//             },
+//             {
+//                 validator: () => Promise.reject('Impossible de modifier le nom, le pays et le prix pour une bouteille ganreliste'),
+//             }
+//         ];
+//     } else {
+//         return [
+//             {
+//                 required: true,
+//                 message: "Veuillez entrer le nom, le pays et le prix !",
+//             },
+//         ];
+//     }
+// }
+
+
 
     const ajouterBoutteilAuCellierFormOk = () => {
         ajouteBoutteilListeAuCellierForm.current
@@ -452,7 +497,7 @@ export default function Cellier() {
                     type="primary"
                     onClick={() => setModalMethodEnregistrerBouteille(id)}
                 >
-                    Ajouter une nouvelle bouteil
+                    Ajouter une nouvelle bouteille
                 </Button>
             </div>
 
@@ -670,13 +715,7 @@ export default function Cellier() {
                     <Form.Item
                         name="nom"
                         label="Nom"
-                        rules={[
-                            {
-                                required: true,
-                                message:
-                                    "Please input the title of collection!",
-                            },
-                        ]}
+
                     >
                         <Input />
                     </Form.Item>
