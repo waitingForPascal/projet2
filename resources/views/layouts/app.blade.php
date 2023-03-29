@@ -13,7 +13,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- CSS -->   
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/entete.css') }}">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
@@ -27,35 +27,35 @@
             <ul class="navbarEntete-nav">
                 <li class="navEntete-item">
                     <a href="/home" ><img src="{{ asset('img/vino.png') }}" alt="logo" class="logo"></a>
-                    
+
                 </li>
                 <span class="spacer"></span>
 
                 @guest
                     @if (Route::has('login'))
                         <li class="navEntete-item">
-                            <a class="navEntete-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="navEntete-link" href="{{ route('login') }}">Se connecter</a>
                         </li>
                     @endif
 
                     @if (Route::has('register'))
                         <li class="navEntete-item">
-                            <a class="navEntete-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="navEntete-link" href="{{ route('register') }}">Crée un compte</a>
                         </li>
                     @endif
                 @else
                     <li class="navEntete-item">
                         <a class="navEntete-link" href="#" role="button" href="#}}">
-                            Hi, {{ Auth::user()->name }}
+                            Bonjour, {{ Auth::user()->name }}
                         </a>
                     </li>
-                   
+
                     <li class="navEntete-item">
                         <a class="" href="{{ route('logout') }}"
                             >
                             <!-- onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();" -->
-                            {{ __('Logout') }}
+                            Se déconnecter
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
