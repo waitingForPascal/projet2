@@ -21,6 +21,7 @@ export default function Cellier() {
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
     const modBouteilleForm = useRef(null);
     const ajouteBoutteilListeAuCellierForm = useRef(null);
+    const formRef = useRef(null);
     const ajouteBoutteilNonListeAuCellierForm = useRef(null);
 
     const [bouteilleSaq, setBouteilleSaq] = useState([]);
@@ -55,8 +56,8 @@ export default function Cellier() {
     const choisirVin = (elm) => {
         bouteilleSaq.forEach((bouteiile) => {
             if (bouteiile.id == elm ) {
-                //console.log(bouteiile);
                 setBoutSelectione(bouteiile);
+                formRef.current.setFieldsValue({nom: bouteiile.nom});
             }
         });
     };
@@ -514,60 +515,74 @@ export default function Cellier() {
                 }}
             >
                 {/* Modal ajout une bouteille listée */}
-                <Form ref={ajouteBoutteilListeAuCellierForm} 
-                    layout="vertical"
-                    validateTrigger='onBlur'
-                    onValuesChange={(changedValues, allValues) => {
-                        console.log(allValues);
-                       setFormulaireBtLiValide(
-                           allValues.quantite &&
-                           allValues.prix
-                       );
-                       //console.log(formulaireBtLiValide);
-                    }}>
-                        Séléctionnez une bouteiile :
+                <Form
+        ref={formRef}
+        layout="vertical"
+        validateTrigger='onBlur'
+        onValuesChange={(changedValues, allValues) => {
+            setFormulaireBtLiValide(
+                allValues.quantite &&
+                allValues.prix
+            );
+        }}
+    >
+        Séléctionnez une bouteiile :
+        <Select
+            showSearch
+            className="nom_bouteille"
+            onChange={choisirVin}
+            filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+        >
+            {bouteilleSaq.map((bouteille) => (
+                (bouteille.ganreliste === null) ? (<Option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</Option>) : null
+            ))}
+        </Select>
 
-                        <Select
-                            showSearch
-                            className="nom_bouteille"
-                            onChange={choisirVin}
-                            filterOption={(input, option) =>
-                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                           {bouteilleSaq.map((bouteille) => (
-                               (bouteille.ganreliste === null) ? (<Option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</Option>) : null
-                           ))}
-                        </Select>
-
-                    <div className="elmFormBoutteilCellier">
-                        <Form.Item
-                            name="quantite"
-                            label="Quantite"
+            <Form.Item
+                name="nom"
+                label="Nom de la bouteille :"
+                            initialValue={boutSelectione.nom}
                             rules={[
                                 {
                                     required: true,
-                                    message: "Veuillez entrer la quantité !",
+                                    message: "Veuillez entrer au moins 3 caractères !",
                                 },
                             ]}
                         >
-                            <Input type="number" min="1" step="1" />
-                        </Form.Item>
-                    </div>
-                    <div className="elmFormBoutteilCellier">
-                        <Form.Item
-                            name="dateAchat"
-                            label="Date d'achat"
-                            rules={[
-                                {
-                                    required: true,
+                <Input type="text"/>
+            </Form.Item>
+
+            <div className="elmFormBoutteilCellier">
+                <Form.Item
+                    name="quantite"
+                    label="Quantite"
+                    initialValue={1}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Veuillez entrer la quantité !",
+                        },
+                    ]}
+                        >
+                    <Input type="number" min="1" step="1" />
+                </Form.Item>
+            </div>
+            <div className="elmFormBoutteilCellier">
+                <Form.Item
+                    name="dateAchat"
+                    label="Date d'achat"
+                    initialValue={Aujourdhui}
+                    rules={[
+                        {
+                            required: true,
                                     message:
                                         "Veuillez entrer la date d'achat !",
                                 },
                             ]}
-                        >
-                            <Input type="date" min={Aujourdhui} max={Aujourdhui}/>
-                            {/* <DatePicker defaultValue={Aujourdhui}  /> */}
+                    >
+                        <Input type="date"/>
                         </Form.Item>
                     </div>
                 </Form>
