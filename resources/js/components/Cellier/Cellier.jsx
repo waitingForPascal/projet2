@@ -54,20 +54,21 @@ export default function Cellier() {
     }, []);
 
     const choisirVin = (elm) => {
-        bouteilleSaq.forEach((bouteiile) => {
-            if (bouteiile.id == elm ) {
-                setBoutSelectione(bouteiile);
+        bouteilleSaq.forEach((bouteille) => {
+            if (bouteille.id == elm ) {
+                setBoutSelectione(bouteille);
                 setBouteilleChoisiEstNonListe(false);
-                formulaireAjoutBouteille.current.setFieldsValue({nom: bouteiile.nom});
-                formulaireAjoutBouteille.current.setFieldsValue({prix: bouteiile.prix});
-                formulaireAjoutBouteille.current.setFieldsValue({pays: bouteiile.pays});
-                formulaireAjoutBouteille.current.setFieldsValue({type: bouteiile.type});
-                formulaireAjoutBouteille.current.setFieldsValue({millesime: bouteiile.millesime});
-                formulaireAjoutBouteille.current.setFieldsValue({garde: bouteiile.garde});
-                formulaireAjoutBouteille.current.setFieldsValue({note: bouteiile.note});
-                formulaireAjoutBouteille.current.setFieldsValue({image: bouteiile.image});
-                formulaireAjoutBouteille.current.setFieldsValue({format: bouteiile.format});
-                formulaireAjoutBouteille.current.setFieldsValue({description: bouteiile.description});
+                formulaireAjoutBouteille.current.setFieldsValue({nom: bouteille.nom});
+                formulaireAjoutBouteille.current.setFieldsValue({prix: bouteille.prix});
+                formulaireAjoutBouteille.current.setFieldsValue({pays: bouteille.pays});
+                formulaireAjoutBouteille.current.setFieldsValue({type: bouteille.type});
+                formulaireAjoutBouteille.current.setFieldsValue({millesime: bouteille.millesime});
+                formulaireAjoutBouteille.current.setFieldsValue({garde: bouteille.garde});
+                formulaireAjoutBouteille.current.setFieldsValue({note: bouteille.note});
+                formulaireAjoutBouteille.current.setFieldsValue({image: bouteille.image});
+                formulaireAjoutBouteille.current.setFieldsValue({format: bouteille.format});
+                formulaireAjoutBouteille.current.setFieldsValue({description: bouteille.description});
+                formulaireAjoutBouteille.current.setFieldsValue({url_saq: bouteille.url_saq});
             }
         });
     };
@@ -407,8 +408,9 @@ export default function Cellier() {
                 <div className="carteBouteilleListe__infos">
                     <p><b>{bouteille.nom} </b></p>
                     <p>Pays : <b>{bouteille.pays}</b> </p>
-                    <p>Type : <b>{bouteille.type}</b> </p>
-                    <p>Prix : <b>{bouteille.prix}</b> $</p>
+                    <p>Type : <b>{bouteille.type == 1 ? "Vin rouge" : "Vin blanc"}</b> - {bouteille.format}</p>
+                    <p>Prix : <b>{bouteille.prix} $</b></p>
+                    <p><a href={bouteille.url_saq} target="_blank">Voir chez SAQ</a></p>
                 </div>
             </div>
           </Card>
@@ -547,7 +549,7 @@ export default function Cellier() {
                         );
                     }}
                 >
-                Séléctionnez une bouteiile :
+                Séléctionnez une bouteille :
                 <Select
                     showSearch
                     className="nom_bouteille"
@@ -612,6 +614,7 @@ export default function Cellier() {
                             <Select>
                                 <Option value="1">Vin rouge</Option>
                                 <Option value="2">Vin blanc</Option>
+                                <Option value="3">Vin rosé</Option>
                             </Select>
                         </Form.Item>
                         <Form.Item label="Veuillez sélectionner le pays (optionnelle)" name="pays">

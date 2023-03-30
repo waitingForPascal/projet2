@@ -36,12 +36,12 @@
 
   .carteBouteilleListe {
     display: flex;
+    gap: 5%;
   }
 
   .carteBouteilleListe:first-child img {}
 
   .carteBouteilleListe__infos {
-    border: 2px solid green;
   }
   
   @media screen and (max-width: 768px) {
