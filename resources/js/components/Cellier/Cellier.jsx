@@ -21,7 +21,7 @@ export default function Cellier() {
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
     const modBouteilleForm = useRef(null);
     const ajouteBoutteilListeAuCellierForm = useRef(null);
-    const formRef = useRef(null);
+    const formulaireAjoutBouteille = useRef(null);
     const ajouteBoutteilNonListeAuCellierForm = useRef(null);
 
     const [bouteilleSaq, setBouteilleSaq] = useState([]);
@@ -57,7 +57,8 @@ export default function Cellier() {
         bouteilleSaq.forEach((bouteiile) => {
             if (bouteiile.id == elm ) {
                 setBoutSelectione(bouteiile);
-                formRef.current.setFieldsValue({nom: bouteiile.nom});
+                formulaireAjoutBouteille.current.setFieldsValue({nom: bouteiile.nom});
+                formulaireAjoutBouteille.current.setFieldsValue({prix: bouteiile.prix});
             }
         });
     };
@@ -337,7 +338,7 @@ export default function Cellier() {
 
 
     const ajouterBoutteilAuCellierFormOk = () => {
-        formRef.current.validateFields().then((value) => {
+        formulaireAjoutBouteille.current.validateFields().then((value) => {
                 console.log(value);
 
                 let objBouteille = {
@@ -513,7 +514,7 @@ export default function Cellier() {
             >
                 {/* Modal ajout une bouteille listée */}
                 <Form 
-                    ref={formRef}
+                    ref={formulaireAjoutBouteille}
                     layout="vertical"
                     validateTrigger='onBlur'
                     onValuesChange={(changedValues, allValues) => {
@@ -550,7 +551,10 @@ export default function Cellier() {
                         >
                 <Input type="text"/>
             </Form.Item>
-
+            <Form.Item label="Prix (Obligatoire)" name="prix"
+                                rules={[{ required: true, message: 'Veuillez entrer le prix de la bouteille.' }]}>
+                        <Input type="number" step={0.01} min="0"/>
+                    </Form.Item>
             <div className="elmFormBoutteilCellier">
                 <Form.Item
                     name="quantite"
@@ -582,6 +586,37 @@ export default function Cellier() {
                         <Input type="date"/>
                         </Form.Item>
                     </div>
+                    <Form.Item label="Type de vin (Obligatoire)" name="type_vin" rules={[{ required: true, message: 'Veuillez choisir le type de vin.' }]}>
+                        <Select>
+                            <Option value="1">Vin rouge</Option>
+                            <Option value="2">Vin blanc</Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.Item label="Veuillez sélectionner le pays (optionnelle)" name="pays">
+                                <Select
+                                     showSearch
+                                    filterOption={
+                                        (input, option) =>
+                                        option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    {listePays.map((pays) => (
+                                        <Option key={pays.value} value={pays.value} label={pays.label}>
+                                            {pays.label}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                    <Collapse bordered={false}>
+                        <Panel header="Options supplémentaires" key="1">
+                            <Form.Item label="Millesime" name="millesime"><Input type="date" /></Form.Item>
+                            <Form.Item label="Garde" name="garde_jusqua"><Input type="date" /></Form.Item>
+                            <Form.Item label="Note" name="note"><Input type="number" min={0} max={5} /></Form.Item>
+                            <Form.Item label="Image" name="image"><Input /></Form.Item>
+                            <Form.Item label="Format" name="format"><Input /></Form.Item>
+                            <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
+                        </Panel>
+                    </Collapse>
                 </Form>
             </Modal>
 
@@ -617,50 +652,9 @@ export default function Cellier() {
                         );
                         //console.log(formulaireBtNlValide);
                       }}>
-                    <Form.Item label="Nom (Obligatoire)" name="nom" type="text" minLength="3"
-                                rules={[{ required: true, message: 'Veuillez entrer le nom de la bouteille.' }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item label="Quantité (Obligatoire)" name="quantite"
-                                rules={[{ required: true, message: 'Veuillez entrer la quantité de la bouteille.' }]}>
-                        <Input type="number" min={1} step={1} />
-                    </Form.Item>
-                    <Form.Item label="Prix (Obligatoire)" name="prix"
-                                rules={[{ required: true, message: 'Veuillez entrer le prix de la bouteille.' }]}>
-                        <Input type="number" step={0.01} min="0"/>
-                    </Form.Item>
-                    <Form.Item label="Type de vin (Obligatoire)" name="type_vin" rules={[{ required: true, message: 'Veuillez choisir le type de vin.' }]}>
-                        <Select>
-                            <Option value="1">Vin rouge</Option>
-                            <Option value="2">Vin blanc</Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item label="Veuillez sélectionner le pays (optionnelle)" name="pays">
-                                <Select
-                                     showSearch
-                                    filterOption={
-                                        (input, option) =>
-                                        option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                    }
-                                >
-                                    {listePays.map((pays) => (
-                                        <Option key={pays.value} value={pays.value} label={pays.label}>
-                                            {pays.label}
-                                        </Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                    <Collapse bordered={false}>
-                        <Panel header="Options supplémentaires" key="1">
-                            <Form.Item label="Date achat" name="date_achat"><Input type="date" /></Form.Item>
-                            <Form.Item label="Millesime" name="millesime"><Input type="date" /></Form.Item>
-                            <Form.Item label="Garde" name="garde_jusqua"><Input type="date" /></Form.Item>
-                            <Form.Item label="Note" name="note"><Input type="number" min={0} max={5} /></Form.Item>
-                            <Form.Item label="Image" name="image"><Input /></Form.Item>
-                            <Form.Item label="Format" name="format"><Input /></Form.Item>
-                            <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
-                        </Panel>
-                    </Collapse>
+
+
+>
                     <Form.Item hidden label="ganreliste" name="ganreliste" initialValue="0"><Input /></Form.Item>
                 </Form>
             </Modal>
