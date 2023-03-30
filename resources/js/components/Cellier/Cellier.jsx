@@ -425,7 +425,6 @@ export default function Cellier() {
         setBouteilleChoisiEstNonListe(true);
         formulaireAjoutBouteille.current?.resetFields();
         formulaireAjoutBouteille.current.setFieldsValue({nom: ""});
-        console.log("Salut");
     }
 
     const ajouterBoutteilNlAuCellierFormOk = (formData) => {
@@ -603,7 +602,6 @@ export default function Cellier() {
                             >
                         <Input type="number" min="1" step="1" />
                     </Form.Item>
-                <div className="elmFormBoutteilCellier">
                     <Form.Item
                         name="dateAchat"
                         label="Date d'achat"
@@ -617,8 +615,7 @@ export default function Cellier() {
                                 ]}
                         >
                             <Input type="date"/>
-                            </Form.Item>
-                        </div>
+                        </Form.Item>
                         <Form.Item label="Type de vin (Obligatoire)" name="type_vin" rules={[{ required: true, message: 'Veuillez choisir le type de vin.' }]}>
                             <Select>
                                 <Option value="1">Vin rouge</Option>
@@ -814,7 +811,8 @@ export default function Cellier() {
                             ]}
                         >
                             <Input type="number" min="1" step="1" />
-                        </Form.Item>
+                    </Form.Item>
+                    <Form.Item name="dateAchat" label="Date d'achat" initialValue={Aujourdhui}></Form.Item>
                 </Form>
             </Modal>
         </div>
