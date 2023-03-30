@@ -77,7 +77,8 @@ Route::get('/getTousUser', [UserController::class, 'getTousUser']);
 Route::patch('/modUser/{id}', [UserController::class, 'update']);
 // Supprimer un usager
 Route::delete('/deleteUser/{id}' , [UserController::class, 'destroy']);
-
+//modification bouteille
+Route::patch('/modBoutielle/{id}', [CellierBouteilleController::class, 'update']);
 
 
 // ------------------------------------------------------------------------------Statistique
@@ -87,7 +88,7 @@ Route::get('/getNombreUsager', [StatistiqueController::class, 'nombreUsager']);
 Route::get('/getNombreCellier', [StatistiqueController::class, 'nombreCellier']);
 //  le nombre de cellier par usager
 Route::get('/getNombreCellierUsager', [StatistiqueController::class, 'nombreCellierUsager']);
-
+Route::patch('/modiffBouteilleCellier/{id}' , [CellierBouteilleController::class, 'modiffier']);
 
 
 

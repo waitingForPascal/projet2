@@ -13,7 +13,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- CSS -->   
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/entete.css') }}">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
@@ -27,7 +27,7 @@
             <ul class="navbarEntete-nav">
                 <li class="navEntete-item">
                     <a href="/home" ><img src="{{ asset('img/vino.png') }}" alt="logo" class="logo"></a>
-                    
+
                 </li>
                 <span class="spacer"></span>
 
@@ -40,7 +40,7 @@
 
                     @if (Route::has('register'))
                         <li class="navEntete-item">
-                            <a class="navEntete-link" href="{{ route('register') }}">Créer un compte</a>
+                            <a class="navEntete-link" href="{{ route('register') }}">Crée un compte</a>
                         </li>
                     @endif
                 @else
@@ -49,13 +49,13 @@
                             Bonjour, {{ Auth::user()->name }}
                         </a>
                     </li>
-                   
+
                     <li class="navEntete-item">
                         <a class="" href="{{ route('logout') }}"
                             >
                             <!-- onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();" -->
-                            Déconnecter
+                                            Se déconnecter
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

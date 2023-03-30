@@ -23,7 +23,7 @@ class BouteilleController extends Controller
     {
         //
         $bouteilles = Bouteille::all();
-        
+
         // return $bouteilles;
 
         return response()->json($bouteilles);
@@ -119,7 +119,7 @@ class BouteilleController extends Controller
         //
         $cellier = Bouteilles_cellier::find($id);
         $quantite =  $request['quantite'];
-    
+
         DB::table('bouteilles_celliers')->where('id', $id)->update([
             'quantite' => $quantite
         ]);
@@ -143,9 +143,9 @@ class BouteilleController extends Controller
 
     public function modifierUnBouteille(Request $request, Cellier $cellier, $id)
     {
-        
+
         if($request['type'] == 'Vin rouge') {
-            $request['type'] = 1; 
+            $request['type'] = 1;
         } elseif($request['type'] == 'Vin blanc') {
             $request['type'] = 2;
         }
@@ -180,13 +180,13 @@ class BouteilleController extends Controller
         ->join('users', 'users.id', '=', 'celliers.user_id')
         ->get();
 
-    
 
-       
-       
+
+
+
         return response()->json($id);
 
-        
+
     }
 
 
@@ -199,8 +199,8 @@ class BouteilleController extends Controller
     public function importerBouteillesSAQ(Request $request)
     {
         $page = $request['page'];
-        $nombre = $request['nb']; 	
-        
+        $nombre = $request['nb'];
+
         $s = curl_init();
 		$url = "https://www.saq.com/fr/produits/vin/vin-rouge?p=".$page."&product_list_limit=".$nombre."&product_list_order=name_asc";
 
@@ -252,7 +252,7 @@ class BouteilleController extends Controller
 		$children = $node -> childNodes;
 		foreach ($children as $child) {
 			$innerHTML .= $child -> ownerDocument -> saveXML($child);
-            
+
 		}
 		return $innerHTML;
 	}
@@ -261,15 +261,15 @@ class BouteilleController extends Controller
 	{
 		return preg_replace('/\s+/', ' ',$chaine);
 	}
-	
+
 	private function recupereInfo($noeud) {
-		
+
 		$info = new stdClass();
 		$info -> img = $noeud -> getElementsByTagName("img") -> item(0) -> getAttribute('src'); //TODO : Nettoyer le lien
 		;
 		$a_titre = $noeud -> getElementsByTagName("a") -> item(0);
 		$info -> url = $a_titre->getAttribute('href');
-		
+
         //var_dump($noeud -> getElementsByTagName("a")->item(1)->textContent);
         $nom = $noeud -> getElementsByTagName("a")->item(1)->textContent;
         //var_dump($a_titre);
@@ -284,12 +284,12 @@ class BouteilleController extends Controller
 				$info->desc->texte = self::nettoyerEspace($info->desc->texte);
 				$aDesc = explode("|", $info->desc->texte); // Type, Format, Pays
 				if (count ($aDesc) == 3) {
-					
+
 					$info -> desc -> type = trim($aDesc[0]);
 					$info -> desc -> format = trim($aDesc[1]);
 					$info -> desc -> pays = trim($aDesc[2]);
 				}
-				
+
 				$info -> desc -> texte = trim($info -> desc -> texte);
 			}
 		}

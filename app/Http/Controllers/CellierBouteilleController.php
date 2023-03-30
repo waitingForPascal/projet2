@@ -73,8 +73,8 @@ class cellierBouteilleController extends Controller
 
     }
 
-   
-    
+
+
 
     /**
      * Update the specified resource in storage.
@@ -85,7 +85,7 @@ class cellierBouteilleController extends Controller
      */
     public function update(Request $request,  $id)
     {
-        
+
         DB::table('bouteilles_celliers')
         ->where('bouteille_id', $id)
         ->where('cellier_id', $request['id_cellier'])
@@ -93,9 +93,35 @@ class cellierBouteilleController extends Controller
             'quantite' => $request['quantite'],
             'date_achat' => $request['date_achat'],
         ]);
-        
+
         return true;
 
+    }
+
+        /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\cellierBouteille  $cellierBouteille
+     * @return \Illuminate\Http\Response
+     */
+    public function modiffier(Request $request, $id)
+    {
+        //return $request;
+        DB::table('bouteilles_celliers')
+            ->join('bouteilles', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
+            ->where('bouteilles_celliers.id', $id)
+            ->where('bouteilles_celliers.cellier_id', $request['id_cellier'])
+            ->update([
+                'bouteilles_celliers.quantite' => $request['quantite'],
+                //'bouteilles.date_achat' => $request['date_achat'],
+                'bouteilles.pays' => $request['pays'],
+                'bouteilles.prix' => $request['prix'],
+                //'bouteilles.type' => $request['type'],
+                'bouteilles.nom' => $request['nom']
+            ]);
+
+        return true;
     }
 
     /**
@@ -109,12 +135,4 @@ class cellierBouteilleController extends Controller
         DB::table('bouteilles_celliers')->where('id', $id)->delete();
         return true;
     }
-
-
-
-
-
-
-
-
 }

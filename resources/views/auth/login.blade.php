@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="login-box">
-    <h2>Se Connecter</h2>
+    <h2>Se connecter</h2>
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <label for="email">Courriel</label>
@@ -20,7 +20,7 @@
                 <strong>{{ $message }}</strong>
             </span>
         @enderror
-        <input type="submit" value="Connecter" class="login_submit">
+        <input type="submit" value="Se Connecter" class="login_submit">
     </form>
 </div>
 

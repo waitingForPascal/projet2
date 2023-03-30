@@ -19,7 +19,7 @@ export default function Cellier() {
     const [modalAjouteBoutteilListeAuCellier, setModalAjouteBoutteilListeAuCellier] = useState(false);
     const [modalAjouteBoutteilNonListeAuCellier, setModalAjouteBoutteilNonListeAuCellier] = useState(false);
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
-    const [modalModifierBoutteilCellier, setModalModifierBoutteilCellier] = useState(false);
+    const modBouteilleForm = useRef(null);
     const ajouteBoutteilListeAuCellierForm = useRef(null);
     const ajouteBoutteilNonListeAuCellierForm = useRef(null);
 
@@ -31,7 +31,9 @@ export default function Cellier() {
     const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
     const [formulaireBtLiValide, setFormulaireBtLiValide] = useState(false);
     const { Panel } = Collapse;
-    
+    const [modBouteille, setmodBouteille] = useState(null);
+    const [isUpdate, setisUpdate] = useState(false);
+
     useEffect(() => {
         axios.get("https://restcountries.com/v2/all")
           .then(response => {
@@ -45,10 +47,11 @@ export default function Cellier() {
 
     useEffect(() => {
         axios.get("/getBouteillesSAQ").then((res) => {
+
             setBouteilleSaq(res.data);
         });
     }, []);
-    
+
     const choisirVin = (elm) => {
         bouteilleSaq.forEach((bouteiile) => {
             if (bouteiile.id == Number(elm.target.value)) {
@@ -56,7 +59,7 @@ export default function Cellier() {
             }
         });
     };
-    
+
     useEffect(() => {
         // récupérer les bouteilles dans le cellier spécial
         axios.get(`/getCeillerBouteille/${id}`).then((res) => {
@@ -64,7 +67,7 @@ export default function Cellier() {
             setData(res.data);
         });
     }, []);
-    
+
     // Faire la recherche
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
@@ -169,8 +172,8 @@ export default function Cellier() {
             .toString()
             .toLowerCase()
             .includes(value.toLowerCase()),
-            onFilterDropdownOpenChange: (visible) => {
-                if (visible) {
+            onFilterDropdownOpenChange: (open) => {
+                if (open) {
                     setTimeout(() => searchInput.current?.select(), 100);
                 }
             },
@@ -230,7 +233,7 @@ export default function Cellier() {
                       },
                     },
                     {
-                      title: "Fonctionnalité",
+                      title: "",
                       render: (item) => {
                           return (
                               <div>
@@ -246,26 +249,97 @@ export default function Cellier() {
                                          >
                                     </Button>
                                     <Button
-                                         type="primary"
-                                         shape="circle"
-                                         icon={<EditOutlined />}
-                                         onClick={() => {
-                                             setObjBoutAModifier(item);
-                                             setModalModifierBoutteilCellier(item);
-                                         }}
-                                         >
-                                    </Button>
+                                        type="primary"
+                                        shape="circle"
+                                        icon={<EditOutlined />}
+                                        onClick={() => handleUpdate(item)}
+                                    ></Button>
                               </div>
                           );
                       },
                     },
                   ];
-    
+
+    const handleUpdate = (item) => {
+        //console.log("RAHHAL",item);
+
+        // Renregistrer les informations de la bouteille actuel
+        setmodBouteille(item);
+        //console.log("RAHHAL",item);
+
+        // ouvrir le modal
+        setisUpdate(true);
+
+        // mettre les informations de la bouteille dans le formulaire
+        setTimeout(() => {
+           modBouteilleForm.current.setFieldsValue(item);
+        }, 0);
+    };
+
+    const modBouteilleFormOk = () => {
+        console.log("Commencement fonctoin modBouteilleFormOk");
+        const formValues = modBouteilleForm.current.getFieldsValue();
+
+        // Désactiver les champs "nom", "pays" et "prix" si le champ "ganreliste" n'est pas nul
+        disableFieldsIfGenrelisteNotNull(formValues);
+
+        modBouteilleForm.current.validateFields().then((value) => {
+        axios.patch(`/modiffBouteilleCellier/${modBouteille.id}`, value).then((res) => {
+                 console.log(res.data);
+                axios.get(`/getCeillerBouteille/${id}`).then((res) => {
+                    setData(res.data);
+                });
+        });
+        // ferme le modal
+        setisUpdate(false);
+        });
+    };
+
+//     function disableFieldsIfGenrelisteNotNull(bouteille) {
+//         // Vérifier si le champ "ganreliste" de l'objet "bouteille" n'est pas nul
+//         if (bouteille.ganreliste !== null) {
+//             // Récupérer les champs "nom", "pays" et "prix" du formulaire
+//             const nomField = modBouteilleForm.current.getFieldInstance("nom");
+//             const paysField = modBouteilleForm.current.getFieldInstance("pays");
+//             const prixField = modBouteilleForm.current.getFieldInstance("prix");
+
+//             // Désactiver les champs "nom", "pays" et "prix"
+//             nomField.disabled = true;
+//             paysField.disabled = true;
+//             prixField.disabled = true;
+//         }
+//     }
+
+
+
+// const getNomPaysPrixRules = (bouteille) => {
+//     if (isGanreliste(bouteille)) {
+//         return [
+//             {
+//                 required: true,
+//                 message: "Veuillez entrer le nom, le pays et le prix !",
+//             },
+//             {
+//                 validator: () => Promise.reject('Impossible de modifier le nom, le pays et le prix pour une bouteille ganreliste'),
+//             }
+//         ];
+//     } else {
+//         return [
+//             {
+//                 required: true,
+//                 message: "Veuillez entrer le nom, le pays et le prix !",
+//             },
+//         ];
+//     }
+// }
+
+
+
     const ajouterBoutteilAuCellierFormOk = () => {
         ajouteBoutteilListeAuCellierForm.current
             .validateFields()
             .then((value) => {
-                // console.log(value);
+                console.log(value);
 
                 let objBouteille = {
                     bouteille_id: boutSelectione.id,
@@ -273,12 +347,13 @@ export default function Cellier() {
                     date_achat: value.dateAchat,
                     quantite: value.quantite,
                 };
-                                
+
                 //verifier si le bouteille va être ajouté est déjà dans ce cellier, si oui patch(modifier la quantité), si non post
                 if (
                     data.some((item) => item.bouteille_id == boutSelectione.id)
                 ) {
-                    // console.log("patch");
+
+                    console.log("patch");
                     const bouteilleDansCellier = data.find(
                         (item) => item.bouteille_id == boutSelectione.id
                     );
@@ -312,13 +387,13 @@ export default function Cellier() {
                         });
                 }
             });
-        setModalAjouteBoutteilListeAuCellier(false);
+            setModalMethodEnregistrerBouteille(false);
     };
 
-    
-    
+
+
     const ajouterBoutteilNlAuCellierFormOk = (formData) => {
-        
+
         const showErrorModal = () => {
             Modal.error({
               title: 'Erreur',
@@ -327,11 +402,11 @@ export default function Cellier() {
             });
         };
 
-        
+
         if ( data.some((item) => item.nom === formData.nom )  ) showErrorModal();
         else if ( bouteilleSaq.some((item) => item.nom === formData.nom )  ) {
             showErrorModal();
-        } 
+        }
         else{
             setModalAjouteBoutteilNonListeAuCellier(false);
             let objNouvelleBout = {
@@ -348,7 +423,7 @@ export default function Cellier() {
                 url_img: null,
                 format: formData.format ? formData.format : null,
                 type: formData.type_vin,
-                ganreliste: 0
+                ganreListe: 0
             };
 
             axios.post(`/ajouteBouteilleNl`, objNouvelleBout)
@@ -370,10 +445,10 @@ export default function Cellier() {
                         });
                 });
         });
-   
+
         }
     };
-    
+
     const supprimerBouteilleCellier = (idBouteille) => {
         axios.delete(`/deleteBouteilleCellier/${idBouteille}`).then((res) => {
             axios.get(`/getCeillerBouteille/${id}`).then((res) => {
@@ -422,25 +497,25 @@ export default function Cellier() {
                     type="primary"
                     onClick={() => setModalMethodEnregistrerBouteille(id)}
                 >
-                    Ajouter une nouvelle bouteil
+                    Ajouter une nouvelle bouteille
                 </Button>
             </div>
 
-            {/* modal choisir la méthode d'ajouter un boutteil au cellier */}
+            {/* modal choisir la méthode d'ajouter un boutteil au cellier 
             <Modal
-                visible={modalMethodEnregistrerBouteille}
+                open={modalMethodEnregistrerBouteille}
                 title={<span><br />Voulez-vous ajouter une bouteille <strong>listée chez SAQ</strong> ou une bouteille <strong>non-listée</strong> ?<br /></span>}
 
                 onCancel={() => setModalMethodEnregistrerBouteille(false)}
                 footer={[
-                    <Button key="listee"  
+                    <Button key="listee"
                             onClick={() => {
                             setModalMethodEnregistrerBouteille(false);
                             setModalAjouteBoutteilListeAuCellier(true);
                             }}>
                         Listée
                     </Button>,
-                    <Button key="non-listée" 
+                    <Button key="non-listée"
                             onClick={() => {
                                 setModalMethodEnregistrerBouteille(false);
                                 setModalAjouteBoutteilNonListeAuCellier(true);
@@ -453,15 +528,17 @@ export default function Cellier() {
                 ]}>
             </Modal>
 
+            */}
+
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal
-                open={modalAjouteBoutteilListeAuCellier}
+                open={modalMethodEnregistrerBouteille}
                 title="Ajouter une nouvelle bouteille listée au cellier"
                 okText="Ajouter"
                 cancelText="Annuler"
                 onOk={() => ajouterBoutteilAuCellierFormOk()}
                 onCancel={() => {
-                    setModalAjouteBoutteilListeAuCellier(false);
+                    setModalMethodEnregistrerBouteille(false);
                 }}
             >
                 {/* Modal ajout une bouteille listée */}
@@ -474,27 +551,17 @@ export default function Cellier() {
                            allValues.quantite &&
                            allValues.prix
                        );
-                       console.log(formulaireBtLiValide);
+                       //console.log(formulaireBtLiValide);
                     }}>
                     <p>
                         Séléctionnez une bouteiile :
-                        <Select
-                            showSearch
-                            placeholder="Sélectionnez une bouteille"
-                            optionFilterProp="children"
-                            onChange={choisirVin}
-                            filterOption={(input, option) =>
-                              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {bouteilleSaq.map((bouteille) =>
-                              bouteille.ganreliste !== 0 ? (
-                                <Option key={bouteille.id} value={bouteille.id}>
-                                  {bouteille.nom}
-                                </Option>
-                              ) : null
-                            )}
-                        </Select>
+                        <select name="nom"
+                                className="nom_bouteille"
+                                onChange={choisirVin}>
+                                {bouteilleSaq.map((bouteille) => (
+                                    bouteille.ganreListe != 0 ? (<option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</option>) : null
+                            ))}
+                        </select>
                     </p>
                     <div className="elmFormBoutteilCellier">
                         <Form.Item
@@ -530,7 +597,7 @@ export default function Cellier() {
             </Modal>
 
             <Modal
-               visible={modalAjouteBoutteilNonListeAuCellier}
+               open={modalAjouteBoutteilNonListeAuCellier}
                title="Ajouter une nouvelle bouteille non listée"
                onCancel={() => {setModalAjouteBoutteilNonListeAuCellier(false)}}
                footer={[
@@ -547,10 +614,10 @@ export default function Cellier() {
                     Annuler
                 </Button>,
             ]}>
-             
+
                {/* formulaire d'ajout d'une bouteille non listée */}
-               <Form ref={ajouteBoutteilNonListeAuCellierForm} 
-                     layout="vertical" 
+               <Form ref={ajouteBoutteilNonListeAuCellierForm}
+                     layout="vertical"
                      validateTrigger='onBlur'
                      onValuesChange={(changedValues, allValues) => {
                         setFormulaireBtNlValide(
@@ -580,7 +647,7 @@ export default function Cellier() {
                         </Select>
                     </Form.Item>
                     <Form.Item label="Veuillez sélectionner le pays (optionnelle)" name="pays">
-                                <Select 
+                                <Select
                                      showSearch
                                     filterOption={
                                         (input, option) =>
@@ -605,7 +672,7 @@ export default function Cellier() {
                             <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
                         </Panel>
                     </Collapse>
-                    <Form.Item hidden label="ganreliste" name="ganreliste" initialValue="0"><Input /></Form.Item>
+                    <Form.Item hidden label="ganreListe" name="ganreListe" initialValue="0"><Input /></Form.Item>
                 </Form>
             </Modal>
 
@@ -629,33 +696,25 @@ export default function Cellier() {
             </Modal>
 
             <Modal
-                open={modalModifierBoutteilCellier}
+                open={isUpdate}
                 title="Modification de bouteille"
                 okText="Mettre à jour"
                 cancelText="Annuler"
                 onCancel={() => {
-                    setModalModifierBoutteilCellier(false);
+                    setisUpdate(false);
                 }}
-                onOk={() => {
-                    console.log(objBoutAModifier);
-                }}
+                onOk={() => modBouteilleFormOk()}
             >
-                <Form layout="vertical">
+                <Form ref={modBouteilleForm} layout="vertical">
                     <Form.Item
                         name="nom"
                         label="Nom"
-                        rules={[
-                            {
-                                required: true,
-                                message:
-                                    "Please input the title of collection!",
-                            },
-                        ]}
+
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        name="prix_saq"
+                        name="prix"
                         label="Prix"
                         rules={[
                             {
@@ -697,20 +756,35 @@ export default function Cellier() {
                             // Ici, vous devez obtenir les données de la table des types à partir de la base de données
                             options={[
                                 {
-                                    value: "Vin rouge",
+                                    value: "1",
                                     label: "Vin rouge",
                                 },
                                 {
-                                    value: "Vin blanc",
+                                    value: "2",
                                     label: "Vin blanc",
                                 },
                             ]}
                         />
                     </Form.Item>
+                    <Form.Item name="id" label="id" hidden="true"><Input /></Form.Item>
+                    <Form.Item name="id_cellier"   label="id_cellier" hidden="true"><Input /></Form.Item>
+                    <Form.Item
+                            name="quantite"
+                            label="Quantite"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Veuillez entrer la quantité !",
+                                },
+                            ]}
+                        >
+                            <Input type="number" min="1" step="1" />
+                        </Form.Item>
                 </Form>
             </Modal>
         </div>
     );
+
 }
 
 if (document.getElementById("cellier")) {

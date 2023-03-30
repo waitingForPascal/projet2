@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="login-box">
-    <h2>Créer un compte</h2>
+    <h2>>Crée un compte</h2>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -32,7 +32,7 @@
             </span>
         @enderror
 
-        <label for="password_confirmation">Confirmer le mot de passe</label>
+        <label for="password_confirmation">Confirmer mot de passe</label>
         <input type="password" id="password_confirmation" name="password_confirmation" class=" @error('password') is-invalid @enderror" required autocomplete="current-password">
         @error('password_confirmation')
             <span class="error_message" role="alert">
@@ -41,7 +41,7 @@
         @enderror
 
         <input type="hidden" name="privilege" value="usager">
-        <input type="submit" value="Soumettre" class="login_submit">
+        <input type="submit" value="Crée un compte" class="login_submit">
     </form>
 </div>
 
