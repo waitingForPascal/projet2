@@ -39,7 +39,7 @@ export default function Entete() {
                             }
                         >
                             <a href="/listeUsager">
-                                <Meta title="Liste d'utilisateur"/> 
+                                <Meta title="Liste d'usagers"/> 
                             </a>
                            
                         </Card>
@@ -67,7 +67,7 @@ export default function Entete() {
                             }
                         >
                             <a href="/statistique">
-                                <Meta title="Statistiques"/> 
+                                <Meta title="Statistiques d'usagers"/> 
                             </a>
                            
                         </Card>
@@ -95,7 +95,7 @@ export default function Entete() {
                             }
                         >
                             <a href="/bouteilleSAQ">
-                                <Meta title="Importer des bouteilles du SAQ" />
+                                <Meta title="Importer des bouteillesSAQ" />
                             </a>
                             
                         </Card>
