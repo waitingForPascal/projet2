@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 
 import {Button, Select, Table, Modal, Space, Form, Input, Collapse} from "antd";
-import {SearchOutlined, DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {SearchOutlined, DeleteOutlined, EditOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
@@ -21,6 +21,7 @@ export default function Cellier() {
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
     const modBouteilleForm = useRef(null);
     const ajouteBoutteilListeAuCellierForm = useRef(null);
+    const formRef = useRef(null);
     const ajouteBoutteilNonListeAuCellierForm = useRef(null);
 
     const [bouteilleSaq, setBouteilleSaq] = useState([]);
@@ -29,7 +30,7 @@ export default function Cellier() {
     const [objBoutAModifier, setObjBoutAModifier] = useState(null);
     const [listePays, setListePays] = useState([]);
     const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
-    const [formulaireBtLiValide, setFormulaireBtLiValide] = useState(false);
+    const [formulaireMValide, setFormulaireBtLiValide] = useState(false);
     const { Panel } = Collapse;
     const [modBouteille, setmodBouteille] = useState(null);
     const [isUpdate, setisUpdate] = useState(false);
@@ -54,8 +55,9 @@ export default function Cellier() {
 
     const choisirVin = (elm) => {
         bouteilleSaq.forEach((bouteiile) => {
-            if (bouteiile.id == Number(elm.target.value)) {
+            if (bouteiile.id == elm ) {
                 setBoutSelectione(bouteiile);
+                formRef.current.setFieldsValue({nom: bouteiile.nom});
             }
         });
     };
@@ -261,19 +263,18 @@ export default function Cellier() {
                   ];
 
     const handleUpdate = (item) => {
-        //console.log("RAHHAL",item);
-
+        //console.log("RAHHAL",item.ganreliste);
         // Renregistrer les informations de la bouteille actuel
         setmodBouteille(item);
         //console.log("RAHHAL",item);
 
         // ouvrir le modal
         setisUpdate(true);
-
         // mettre les informations de la bouteille dans le formulaire
         setTimeout(() => {
-           modBouteilleForm.current.setFieldsValue(item);
+            modBouteilleForm.current.setFieldsValue(item);
         }, 0);
+        
     };
 
     const modBouteilleFormOk = () => {
@@ -281,7 +282,7 @@ export default function Cellier() {
         const formValues = modBouteilleForm.current.getFieldsValue();
 
         // Désactiver les champs "nom", "pays" et "prix" si le champ "ganreliste" n'est pas nul
-        disableFieldsIfGenrelisteNotNull(formValues);
+        //disableFieldsIfGenrelisteNotNull(formValues);
 
         modBouteilleForm.current.validateFields().then((value) => {
         axios.patch(`/modiffBouteilleCellier/${modBouteille.id}`, value).then((res) => {
@@ -336,9 +337,7 @@ export default function Cellier() {
 
 
     const ajouterBoutteilAuCellierFormOk = () => {
-        ajouteBoutteilListeAuCellierForm.current
-            .validateFields()
-            .then((value) => {
+        formRef.current.validateFields().then((value) => {
                 console.log(value);
 
                 let objBouteille = {
@@ -423,7 +422,7 @@ export default function Cellier() {
                 url_img: null,
                 format: formData.format ? formData.format : null,
                 type: formData.type_vin,
-                ganreListe: 0
+                ganreliste: 0
             };
 
             axios.post(`/ajouteBouteilleNl`, objNouvelleBout)
@@ -501,35 +500,6 @@ export default function Cellier() {
                 </Button>
             </div>
 
-            {/* modal choisir la méthode d'ajouter un boutteil au cellier 
-            <Modal
-                open={modalMethodEnregistrerBouteille}
-                title={<span><br />Voulez-vous ajouter une bouteille <strong>listée chez SAQ</strong> ou une bouteille <strong>non-listée</strong> ?<br /></span>}
-
-                onCancel={() => setModalMethodEnregistrerBouteille(false)}
-                footer={[
-                    <Button key="listee"
-                            onClick={() => {
-                            setModalMethodEnregistrerBouteille(false);
-                            setModalAjouteBoutteilListeAuCellier(true);
-                            }}>
-                        Listée
-                    </Button>,
-                    <Button key="non-listée"
-                            onClick={() => {
-                                setModalMethodEnregistrerBouteille(false);
-                                setModalAjouteBoutteilNonListeAuCellier(true);
-                            }}>
-                        Non-listée
-                    </Button>,
-                    <Button hidden key="annuler" onClick={() => setModalMethodEnregistrerBouteille(false)}>
-                        Annuler
-                    </Button>,
-                ]}>
-            </Modal>
-
-            */}
-
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal
                 open={modalMethodEnregistrerBouteille}
@@ -542,55 +512,74 @@ export default function Cellier() {
                 }}
             >
                 {/* Modal ajout une bouteille listée */}
-                <Form ref={ajouteBoutteilListeAuCellierForm} 
+                <Form 
+                    ref={formRef}
                     layout="vertical"
                     validateTrigger='onBlur'
                     onValuesChange={(changedValues, allValues) => {
-                        console.log(allValues);
-                       setFormulaireBtLiValide(
-                           allValues.quantite &&
-                           allValues.prix
-                       );
-                       //console.log(formulaireBtLiValide);
-                    }}>
-                    <p>
-                        Séléctionnez une bouteiile :
-                        <select name="nom"
-                                className="nom_bouteille"
-                                onChange={choisirVin}>
-                                {bouteilleSaq.map((bouteille) => (
-                                    bouteille.ganreListe != 0 ? (<option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</option>) : null
-                            ))}
-                        </select>
-                    </p>
-                    <div className="elmFormBoutteilCellier">
-                        <Form.Item
-                            name="quantite"
-                            label="Quantite"
+                        setFormulaireBtLiValide(
+                            allValues.quantite &&
+                            allValues.prix
+                        );
+                    }}
+                >
+                Séléctionnez une bouteiile :
+                <Select
+                    showSearch
+                    className="nom_bouteille"
+                    onChange={choisirVin}
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {bouteilleSaq.map((bouteille) => (
+                        (bouteille.ganreliste === null) ? (<Option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</Option>) : null
+                    ))}
+                </Select>
+
+            <Form.Item
+                name="nom"
+                label="Nom de la bouteille :"
+                            initialValue={boutSelectione.nom}
                             rules={[
                                 {
                                     required: true,
-                                    message: "Veuillez entrer la quantité !",
+                                    message: "Veuillez entrer au moins 3 caractères !",
                                 },
                             ]}
                         >
-                            <Input type="number" min="1" step="1" />
-                        </Form.Item>
-                    </div>
-                    <div className="elmFormBoutteilCellier">
-                        <Form.Item
-                            name="dateAchat"
-                            label="Date d'achat"
-                            rules={[
-                                {
-                                    required: true,
+                <Input type="text"/>
+            </Form.Item>
+
+            <div className="elmFormBoutteilCellier">
+                <Form.Item
+                    name="quantite"
+                    label="Quantite"
+                    initialValue={1}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Veuillez entrer la quantité !",
+                        },
+                    ]}
+                        >
+                    <Input type="number" min="1" step="1" />
+                </Form.Item>
+            </div>
+            <div className="elmFormBoutteilCellier">
+                <Form.Item
+                    name="dateAchat"
+                    label="Date d'achat"
+                    initialValue={Aujourdhui}
+                    rules={[
+                        {
+                            required: true,
                                     message:
                                         "Veuillez entrer la date d'achat !",
                                 },
                             ]}
-                        >
-                            <Input type="date" min={Aujourdhui} max={Aujourdhui}/>
-                            {/* <DatePicker defaultValue={Aujourdhui}  /> */}
+                    >
+                        <Input type="date"/>
                         </Form.Item>
                     </div>
                 </Form>
@@ -672,7 +661,7 @@ export default function Cellier() {
                             <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
                         </Panel>
                     </Collapse>
-                    <Form.Item hidden label="ganreListe" name="ganreListe" initialValue="0"><Input /></Form.Item>
+                    <Form.Item hidden label="ganreliste" name="ganreliste" initialValue="0"><Input /></Form.Item>
                 </Form>
             </Modal>
 
@@ -711,7 +700,7 @@ export default function Cellier() {
                         label="Nom"
 
                     >
-                        <Input />
+                        <Input  />
                     </Form.Item>
                     <Form.Item
                         name="prix"
