@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
+import { Card, Button, Space, Modal, Input, Form, Col, Row } from "antd";
 
 export default function Entete() {
     const [admin, setadmin] = useState(false);
-
+    const { Meta } = Card;
     useEffect(() => {
         axios.get("/verificationUser").then((res) => {
             console.log(res.data);
@@ -14,28 +15,94 @@ export default function Entete() {
     }, []);
     return (
         <div>
-            {/* <h1>Un petit verre de vino ?</h1> */}
-            <nav>
-                <ul>
-                    {admin && (
-                        <li>
-                            <a href="/listeUsager">Liste d'utilisateur</a>
-                        </li>
-                    )}
-                    {admin && (
-                        <li>
-                            <a href="/bouteilleSAQ">Importer des bouteilles du SAQ</a>
-                            {/* <a href="/importerBouteilles">Importer des bouteilles du SAQ</a> */}
+            {admin && (
+            <Row justify="center" align="middle" gutter={[0, 16]}>
+                    <Col
+                        xs={20}
+                        sm={16}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        xxl={4}
+                    >
+                        <Card
+                            hoverable
+                            style={{
+                                width: 250,
+                            }}
+                            bordered={false}
+                            cover={
+                                <img
+                                    alt="listeUsager"
+                                    src="/img/listeUsager.jpg" 
+                                />
+                            }
+                        >
+                            <a href="/listeUsager">
+                                <Meta title="Liste d'utilisateur"/> 
+                            </a>
+                           
+                        </Card>
+                    </Col>
 
-                        </li>
-                    )}
-                    {admin && (
-                        <li>
-                            <a href="/statistique">Statistiques</a>
-                        </li>
-                    )}
-                </ul>
-            </nav>
+                    <Col
+                        xs={20}
+                        sm={16}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        xxl={4}
+                    >
+                        <Card
+                            hoverable
+                            style={{
+                                width: 250,
+                            }}
+                            bordered={false}
+                            cover={
+                                <img
+                                    alt="statistiques"
+                                    src="/img/statistiques.jpg" 
+                                />
+                            }
+                        >
+                            <a href="/statistique">
+                                <Meta title="Statistiques"/> 
+                            </a>
+                           
+                        </Card>
+                    </Col>
+
+                    <Col
+                        xs={20}
+                        sm={16}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        xxl={4}
+                    >
+                        <Card
+                            hoverable
+                            style={{
+                                width: 250,
+                            }}
+                            bordered={false}
+                            cover={
+                                <img
+                                    alt="BouteillesSAQ"
+                                    src="/img/importerBouteilles.jpg" 
+                                />
+                            }
+                        >
+                            <a href="/bouteilleSAQ">
+                                <Meta title="Importer des bouteilles du SAQ" />
+                            </a>
+                            
+                        </Card>
+                    </Col>
+
+            </Row>
+            )}
         </div>
     );
 }
