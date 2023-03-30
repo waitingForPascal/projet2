@@ -33,6 +33,16 @@
   .responsive-table {
     width: 100%;
   }
+
+  .carteBouteilleListe {
+    display: flex;
+  }
+
+  .carteBouteilleListe:first-child img {}
+
+  .carteBouteilleListe__infos {
+    border: 2px solid green;
+  }
   
   @media screen and (max-width: 768px) {
     .ant-table {
