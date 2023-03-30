@@ -39,7 +39,14 @@
     gap: 5%;
   }
 
-  .carteBouteilleListe:first-child img {}
+  .btnFermerBoutListe {
+    position: absolute;
+    top: 5px; right: 10px;
+  }
+
+  .carteBouteilleListe img {
+    object-fit: contain;    
+  }
 
   .carteBouteilleListe__infos {
   }

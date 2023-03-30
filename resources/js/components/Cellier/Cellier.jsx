@@ -403,12 +403,16 @@ export default function Cellier() {
     const CardeBouteilleListe = ({ bouteille }) => {
         return (
           <Card>
+            <div>
+                <Button danger className="btnFermerBoutListe" onClick={() => {fermeCarteBoutListe()} }>X</Button>
+                <br />
+            </div>
             <div className="carteBouteilleListe">
                 <img src={bouteille.image} alt={bouteille.nom} />
                 <div className="carteBouteilleListe__infos">
                     <p><b>{bouteille.nom} </b></p>
                     <p>Pays : <b>{bouteille.pays}</b> </p>
-                    <p>Type : <b>{bouteille.type == 1 ? "Vin rouge" : "Vin blanc"}</b> - {bouteille.format}</p>
+                    <p>Type : <b>{bouteille.type == 1 ? "Vin rouge" : "Vin blanc"} - {bouteille.format}</b></p>
                     <p>Prix : <b>{bouteille.prix} $</b></p>
                     <p><a href={bouteille.url_saq} target="_blank">Voir chez SAQ</a></p>
                 </div>
@@ -417,8 +421,14 @@ export default function Cellier() {
         );
       };
 
-    const ajouterBoutteilNlAuCellierFormOk = (formData) => {
+    const fermeCarteBoutListe = () => {
+        setBouteilleChoisiEstNonListe(true);
+        formulaireAjoutBouteille.current?.resetFields();
+        formulaireAjoutBouteille.current.setFieldsValue({nom: ""});
+        console.log("Salut");
+    }
 
+    const ajouterBoutteilNlAuCellierFormOk = (formData) => {
         const showErrorModal = () => {
             Modal.error({
               title: 'Erreur',
@@ -426,7 +436,6 @@ export default function Cellier() {
               okText: 'OK',
             });
         };
-
 
         if ( data.some((item) => item.nom === formData.nom )  ) showErrorModal();
         else if ( bouteilleSaq.some((item) => item.nom === formData.nom )  ) {
@@ -645,19 +654,19 @@ export default function Cellier() {
                     </> : 
                     <>
                         <CardeBouteilleListe bouteille={boutSelectione} />
-                    <Form.Item
-                        name="quantite"
-                        label="Quantite"
-                        initialValue={1}
-                        rules={[
-                            {
-                                required: true,
-                                message: "Veuillez entrer la quantité !",
-                            },
-                        ]}
-                            >
-                        <Input type="number" min="1" step="1" />
-                    </Form.Item>
+                        <Form.Item
+                            name="quantite"
+                            label="Quantite"
+                            initialValue={1}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Veuillez entrer la quantité !",
+                                },
+                            ]}
+                                >
+                            <Input type="number" min="1" step="1" />
+                        </Form.Item>
                     </> 
                     }
                 </Form>
