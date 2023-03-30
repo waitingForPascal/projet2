@@ -8,7 +8,7 @@
         @csrf
 
 
-        <label for="name">Nom </label>
+        <label for="name">Nom</label>
         <input type="text" id="name" name="name" value="{{ old('name') }}" class=" @error('name') is-invalid @enderror" required autocomplete="name" autofocus>
         @error('name')
             <span class="error_message" role="alert">
