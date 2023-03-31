@@ -33,6 +33,23 @@
   .responsive-table {
     width: 100%;
   }
+
+  .carteBouteilleListe {
+    display: flex;
+    gap: 5%;
+  }
+
+  .btnFermerBoutListe {
+    position: absolute;
+    top: 5px; right: 10px;
+  }
+
+  .carteBouteilleListe img {
+    object-fit: contain;    
+  }
+
+  .carteBouteilleListe__infos {
+  }
   
   @media screen and (max-width: 768px) {
     .ant-table {
