@@ -354,9 +354,11 @@ export default function Cellier() {
                 let objBouteille = {
                     bouteille_id: boutSelectione.id,
                     cellier_id: id,
-                    date_achat: value.dateAchat,
+                    date_achat: value.dateAchat||Aujourdhui,
                     quantite: value.quantite,
                 };
+
+                console.log("ggggggggggggg",objBouteille);
 
                 //verifier si le bouteille va être ajouté est déjà dans ce cellier, si oui patch(modifier la quantité), si non post
                 if (
@@ -599,7 +601,7 @@ export default function Cellier() {
                                 message: "Veuillez entrer la quantité !",
                             },
                         ]}
-                            >
+            >
                         <Input type="number" min="1" step="1" />
                     </Form.Item>
                     <Form.Item
