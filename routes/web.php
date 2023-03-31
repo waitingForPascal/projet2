@@ -88,19 +88,12 @@ Route::get('/getNombreUsager', [StatistiqueController::class, 'nombreUsager']);
 Route::get('/getNombreCellier', [StatistiqueController::class, 'nombreCellier']);
 //  le nombre de cellier par usager
 Route::get('/getNombreCellierUsager', [StatistiqueController::class, 'nombreCellierUsager']);
+
+
+
+
+
 Route::patch('/modiffBouteilleCellier/{id}' , [CellierBouteilleController::class, 'modiffier']);
-
-
-
-
-
-
-
-
-
-
-
-
 
 Route::delete('/deleteBouteilleCellier/{id}' , [CellierBouteilleController::class, 'destroy']);
 
