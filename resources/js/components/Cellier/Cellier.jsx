@@ -354,11 +354,11 @@ export default function Cellier() {
                 let objBouteille = {
                     bouteille_id: boutSelectione.id,
                     cellier_id: id,
-                    date_achat: value.dateAchat||Aujourdhui,
+                    date_achat: value.dateAchat ? value.dateAchat : Aujourdhui,
                     quantite: value.quantite,
                 };
 
-                console.log("ggggggggggggg",objBouteille);
+                //console.log("ggggggggggggg",objBouteille);
 
                 //verifier si le bouteille va être ajouté est déjà dans ce cellier, si oui patch(modifier la quantité), si non post
                 if (
@@ -387,7 +387,7 @@ export default function Cellier() {
                                 });
                         });
                 } else {
-                    //console.log(objBouteille);
+                    console.log("baby calm down", objBouteille);
                     axios
                         .post(`/ajouteBouteilleCellier`, objBouteille)
                         .then((res) => {
@@ -650,6 +650,7 @@ export default function Cellier() {
                                 <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
                             </Panel>
                         </Collapse>
+                        <Form.Item hidden label="ganreliste" name="ganreliste" initialValue="0"><Input /></Form.Item>
                     </> : 
                     <>
                         <CardeBouteilleListe bouteille={boutSelectione} />
@@ -665,6 +666,20 @@ export default function Cellier() {
                             ]}
                                 >
                             <Input type="number" min="1" step="1" />
+                        </Form.Item>
+                        <Form.Item
+                        name="dateAchat"
+                        label="Date d'achat"
+                        initialValue={Aujourdhui}
+                        rules={[
+                            {
+                                required: true,
+                                        message:
+                                            "Veuillez entrer la date d'achat !",
+                                    },
+                                ]}
+                        >
+                            <Input type="date"/>
                         </Form.Item>
                     </> 
                     }
