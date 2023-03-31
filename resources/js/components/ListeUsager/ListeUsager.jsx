@@ -6,7 +6,6 @@ import {
 } from "@ant-design/icons";
 import ReactDOM from "react-dom/client";
 import { Table, Button, Modal, Form, Input } from "antd";
-// import { Space, Table, Tag } from "antd";
 import "./ListeUsager.css";
 
 const { confirm } = Modal;
@@ -27,22 +26,13 @@ export default function ListeUsager() {
     }, []);
     const columns = [
         {
-            title: "Nom",
+            title: "Usager",
             dataIndex: "name",
             key: "name",
             render: (text) => <a>{text}</a>,
         },
         {
-            title: "Courriel",
-            dataIndex: "email",
-        },
-        {
-            title: "Role",
-            dataIndex: "privilege",
-        },
-
-        {
-            title: "Fonctionnalité",
+            title: "",
             render: (item) => {
                 return (
                     <div>
@@ -67,7 +57,7 @@ export default function ListeUsager() {
         },
     ];
     const handleUpdate = (item) => {
-         console.log(item);
+        // console.log(item);
 
         // Enregistrer les informations de l'utilisateur actuel
         setmodUsager(item);
@@ -89,8 +79,8 @@ export default function ListeUsager() {
 
             // envoyer une requête pour la modification d'usager
             axios.patch(`/modUser/${modUsager.id}`, value).then((res) => {
+                
                 // Récupérer les données, actualiser la page
-
                 // console.log(res.data);
                 axios.get("/getTousUser").then((res) => {
                     setuser(res.data);
@@ -158,19 +148,7 @@ export default function ListeUsager() {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        name="email"
-                        label="Courriel"
-                        rules={[
-                            {
-                                required: true,
-                                message:
-                                    "Please input the title of collection!",
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
+                   
                 </Form>
             </Modal>
         </div>

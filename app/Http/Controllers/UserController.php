@@ -30,7 +30,8 @@ class UserController extends Controller
     public function getTousUser()
     {
         //
-        $users = User::all();
+        // $users = User::all();
+        $users = User::orderBy('id')->get();
         return response()->json($users);
         
     }
@@ -88,8 +89,7 @@ class UserController extends Controller
     {
         //
         DB::table('users')->where('id', $id)->update([
-            'name' => $request['name'],
-            'email' => $request['email']
+            'name' => $request['name']
         ]);
 
         return true;
