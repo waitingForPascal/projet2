@@ -1,20 +1,48 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Card, Button, Space, Modal, Input, Form, Col, Row } from "antd";
+import "./Entete.css";
+import { Content } from "antd/es/layout/layout";
 
 export default function Entete() {
     const [admin, setadmin] = useState(false);
     const { Meta } = Card;
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [message, setMessage] = useState('Hello World');
+
+    const showModal = () => {
+    
+        axios.get("/importerBouteille").then((res) => {
+            console.log(res.data);
+            if (res.data == true) {
+                setMessage("Mise à jour avec success ! ");
+            }else{
+                setMessage("Les bouteilles sont déjà mise à jour ! ");
+            }
+            setIsModalOpen(true);
+        });
+
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     useEffect(() => {
         axios.get("/verificationUser").then((res) => {
-            console.log(res.data);
             if (res.data == "admin") {
                 setadmin(true);
+
             }
         });
     }, []);
+
     return (
-        <div>
+        <div className="dashboard-admin">
             {admin && (
             <Row justify="center" align="middle" gutter={[0, 16]}>
                     <Col
@@ -38,8 +66,8 @@ export default function Entete() {
                                 />
                             }
                         >
-                            <a href="/listeUsager">
-                                <Meta title="Liste d'usagers"/> 
+                            <a href="/listeUsager" style={{ textDecoration: 'none' }}>
+                               <Meta title="Liste d'usagers"/> 
                             </a>
                            
                         </Card>
@@ -66,7 +94,7 @@ export default function Entete() {
                                 />
                             }
                         >
-                            <a href="/statistique">
+                            <a href="/statistique" style={{ textDecoration: 'none' }}>
                                 <Meta title="Statistiques d'usagers"/> 
                             </a>
                            
@@ -94,15 +122,25 @@ export default function Entete() {
                                 />
                             }
                         >
-                            <a href="/bouteilleSAQ">
+                            
+                            <a href="#" style={{ textDecoration: 'none'}} onClick={showModal}>
                                 <Meta title="Importer des bouteillesSAQ" />
                             </a>
                             
                         </Card>
                     </Col>
-
             </Row>
             )}
+
+            <Modal title="Salut" 
+                open={isModalOpen} 
+                onOk={handleOk} 
+                okText="Confirmer" 
+                onCancel={handleCancel} 
+                cancelText="Supprimer">
+                <p>{message}</p>
+            </Modal>
+
         </div>
     );
 }
