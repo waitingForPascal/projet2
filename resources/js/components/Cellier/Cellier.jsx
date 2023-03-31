@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 
 import {Button, Select, Table, Modal, Space, Form, Input, Collapse, Card } from "antd";
-import {SearchOutlined, DeleteOutlined, EditOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import {SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
@@ -404,20 +404,22 @@ export default function Cellier() {
 
     const CardeBouteilleListe = ({ bouteille }) => {
         return (
-          <Card>
+          <Card className="carteBouteilleListe">
             <div>
-                <Button danger className="btnFermerBoutListe" onClick={() => {fermeCarteBoutListe()} }>X</Button>
-                <br />
+                <CloseCircleOutlined className="iconFermerBoutListe" onClick={() => {fermeCarteBoutListe()} } />
             </div>
-            <div className="carteBouteilleListe">
-                <img src={bouteille.image} alt={bouteille.nom} />
-                <div className="carteBouteilleListe__infos">
-                    <p><b>{bouteille.nom} </b></p>
-                    <p>Pays : <b>{bouteille.pays}</b> </p>
-                    <p>Type : <b>{bouteille.type == 1 ? "Vin rouge" : "Vin blanc"} - {bouteille.format}</b></p>
-                    <p>Prix : <b>{bouteille.prix} $</b></p>
-                    <p><a href={bouteille.url_saq} target="_blank">Voir chez SAQ</a></p>
+            <div >
+                <p className="carteBouteilleListe__titre"><b>{bouteille.nom} </b></p>
+                <div className="carteBouteilleListe__corps">
+                    <div className="carteBouteilleListe__infos">
+                        <p>Pays: <b>{bouteille.pays}</b> </p>
+                        <p>Type: <b>{bouteille.type == 1 ? "Vin rouge" : "Vin blanc"}</b></p>
+                        <p>Format: <b>{bouteille.format}</b></p>
+                        <p>Prix: <b>{bouteille.prix} $</b></p>
+                    </div>
+                    <img src={bouteille.image} alt={bouteille.nom} />
                 </div>
+                <Button type="link" className="btnLienSAQ" href={bouteille.url_saq} target="_blank">En savoir plus </Button>
             </div>
           </Card>
         );
