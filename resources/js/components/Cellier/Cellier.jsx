@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
+import { FacebookShareButton, TwitterShareButton, LinkedinShareButton } from 'react-share';
 
 import {Button, Select, Table, Modal, Space, Form, Input, Collapse, Card } from "antd";
 import {SearchOutlined, DeleteOutlined, EditOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
@@ -271,6 +272,26 @@ export default function Cellier() {
                           );
                       },
                     },
+                    {
+                        title: "",
+                        render: (item) => {
+                            return (
+                                <div>
+                                    <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                                    Share on Facebook
+                                    </FacebookShareButton>
+
+                                    <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+                                    Share on Twitter
+                                    </TwitterShareButton>
+
+                                    <LinkedinShareButton url={"https://www.saq.com/fr/14154238"}>
+                                    Share on LinkedIn
+                                    </LinkedinShareButton> 
+                                </div>
+                            );
+                        },
+                      },
                   ];
 
     const handleUpdate = (item) => {
