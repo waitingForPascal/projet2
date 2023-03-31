@@ -34,6 +34,10 @@
     width: 100%;
   }
 
+  .nom_bouteille {
+    width: 100%;
+  }
+
   .iconFermerBoutListe {
     position: absolute;
     /* color: red; */
@@ -84,10 +88,21 @@
     max-width: max-content;
     margin-top: 25px;
     text-decoration: none;
-    border: 1px solid #0d6efd;
     color: #0d6efd !important;
   }
 
+  .formAjoutBoutAuCellier {
+    margin-top: 20px;
+  }
+  
+  .formAjoutBoutAuCellier label {
+    margin-top: 0;
+  }
+
+  .formAjoutBoutAuCellier Input {
+    margin: 0;
+
+  }
  
   @media screen and (max-width: 768px) {
     .ant-table {
