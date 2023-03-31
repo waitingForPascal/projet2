@@ -88,9 +88,16 @@ Route::get('/getNombreUsager', [StatistiqueController::class, 'nombreUsager']);
 Route::get('/getNombreCellier', [StatistiqueController::class, 'nombreCellier']);
 //  le nombre de cellier par usager
 Route::get('/getNombreCellierUsager', [StatistiqueController::class, 'nombreCellierUsager']);
-
-
-
+//  le nombre de bouteille par cellier
+Route::get('/getNombreBouteilleCellier', [StatistiqueController::class, 'nombreBouteilleCellier']);
+//  le nombre de bouteille par usager.
+Route::get('/getNombreBouteilleUsager', [StatistiqueController::class, 'nombreBouteilleUsager']);
+//  la valeur total des bouteilles
+Route::get('/getValeurTous', [StatistiqueController::class, 'valeurTous']);
+//  la valeur total des bouteilles par cellier
+Route::get('/getValeurUsager', [StatistiqueController::class, 'valeurUsager']);
+//  la valeur total des bouteilles par usager
+Route::get('/getValeurCellier', [StatistiqueController::class, 'valeurCellier']);
 
 
 Route::patch('/modiffBouteilleCellier/{id}' , [CellierBouteilleController::class, 'modiffier']);
