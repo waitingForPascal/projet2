@@ -198,53 +198,65 @@ class BouteilleController extends Controller
 
     public function importerBouteillesSAQ(Request $request)
     {
-        $page = $request['page'];
-        $nombre = $request['nb'];
+        $nombrePageDebut = 1; //Permet d'importer séquentiellement plusieurs pages, dans notre cas on définir le début 1 et le fin 10
+        $nombrePageFin = 5; 
+        $nombreProduit = 24; //24, 48 ou 96	
 
-        $s = curl_init();
-		$url = "https://www.saq.com/fr/produits/vin/vin-rouge?p=".$page."&product_list_limit=".$nombre."&product_list_order=name_asc";
+        $nouvelAjout = false;
 
-        // Se prendre pour un navigateur pour berner le serveur de la saq...
-        curl_setopt_array($s,array(
-            CURLOPT_URL => $url,
-            // CURLOPT_URL => "https://www.saq.com/fr/produits/vin/vin-rouge?p=3&product_list_limit=24&product_list_order=name_asc",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_USERAGENT=>'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0',
-            CURLOPT_ENCODING=>'gzip, deflate',
-            CURLOPT_HTTPHEADER=>array(
-                    'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                    'Accept-Language: en-US,en;q=0.5',
-                    'Accept-Encoding: gzip, deflate',
-                    'Connection: keep-alive',
-                    'Upgrade-Insecure-Requests: 1',
-            ),
-        ));
+        // Faire un boocle pour importer des données du SAQ, dans notre cas supposons il y a 10 pages avec 24 articles dans chaque page
+        for ($i=$nombrePageDebut; $i <= $nombrePageFin; $i++) { 
+            $s = curl_init();
+            $url = "https://www.saq.com/fr/produits/vin/vin-rouge?p=".$i."&product_list_limit=".$nombreProduit."&product_list_order=name_asc";
+    
+            // Se prendre pour un navigateur pour berner le serveur de la saq...
+            curl_setopt_array($s,array(
+                CURLOPT_URL => $url,
+                // CURLOPT_URL => "https://www.saq.com/fr/produits/vin/vin-rouge?p=3&product_list_limit=24&product_list_order=name_asc",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_USERAGENT=>'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0',
+                CURLOPT_ENCODING=>'gzip, deflate',
+                CURLOPT_HTTPHEADER=>array(
+                        'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        'Accept-Language: en-US,en;q=0.5',
+                        'Accept-Encoding: gzip, deflate',
+                        'Connection: keep-alive',
+                        'Upgrade-Insecure-Requests: 1',
+                ),
+            ));
+    
+            $_webpage = curl_exec($s);
+            $_status = curl_getinfo($s, CURLINFO_HTTP_CODE);
+            curl_close($s);
+            // var_dump(self::$_webpage);
+            $doc = new DOMDocument();
+            $doc -> recover = true;
+            $doc -> strictErrorChecking = false;
+            @$doc -> loadHTML($_webpage);
+            $elements = $doc -> getElementsByTagName("li");
+            $nombre = 0;
+            foreach ($elements as $key => $noeud) {
+                // var_dump($noeud -> getAttribute('class')) ;
+                if (strpos($noeud -> getAttribute('class'), "product-item") !== false) {
+    
+                    // echo $this->get_inner_html($noeud);
+                    $info = self::recupereInfo($noeud);
+                    // echo "<p>".$info->nom;
+                    $retour = $this -> ajouteProduit($info);
 
-		$_webpage = curl_exec($s);
-		$_status = curl_getinfo($s, CURLINFO_HTTP_CODE);
-		curl_close($s);
-        // var_dump(self::$_webpage);
-        // exit();
-		$doc = new DOMDocument();
-		$doc -> recover = true;
-		$doc -> strictErrorChecking = false;
-		@$doc -> loadHTML($_webpage);
-		$elements = $doc -> getElementsByTagName("li");
-		foreach ($elements as $key => $noeud) {
-			// var_dump($noeud -> getAttribute('class')) ;
-			if (strpos($noeud -> getAttribute('class'), "product-item") !== false) {
-
-				// echo $this->get_inner_html($noeud);
-				$info = self::recupereInfo($noeud);
-                echo "<p>".$info->nom;
-				$retour = $this -> ajouteProduit($info);
-				echo "<br>Message de retour : " . $retour -> raison . "<br>";
-				echo "</p>";
-			}
-		}
-
-		return response()->json($retour);
+                    if ($retour -> succes) {
+                        $nombre++;
+                        $nouvelAjout = true;
+                    }
+                }
+            }
+            // On pourrait afficher tous les détails des pages importés
+            // echo "<h2>page ". ($i)."</h2>";
+            // echo "<p>Importation : ". $nombre. " bouteilles, </p>";
+            // echo "Message : ". ($retour -> raison).". </p>";
+        }
+		return $nouvelAjout;
     }
 
     private function get_inner_html($node) {
@@ -332,7 +344,7 @@ class BouteilleController extends Controller
 				$Type = Type::create(['type' => $Type]);
 			} 
 			$typeId =  $Type->id;
-
+            $NotrePrix = substr($bte->prix, 0 , -3);
 			DB::table('bouteilles')->insert([
 				'nom'   => $bte->nom,
 				'image'     => $bte->img,
@@ -341,7 +353,7 @@ class BouteilleController extends Controller
 				'description'   => $bte -> desc -> texte,
 				'format'   => $bte->desc -> format,
 				'code_saq'   => $bte -> desc -> code_SAQ,
-				'prix'   => $bte->prix,
+				'prix'   => $NotrePrix,
 				'pays'   => $bte->desc -> pays,
 				'type'   => $typeId,
 			]);

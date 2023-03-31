@@ -19,9 +19,7 @@ import "./components/Cellier/Cellier";
 import "./components/ListeUsager/ListeUsager";
 import "./components/Bouteille/Bouteille";
 import "./components/Statistique/Statistique";
-import "./components/BouteilleSAQ/BouteilleSAQ";
 import "./components/Ajout/Ajout";
-import "./components/ImporterBouteille/ImporterBouteille";
 
 
-// 创建components里的组件，建立views，router,然后引入
+// Créer des composants dans les composants, créer des vues, router, puis importer
