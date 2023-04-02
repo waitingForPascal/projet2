@@ -32,18 +32,10 @@ export default function Cellier() {
     const [data, setData] = useState([]);
     const id = window.location.pathname.split("/").pop();
 
-    const [
-        modalMethodEnregistrerBouteille,
-        setModalMethodEnregistrerBouteille,
-    ] = useState(false);
-    const [bouteilleChoisiEstNonListe, setBouteilleChoisiEstNonListe] =
-        useState(true);
-    const [
-        modalAjouteBoutteilNonListeAuCellier,
-        setModalAjouteBoutteilNonListeAuCellier,
-    ] = useState(false);
-    const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] =
-        useState(false);
+    const [modalMethodEnregistrerBouteille,setModalMethodEnregistrerBouteille] = useState(false);
+    const [bouteilleChoisiEstNonListe, setBouteilleChoisiEstNonListe] = useState(true);
+    const [modalAjouteBoutteilNonListeAuCellier, setModalAjouteBoutteilNonListeAuCellier ] = useState(false);
+    const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
     const modBouteilleForm = useRef(null);
     const ajouteBoutteilListeAuCellierForm = useRef(null);
     const formulaireAjoutBouteille = useRef(null);
@@ -57,8 +49,7 @@ export default function Cellier() {
     const [objBoutAModifier, setObjBoutAModifier] = useState(null);
     const [listePays, setListePays] = useState([]);
     const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
-    const [btnAjoutBouteilleDisponible, setBtnAjoutBouteilleDisponible] =
-        useState(false);
+    const [btnAjoutBouteilleDisponible, setBtnAjoutBouteilleDisponible] = useState(false);
     const { Panel } = Collapse;
     const [modBouteille, setmodBouteille] = useState(null);
     const [isUpdate, setisUpdate] = useState(false);
@@ -398,7 +389,29 @@ export default function Cellier() {
 
     const ajouterBoutteilAuCellierFormOk = () => {
         formulaireAjoutBouteille.current.validateFields().then((value) => {
-            if (!bouteilleChoisiEstNonListe) {
+            if (bouteilleChoisiEstNonListe){
+
+                console.log("nnnnnnnnnnnnnaa");
+                // let objNouvelleBout = {
+                //     nom: formData.nom,
+                //     image: formData.image ? formData.image : null,
+                //     pays: formData.pays ? formData.pays : "-----",
+                //     code_saq: null,
+                //     description: formData.description ? formData.description : null,
+                //     prix: formData.prix,
+                //     note: formData.note ? formData.note : null,
+                //     millesime: formData.millesime ? formData.millesime : null,
+                //     garde_jusqua: formData.garde_jusqua
+                //         ? formData.garde_jusqua
+                //         : null,
+                //     url_saq: null,
+                //     url_img: null,
+                //     format: formData.format ? formData.format : null,
+                //     type: formData.type_vin,
+                //     ganreliste: 0,
+                // };
+            }
+            else if (!bouteilleChoisiEstNonListe) {
                 let objBouteille = {
                     bouteille_id: boutSelectione.id,
                     cellier_id: id,
@@ -444,9 +457,9 @@ export default function Cellier() {
                                 });
                         });
                 }
-            } else {
-                console.log("zzzzzzzzzzzzzzzzzz");
-            }
+            } 
+            }).catch((error) => {
+            console.error("Erreur lors de la validation des champs:", error);
         });
         setModalMethodEnregistrerBouteille(false);
     };
@@ -630,7 +643,7 @@ export default function Cellier() {
                     <Button
                         key="Ajouter"
                         type="primary"
-                        disabled={btnAjoutBouteilleDisponible}
+                        disabled={!btnAjoutBouteilleDisponible}
                         onClick={() => {
                             ajouterBoutteilAuCellierFormOk();
                         }}
@@ -676,12 +689,14 @@ export default function Cellier() {
                     layout="vertical"
                     validateTrigger="onBlur"
                     onValuesChange={(changedValues, allValues) => {
+                        
                         if (bouteilleChoisiEstNonListe) {
-                            setBtnAjoutBouteilleDisponible(
-                                allValues.nom &&
-                                    allValues.prix &&
-                                    allValues.type
-                            );
+                            console.log("salutttttttttttt");
+                            if( allValues.nom != undefined &&
+                                allValues.prix != undefined &&
+                                allValues.type != undefined ){ console.log("akbarshah");}
+                            // setBtnAjoutBouteilleDisponible(false);
+                            // console.log("here: ",btnAjoutBouteilleDisponible);
                         }
                     }}
                 >
@@ -870,7 +885,7 @@ export default function Cellier() {
                 </Form>
             </Modal>
 
-            <Modal
+            {/* <Modal
                 open={modalAjouteBoutteilNonListeAuCellier}
                 title="Ajouter une nouvelle bouteille non listée"
                 onCancel={() => {
@@ -880,12 +895,12 @@ export default function Cellier() {
                     <Button
                         key="Ajouter"
                         type="primary"
-                        disabled={!btnAjoutBouteilleDisponible}
+                        disabled="true"
                         onClick={() => {
                             // récupérez les données du formulaire
                             const formData =
                                 ajouteBoutteilNonListeAuCellierForm.current.getFieldsValue();
-                            ajouterBoutteilNlAuCellierFormOk(formData);
+                                ajouterBoutteilNlAuCellierFormOk(formData);
                         }}
                     >
                         Ajouter
@@ -900,7 +915,7 @@ export default function Cellier() {
                     </Button>,
                 ]}
             >
-                {/* formulaire d'ajout d'une bouteille non listée */}
+                {/* formulaire d'ajout d'une bouteille non listée 
                 <Form
                     ref={ajouteBoutteilNonListeAuCellierForm}
                     layout="vertical"
@@ -924,7 +939,7 @@ export default function Cellier() {
                         <Input />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </Modal> */}
 
             {/* modal supprimer une boutteille du cellier */}
             <Modal
