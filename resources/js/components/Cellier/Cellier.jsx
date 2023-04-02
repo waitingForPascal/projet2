@@ -340,6 +340,7 @@ export default function Cellier() {
         //disableFieldsIfGenrelisteNotNull(formValues);
 
         modBouteilleForm.current.validateFields().then((value) => {
+            value.prix = value.prix.replace(',', '.');
             axios
                 .patch(`/modiffBouteilleCellier/${modBouteille.id}`, value)
                 .then((res) => {
