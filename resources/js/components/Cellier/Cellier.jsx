@@ -24,6 +24,7 @@ import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
 import moment from "moment";
+import axios from "axios";
 
 // import '../theme.less'; // Import the theme file
 
@@ -76,6 +77,7 @@ export default function Cellier() {
     }, []);
 
     const choisirVin = (elm) => {
+        setBtnAjoutBouteilleDisponible(true)
         bouteilleSaq.forEach((bouteille) => {
             if (bouteille.id == elm) {
                 setBoutSelectione(bouteille);
@@ -388,30 +390,53 @@ export default function Cellier() {
     // }
 
     const ajouterBoutteilAuCellierFormOk = () => {
-        formulaireAjoutBouteille.current.validateFields().then((value) => {
-            if (bouteilleChoisiEstNonListe){
+        if (bouteilleChoisiEstNonListe){
+            formulaireAjoutBouteille.current.validateFields().then((value) => {
+                let objNouvelleBout = {
+                    nom: value.nom,
+                    image: value.image ? value.image : null,
+                    pays: value.pays ? value.pays : "-----",
+                    code_saq: null,
+                    description: value.description ? value.description : null,
+                    prix: value.prix,
+                    note: value.note ? value.note : null,
+                    millesime: value.millesime ? value.millesime : null,
+                    garde_jusqua: value.garde_jusqua
+                        ? value.garde_jusqua
+                        : null,
+                    url_saq: null,
+                    url_img: null,
+                    format: value.format ? value.format : null,
+                    type: value.type_vin,
+                    ganreliste: 0,
+                };
+                objNouvelleBout.prix = objNouvelleBout.prix.replace(',', '.');
 
-                console.log("nnnnnnnnnnnnnaa");
-                // let objNouvelleBout = {
-                //     nom: formData.nom,
-                //     image: formData.image ? formData.image : null,
-                //     pays: formData.pays ? formData.pays : "-----",
-                //     code_saq: null,
-                //     description: formData.description ? formData.description : null,
-                //     prix: formData.prix,
-                //     note: formData.note ? formData.note : null,
-                //     millesime: formData.millesime ? formData.millesime : null,
-                //     garde_jusqua: formData.garde_jusqua
-                //         ? formData.garde_jusqua
-                //         : null,
-                //     url_saq: null,
-                //     url_img: null,
-                //     format: formData.format ? formData.format : null,
-                //     type: formData.type_vin,
-                //     ganreliste: 0,
-                // };
-            }
-            else if (!bouteilleChoisiEstNonListe) {
+                axios.post('/ajouteBouteilleNl', objNouvelleBout)
+                    .then((res) => {
+                        console.log(res);
+                        let objBouteille = {
+                            bouteille_id: res.data,
+                            cellier_id: id,
+                            date_achat: value.dateAchat ? value.dateAchat : Aujourdhui,
+                            quantite: value.quantite,
+                        };
+                        console.log("mmmmmm", objBouteille);
+                        axios.post(`/ajouteBouteilleCellier`, objBouteille);
+                    })
+                    .then((res) =>
+                        axios.get(`/getCeillerBouteille/${id}`)
+                            .then((res) => {
+                                setData(res.data);
+                            })
+                    )
+            }).catch((error) => {
+                console.error("Erreur lors de la validation des champs:", error);
+            });
+        }
+        else if (!bouteilleChoisiEstNonListe) {
+            formulaireAjoutBouteille.current.validateFields().then((value) => {
+            
                 let objBouteille = {
                     bouteille_id: boutSelectione.id,
                     cellier_id: id,
@@ -431,36 +456,37 @@ export default function Cellier() {
                             {
                                 quantite:
                                     bouteilleDansCellier.quantite +
-                                    Number(objBouteille.quantite),
-                                id_cellier: bouteilleDansCellier.id_cellier,
-                                date_achat: objBouteille.date_achat,
-                            }
-                        )
-                        .then((res) => {
-                            axios
-                                .get(`/getCeillerBouteille/${id}`)
-                                .then((res) => {
-                                    setData(res.data);
-                                });
-                        });
-                } else {
-                    axios
+                                     Number(objBouteille.quantite),
+                                    id_cellier: bouteilleDansCellier.id_cellier,
+                                    date_achat: objBouteille.date_achat,
+                                }
+                            )
+                            .then((res) => {
+                                axios
+                                 .get(`/getCeillerBouteille/${id}`)
+                                 .then((res) => {
+                                      setData(res.data);
+                                 });
+                            });
+                    } else {
+                        axios
                         .post(`/ajouteBouteilleCellier`, objBouteille)
-                        .then((res) => {
-                            console.log(res);
-                        })
-                        .then((res) => {
-                            axios
+                             .then((res) => {
+                                console.log(res);
+                            })
+                            .then((res) => {
+                                axios
                                 .get(`/getCeillerBouteille/${id}`)
-                                .then((res) => {
-                                    setData(res.data);
-                                });
-                        });
-                }
-            } 
-            }).catch((error) => {
-            console.error("Erreur lors de la validation des champs:", error);
-        });
+                                  .then((res) => {
+                                      setData(res.data);
+                                    });
+                           });
+                     }
+             
+                }).catch((error) => {
+                console.error("Erreur lors de la validation des champs:", error);
+            });
+        }
         setModalMethodEnregistrerBouteille(false);
     };
 
@@ -515,7 +541,9 @@ export default function Cellier() {
     };
 
     const fermeCarteBoutListe = () => {
+        setBtnAjoutBouteilleDisponible(false)
         setBouteilleChoisiEstNonListe(true);
+        formulaireAjoutBouteille.current.setFieldsValue({ bouteille: bouteilleSaq[0].id });
         formulaireAjoutBouteille.current?.resetFields();
         formulaireAjoutBouteille.current.setFieldsValue({ nom: "" });
     };
@@ -670,14 +698,15 @@ export default function Cellier() {
                             .toLowerCase()
                             .indexOf(input.toLowerCase()) >= 0
                     }
+                    defaultValue="default"
+                    ref={selectBouteilleRef}
                 >
+                    <Option value="default" key="default" disabled>
+                        --- Bouteilles existantes chez SAQ ---
+                    </Option>
                     {bouteilleSaq.map((bouteille) =>
                         bouteille.ganreliste === null ? (
-                            <Option
-                                value={bouteille.id}
-                                key={bouteille.id}
-                                ref={selectBouteilleRef}
-                            >
+                            <Option value={bouteille.id} key={bouteille.id}>
                                 {bouteille.nom}
                             </Option>
                         ) : null
@@ -690,12 +719,15 @@ export default function Cellier() {
                     validateTrigger="onBlur"
                     onValuesChange={(changedValues, allValues) => {
                         
-                        if (bouteilleChoisiEstNonListe) {
+                        if (!bouteilleChoisiEstNonListe) setBtnAjoutBouteilleDisponible(true);
+                        else {
                             console.log("salutttttttttttt");
-                            if( allValues.nom != undefined &&
-                                allValues.prix != undefined &&
-                                allValues.type != undefined ){ console.log("akbarshah");}
-                            // setBtnAjoutBouteilleDisponible(false);
+                            if( (allValues.nom !== undefined) &&
+                                allValues.type != "--- Sélétionez le type ---" &&
+                                allValues.prix != undefined) {
+                                    console.log(allValues);
+                                }
+                             setBtnAjoutBouteilleDisponible(true);
                             // console.log("here: ",btnAjoutBouteilleDisponible);
                         }
                     }}
@@ -769,7 +801,8 @@ export default function Cellier() {
                                         },
                                     ]}
                                 >
-                                    <Select>
+                                    <Select defaultValue="default">
+                                        <Option value="default" key="default" disabled>--- Sélétionez le type ---</Option>
                                         <Option value="1">Vin rouge</Option>
                                         <Option value="2">Vin blanc</Option>
                                         <Option value="3">Vin rosé</Option>
