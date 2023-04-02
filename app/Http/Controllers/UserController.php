@@ -31,7 +31,12 @@ class UserController extends Controller
     {
         //
         // $users = User::all();
-        $users = User::orderBy('id')->get();
+        // $users = User::orderBy('id')->get();
+
+        // privilege != 'admin'
+        $users = User::where('privilege', '<>', 'admin')
+            ->orderBy('id')
+            ->get();
         return response()->json($users);
         
     }
