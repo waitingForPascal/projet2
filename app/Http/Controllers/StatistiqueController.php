@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,7 +11,8 @@ class StatistiqueController extends Controller
     // le nombre d'usager
     public function nombreUsager()
     {
-        $count = DB::table('users')->count();
+        // ne pas inclure admin
+        $count = DB::table('users')->count() - 1;
 
         return response()->json($count);
     }
@@ -18,17 +20,28 @@ class StatistiqueController extends Controller
     // le nombre de cellier
     public function nombreCellier()
     {
-        $count = DB::table('celliers')->count();
+        // $count = DB::table('celliers')->count();
+
+        $count = DB::table('celliers')
+        ->join('users', 'celliers.user_id', '=', 'users.id')
+        ->whereColumn('celliers.user_id', '=', 'users.id')
+        ->count();
+       
 
         return response()->json($count);
     }
 
     //  le nombre de cellier par usager
+    //  le nombre de cellier pour l'usager existe.
     public function nombreCellierUsager()
     {
+        
         $cellierUsager = DB::table('celliers')
-        ->select('user_id', DB::raw('COUNT(*) as nombreCellierUsager'))
-        ->groupBy('user_id')
+        ->join('users', 'celliers.user_id', '=', 'users.id')
+        ->select('celliers.user_id', DB::raw('COUNT(*) as nombreCellierUsager'))
+        // le nombre de cellier pour l'usager existe.
+        ->whereNotNull('users.id')
+        ->groupBy('celliers.user_id')
         ->get();
 
         return response()->json($cellierUsager);
@@ -37,11 +50,14 @@ class StatistiqueController extends Controller
      //  le nombre de bouteille par cellier
      public function nombreBouteilleCellier()
      {
-        $nombre = DB::table('bouteilles_celliers')
-        ->select('cellier_id', DB::raw('SUM(quantite) as total_quantite'))
-        ->groupBy('cellier_id')
-        ->get();
-
+        $nombre = DB::table('celliers')
+            ->leftJoin('bouteilles_celliers', 'celliers.id', '=', 'bouteilles_celliers.cellier_id')
+            ->leftJoin('users', 'celliers.user_id', '=', 'users.id')
+            ->select('celliers.id', 'celliers.nom', DB::raw('IFNULL(SUM(bouteilles_celliers.quantite), null) as total_quantite'))
+            ->whereColumn('celliers.user_id', '=', 'users.id')
+            ->orWhereNull('users.id')
+            ->groupBy('celliers.id', 'celliers.nom')
+            ->get();
  
          return response()->json($nombre);
      }
@@ -49,13 +65,17 @@ class StatistiqueController extends Controller
     //  le nombre de bouteille par usager.
     public function nombreBouteilleUsager()
     {
-        $nombre = DB::table('bouteilles_celliers')
-            ->join('celliers', 'celliers.id', '=', 'bouteilles_celliers.cellier_id')
-            ->join('users', 'users.id', '=', 'celliers.user_id')
-            ->select('users.id', DB::raw('SUM(quantite) as total_quantite'))
+        $nombre = DB::table('users')
+            ->leftJoin('celliers', 'celliers.user_id', '=', 'users.id')
+            ->leftJoin('bouteilles_celliers', function($join){
+                $join->on('bouteilles_celliers.cellier_id', '=', 'celliers.id')
+                     ->on('users.id', '=', 'celliers.user_id');
+            })
+            ->where('users.privilege', '<>', 'admin')
+            ->select('users.id', DB::raw('IFNULL(SUM(quantite), null) as total_quantite'))
             ->groupBy('users.id')
+            ->orderBy('users.id')
             ->get();
-
 
         return response()->json($nombre);
     }
@@ -66,21 +86,24 @@ class StatistiqueController extends Controller
     public function valeurTous()
     {
         $total = DB::table('bouteilles')
-                ->join('bouteilles_celliers', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
-                ->sum(DB::raw('prix * quantite'));
-
+            ->join('bouteilles_celliers', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
+            ->join('celliers', 'bouteilles_celliers.cellier_id', '=', 'celliers.id')
+            ->whereColumn('bouteilles_celliers.cellier_id', '=', 'celliers.id')
+            ->sum(DB::raw('prix * quantite'));
         return response()->json($total);
     }
 
     //  la valeur total des bouteilles par usager
     public function valeurUsager()
     {
-        $total = DB::table('bouteilles')
-        ->join('bouteilles_celliers', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
-        ->join('celliers', 'celliers.id', '=', 'bouteilles_celliers.cellier_id')
-        ->join('users', 'users.id', '=', 'celliers.user_id')
-        ->select('users.id as user_id', DB::raw('SUM(prix * quantite) as total_prix'))
+        $total = DB::table('users')
+        ->leftJoin('celliers', 'users.id', '=', 'celliers.user_id')
+        ->leftJoin('bouteilles_celliers', 'celliers.id', '=', 'bouteilles_celliers.cellier_id')
+        ->leftJoin('bouteilles', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
+        ->where('users.privilege', '<>', 'admin')
+        ->select('users.id as user_id', DB::raw('IFNULL(SUM(prix * quantite), null) as total_prix'))
         ->groupBy('users.id')
+        ->orderBy('users.id')
         ->get();
 
         return response()->json($total);
@@ -89,13 +112,12 @@ class StatistiqueController extends Controller
     //  la valeur total des bouteilles par cellier
     public function valeurCellier()
     {
-        $total = DB::table('bouteilles')
-                 ->join('bouteilles_celliers', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
-                 ->join('celliers', 'celliers.id', '=', 'bouteilles_celliers.cellier_id')
-                 ->select('celliers.id as cellier_id', DB::raw('SUM(prix * quantite) as total_prix'))
-                 ->groupBy('celliers.id')
-                 ->get();
-
+        $total = DB::table('celliers')
+            ->leftJoin('bouteilles_celliers', 'celliers.id', '=', 'bouteilles_celliers.cellier_id')
+            ->leftJoin('bouteilles', 'bouteilles.id', '=', 'bouteilles_celliers.bouteille_id')
+            ->select('celliers.id as cellier_id', 'celliers.nom', DB::raw('IFNULL(SUM(prix * quantite), null) as total_prix'))
+            ->groupBy('celliers.id','celliers.nom')
+            ->get();
         return response()->json($total);
     }
 }

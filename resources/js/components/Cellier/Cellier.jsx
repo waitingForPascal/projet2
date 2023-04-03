@@ -2,12 +2,30 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { FacebookShareButton, TwitterShareButton, LinkedinShareButton } from 'react-share';
 
-import {Button, Select, Table, Modal, Space, Form, Input, Collapse, Card } from "antd";
-import {SearchOutlined, DeleteOutlined, EditOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import {
+    Button,
+    Select,
+    Table,
+    Modal,
+    Space,
+    Form,
+    Input,
+    Collapse,
+    Card,
+} from "antd";
+import {
+    SearchOutlined,
+    DeleteOutlined,
+    EditOutlined,
+    CloseCircleOutlined,
+    PlusOutlined,
+    MinusOutlined,
+} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
 import moment from "moment";
+import axios from "axios";
 
 // import '../theme.less'; // Import the theme file
 
@@ -16,13 +34,15 @@ export default function Cellier() {
     const [data, setData] = useState([]);
     const id = window.location.pathname.split("/").pop();
 
-    const [modalMethodEnregistrerBouteille, setModalMethodEnregistrerBouteille] = useState(false);
+    const [modalMethodEnregistrerBouteille,setModalMethodEnregistrerBouteille] = useState(false);
     const [bouteilleChoisiEstNonListe, setBouteilleChoisiEstNonListe] = useState(true);
-    const [modalAjouteBoutteilNonListeAuCellier, setModalAjouteBoutteilNonListeAuCellier] = useState(false);
+    const [modalAjouteBoutteilNonListeAuCellier, setModalAjouteBoutteilNonListeAuCellier ] = useState(false);
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
     const modBouteilleForm = useRef(null);
     const ajouteBoutteilListeAuCellierForm = useRef(null);
     const formulaireAjoutBouteille = useRef(null);
+
+    const selectBouteilleRef = useRef();
     const ajouteBoutteilNonListeAuCellierForm = useRef(null);
 
     const [bouteilleSaq, setBouteilleSaq] = useState([]);
@@ -31,45 +51,71 @@ export default function Cellier() {
     const [objBoutAModifier, setObjBoutAModifier] = useState(null);
     const [listePays, setListePays] = useState([]);
     const [formulaireBtNlValide, setFormulaireBtNlValide] = useState(false);
-    const [formulaireMValide, setFormulaireBtLiValide] = useState(false);
+    const [btnAjoutBouteilleDisponible, setBtnAjoutBouteilleDisponible] = useState(false);
     const { Panel } = Collapse;
     const [modBouteille, setmodBouteille] = useState(null);
     const [isUpdate, setisUpdate] = useState(false);
 
     useEffect(() => {
-        axios.get("https://restcountries.com/v2/all")
-          .then(response => {
-            const liste = response.data.map(pays => ({ value: pays.name, label: pays.name }));
-            setListePays(liste);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }, []);
+        axios
+            .get("https://restcountries.com/v2/all")
+            .then((response) => {
+                const liste = response.data.map((pays) => ({
+                    value: pays.name,
+                    label: pays.name,
+                }));
+                setListePays(liste);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
     useEffect(() => {
         axios.get("/getBouteillesSAQ").then((res) => {
-
             setBouteilleSaq(res.data);
         });
     }, []);
 
     const choisirVin = (elm) => {
+        setBtnAjoutBouteilleDisponible(true)
         bouteilleSaq.forEach((bouteille) => {
-            if (bouteille.id == elm ) {
+            if (bouteille.id == elm) {
                 setBoutSelectione(bouteille);
                 setBouteilleChoisiEstNonListe(false);
-                formulaireAjoutBouteille.current.setFieldsValue({nom: bouteille.nom});
-                formulaireAjoutBouteille.current.setFieldsValue({prix: bouteille.prix});
-                formulaireAjoutBouteille.current.setFieldsValue({pays: bouteille.pays});
-                formulaireAjoutBouteille.current.setFieldsValue({type: bouteille.type});
-                formulaireAjoutBouteille.current.setFieldsValue({millesime: bouteille.millesime});
-                formulaireAjoutBouteille.current.setFieldsValue({garde: bouteille.garde});
-                formulaireAjoutBouteille.current.setFieldsValue({note: bouteille.note});
-                formulaireAjoutBouteille.current.setFieldsValue({image: bouteille.image});
-                formulaireAjoutBouteille.current.setFieldsValue({format: bouteille.format});
-                formulaireAjoutBouteille.current.setFieldsValue({description: bouteille.description});
-                formulaireAjoutBouteille.current.setFieldsValue({url_saq: bouteille.url_saq});
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    nom: bouteille.nom,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    prix: bouteille.prix,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    pays: bouteille.pays,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    type: bouteille.type,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    millesime: bouteille.millesime,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    garde: bouteille.garde,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    note: bouteille.note,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    image: bouteille.image,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    format: bouteille.format,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    description: bouteille.description,
+                });
+                formulaireAjoutBouteille.current.setFieldsValue({
+                    url_saq: bouteille.url_saq,
+                });
             }
         });
     };
@@ -104,10 +150,10 @@ export default function Cellier() {
             close,
         }) => (
             <div
-            style={{
-                padding: 8,
-            }}
-            onKeyDown={(e) => e.stopPropagation()}
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
             >
                 <Input
                     ref={searchInput}
@@ -123,7 +169,7 @@ export default function Cellier() {
                         marginBottom: 8,
                         display: "block",
                     }}
-                    />
+                />
                 <Space>
                     <Button
                         type="primary"
@@ -135,7 +181,7 @@ export default function Cellier() {
                         style={{
                             width: 90,
                         }}
-                        >
+                    >
                         Search
                     </Button>
                     <Button
@@ -146,7 +192,7 @@ export default function Cellier() {
                         style={{
                             width: 90,
                         }}
-                        >
+                    >
                         Reset
                     </Button>
                     <Button
@@ -159,7 +205,7 @@ export default function Cellier() {
                             setSearchText(selectedKeys[0]);
                             setSearchedColumn(dataIndex);
                         }}
-                        >
+                    >
                         Filter
                     </Button>
                     <Button
@@ -168,7 +214,7 @@ export default function Cellier() {
                         onClick={() => {
                             close();
                         }}
-                        >
+                    >
                         close
                     </Button>
                 </Space>
@@ -176,123 +222,122 @@ export default function Cellier() {
         ),
         filterIcon: (filtered) => (
             <SearchOutlined
-            style={{
-                color: filtered ? "#1890ff" : undefined,
-            }}
+                style={{
+                    color: filtered ? "#1890ff" : undefined,
+                }}
             />
-            ),
-            onFilter: (value, record) =>
+        ),
+        onFilter: (value, record) =>
             record[dataIndex]
-            .toString()
-            .toLowerCase()
-            .includes(value.toLowerCase()),
-            onFilterDropdownOpenChange: (open) => {
-                if (open) {
-                    setTimeout(() => searchInput.current?.select(), 100);
-                }
-            },
-            render: (text) =>
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (open) => {
+            if (open) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
             searchedColumn === dataIndex ? (
                 <Highlighter
-                highlightStyle={{
-                    backgroundColor: "#ffc069",
-                    padding: 0,
-                }}
-                searchWords={[searchText]}
-                autoEscape
-                textToHighlight={text ? text.toString() : ""}
+                    highlightStyle={{
+                        backgroundColor: "#ffc069",
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ""}
                 />
-                ) : (
-                    text
-                    ),
-                });
+            ) : (
+                text
+            ),
+    });
 
-                const columns = [
-                    {
-                      title: "Nom",
-                      dataIndex: "nom",
-                      key: "nom",
-                      width: "30%",
-                      sorter: (a, b) => a.nom.localeCompare(b.nom),
-                    },
-                    {
-                      title: "Quantité",
-                      dataIndex: "quantite",
-                      key: "quantite",
-                      width: "20%",
-                      sorter: {
-                          compare: (a, b) => a.quantite - b.quantite,
-                      },
-                    },
-                    {
-                      title: "Pays",
-                      dataIndex: "pays",
-                      key: "pays",
-                      width: "20%",
-                      sorter: (a, b) => a.pays.localeCompare(b.pays),
-                    },
-                    {
-                      title: "Type",
-                      dataIndex: "type",
-                      key: "type",
-                      width: "20%",
-                      sorter: (a, b) => a.type.localeCompare(b.type),
-                    },
-                    {
-                      title: "Prix",
-                      dataIndex: "prix",
-                      key: "prix",
-                      sorter: {
-                          compare: (a, b) => a.prix - b.prix,
-                      },
-                    },
-                    {
-                      title: "",
-                      render: (item) => {
-                          return (
-                              <div>
-                                    <Button
-                                         className="userBtn"
-                                         danger
-                                         shape="circle"
-                                         icon={<DeleteOutlined />}
-                                         onClick={() => {
-                                             setIdBoutASupprim(item.id);
-                                             setModalSupprimeBoutteilCellier(item.id);
-                                         }}
-                                         >
-                                    </Button>
-                                    <Button
-                                        type="primary"
-                                        shape="circle"
-                                        icon={<EditOutlined />}
-                                        onClick={() => handleUpdate(item)}
-                                    ></Button>
-                              </div>
-                          );
-                      },
-                    },
-                    {
-                        title: "",
-                        render: (item) => {
-                            return (
-                                <div>
-                                    <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
-                                    Share on Facebook
-                                    </FacebookShareButton>
+    const columns = [
+        {
+            title: "Nom",
+            dataIndex: "nom",
+            key: "nom",
+            width: "30%",
+            sorter: (a, b) => a.nom.localeCompare(b.nom),
+        },
+        {
+            title: "Quantité",
+            dataIndex: "quantite",
+            key: "quantite",
+            width: "20%",
+            sorter: {
+                compare: (a, b) => a.quantite - b.quantite,
+            },
+        },
+        {
+            title: "Pays",
+            dataIndex: "pays",
+            key: "pays",
+            width: "20%",
+            sorter: (a, b) => a.pays.localeCompare(b.pays),
+        },
+        {
+            title: "Type",
+            dataIndex: "type",
+            key: "type",
+            width: "20%",
+            sorter: (a, b) => a.type.localeCompare(b.type),
+        },
+        {
+            title: "Prix",
+            dataIndex: "prix",
+            key: "prix",
+            sorter: {
+                compare: (a, b) => a.prix - b.prix,
+            },
+        },
+        {
+            title: "",
+            render: (item) => {
+                return (
+                    <div>
+                        <Button
+                            className="userBtn"
+                            danger
+                            shape="circle"
+                            icon={<DeleteOutlined />}
+                            onClick={() => {
+                                setIdBoutASupprim(item.id);
+                                setModalSupprimeBoutteilCellier(item.id);
+                            }}
+                        ></Button>
+                        <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<EditOutlined />}
+                            onClick={() => handleUpdate(item)}
+                        ></Button>
+                    </div>
+                );
+            },
+        },
+        {
+            title: "",
+            render: (item) => {
+                return (
+                    <div>
+                        <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                        Share on Facebook
+                        </FacebookShareButton>
 
-                                    <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
-                                    Share on Twitter
-                                    </TwitterShareButton>
+                        <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+                        Share on Twitter
+                        </TwitterShareButton>
 
-                                    <LinkedinShareButton url={"https://www.saq.com/fr/14154238"}>
-                                    Share on LinkedIn
-                                    </LinkedinShareButton> 
-                                </div>
-                            );
-                        },
-                      },
-                  ];
+                        <LinkedinShareButton url={"https://www.saq.com/fr/14154238"}>
+                        Share on LinkedIn
+                        </LinkedinShareButton> 
+                    </div>
+                );
+            },
+        },
+    ];
 
     const handleUpdate = (item) => {
         //console.log("RAHHAL",item.ganreliste);
@@ -306,7 +351,6 @@ export default function Cellier() {
         setTimeout(() => {
             modBouteilleForm.current.setFieldsValue(item);
         }, 0);
-        
     };
 
     const modBouteilleFormOk = () => {
@@ -317,189 +361,269 @@ export default function Cellier() {
         //disableFieldsIfGenrelisteNotNull(formValues);
 
         modBouteilleForm.current.validateFields().then((value) => {
-        axios.patch(`/modiffBouteilleCellier/${modBouteille.id}`, value).then((res) => {
-                 console.log(res.data);
-                axios.get(`/getCeillerBouteille/${id}`).then((res) => {
-                    setData(res.data);
+            value.prix = value.prix.replace(',', '.');
+            axios
+                .patch(`/modiffBouteilleCellier/${modBouteille.id}`, value)
+                .then((res) => {
+                    console.log(res.data);
+                    axios.get(`/getCeillerBouteille/${id}`).then((res) => {
+                        setData(res.data);
+                    });
                 });
-        });
-        // ferme le modal
-        setisUpdate(false);
+            // ferme le modal
+            setisUpdate(false);
         });
     };
 
-//     function disableFieldsIfGenrelisteNotNull(bouteille) {
-//         // Vérifier si le champ "ganreliste" de l'objet "bouteille" n'est pas nul
-//         if (bouteille.ganreliste !== null) {
-//             // Récupérer les champs "nom", "pays" et "prix" du formulaire
-//             const nomField = modBouteilleForm.current.getFieldInstance("nom");
-//             const paysField = modBouteilleForm.current.getFieldInstance("pays");
-//             const prixField = modBouteilleForm.current.getFieldInstance("prix");
+    //     function disableFieldsIfGenrelisteNotNull(bouteille) {
+    //         // Vérifier si le champ "ganreliste" de l'objet "bouteille" n'est pas nul
+    //         if (bouteille.ganreliste !== null) {
+    //             // Récupérer les champs "nom", "pays" et "prix" du formulaire
+    //             const nomField = modBouteilleForm.current.getFieldInstance("nom");
+    //             const paysField = modBouteilleForm.current.getFieldInstance("pays");
+    //             const prixField = modBouteilleForm.current.getFieldInstance("prix");
 
-//             // Désactiver les champs "nom", "pays" et "prix"
-//             nomField.disabled = true;
-//             paysField.disabled = true;
-//             prixField.disabled = true;
-//         }
-//     }
+    //             // Désactiver les champs "nom", "pays" et "prix"
+    //             nomField.disabled = true;
+    //             paysField.disabled = true;
+    //             prixField.disabled = true;
+    //         }
+    //     }
 
-
-
-// const getNomPaysPrixRules = (bouteille) => {
-//     if (isGanreliste(bouteille)) {
-//         return [
-//             {
-//                 required: true,
-//                 message: "Veuillez entrer le nom, le pays et le prix !",
-//             },
-//             {
-//                 validator: () => Promise.reject('Impossible de modifier le nom, le pays et le prix pour une bouteille ganreliste'),
-//             }
-//         ];
-//     } else {
-//         return [
-//             {
-//                 required: true,
-//                 message: "Veuillez entrer le nom, le pays et le prix !",
-//             },
-//         ];
-//     }
-// }
-
-
+    // const getNomPaysPrixRules = (bouteille) => {
+    //     if (isGanreliste(bouteille)) {
+    //         return [
+    //             {
+    //                 required: true,
+    //                 message: "Veuillez entrer le nom, le pays et le prix !",
+    //             },
+    //             {
+    //                 validator: () => Promise.reject('Impossible de modifier le nom, le pays et le prix pour une bouteille ganreliste'),
+    //             }
+    //         ];
+    //     } else {
+    //         return [
+    //             {
+    //                 required: true,
+    //                 message: "Veuillez entrer le nom, le pays et le prix !",
+    //             },
+    //         ];
+    //     }
+    // }
 
     const ajouterBoutteilAuCellierFormOk = () => {
-        formulaireAjoutBouteille.current.validateFields().then((value) => {
-                console.log(value);
+        if (bouteilleChoisiEstNonListe){
+            formulaireAjoutBouteille.current.validateFields().then((value) => {
+                let objNouvelleBout = {
+                    nom: value.nom,
+                    image: value.image ? value.image : null,
+                    pays: value.pays ? value.pays : "-----",
+                    code_saq: null,
+                    description: value.description ? value.description : null,
+                    prix: value.prix,
+                    note: value.note ? value.note : null,
+                    millesime: value.millesime ? value.millesime : null,
+                    garde_jusqua: value.garde_jusqua
+                        ? value.garde_jusqua
+                        : null,
+                    url_saq: null,
+                    url_img: null,
+                    format: value.format ? value.format : null,
+                    type: value.type_vin,
+                    ganreliste: 0,
+                };
+                objNouvelleBout.prix = objNouvelleBout.prix.replace(',', '.');
 
+                axios.post('/ajouteBouteilleNl', objNouvelleBout)
+                    .then((res) => {
+                        console.log(res);
+                        let objBouteille = {
+                            bouteille_id: res.data,
+                            cellier_id: id,
+                            date_achat: value.dateAchat ? value.dateAchat : Aujourdhui,
+                            quantite: value.quantite,
+                        };
+                        console.log("mmmmmm", objBouteille);
+                        axios.post(`/ajouteBouteilleCellier`, objBouteille);
+                    })
+                    .then((res) =>
+                        axios.get(`/getCeillerBouteille/${id}`)
+                            .then((res) => {
+                                setData(res.data);
+                            })
+                    )
+            }).catch((error) => {
+                console.error("Erreur lors de la validation des champs:", error);
+            });
+        }
+        else if (!bouteilleChoisiEstNonListe) {
+            formulaireAjoutBouteille.current.validateFields().then((value) => {
+            
                 let objBouteille = {
                     bouteille_id: boutSelectione.id,
                     cellier_id: id,
-                    date_achat: value.dateAchat,
+                    date_achat: value.dateAchat ? value.dateAchat : Aujourdhui,
                     quantite: value.quantite,
                 };
 
-                //verifier si le bouteille va être ajouté est déjà dans ce cellier, si oui patch(modifier la quantité), si non post
                 if (
                     data.some((item) => item.bouteille_id == boutSelectione.id)
-                    ) {
-
-                    console.log("patch");
+                ) {
                     const bouteilleDansCellier = data.find(
                         (item) => item.bouteille_id == boutSelectione.id
                     );
-
                     axios
-                        .patch(`/ajouteBouteilleCellierPatch/${boutSelectione.id}`,
+                        .patch(
+                            `/ajouteBouteilleCellierPatch/${boutSelectione.id}`,
                             {
                                 quantite:
                                     bouteilleDansCellier.quantite +
-                                    Number(objBouteille.quantite),
+                                     Number(objBouteille.quantite),
                                     id_cellier: bouteilleDansCellier.id_cellier,
                                     date_achat: objBouteille.date_achat,
-                            }
-                        ).then((res) => {
-                            axios
-                                .get(`/getCeillerBouteille/${id}`)
-                                .then((res) => {
-                                    setData(res.data);
-                                });
-                        });
-                } else {
-                    //console.log(objBouteille);
-                    axios
+                                }
+                            )
+                            .then((res) => {
+                                axios
+                                 .get(`/getCeillerBouteille/${id}`)
+                                 .then((res) => {
+                                      setData(res.data);
+                                 });
+                            });
+                    } else {
+                        axios
                         .post(`/ajouteBouteilleCellier`, objBouteille)
-                        .then((res) => {
-                            axios
+                             .then((res) => {
+                                console.log(res);
+                            })
+                            .then((res) => {
+                                axios
                                 .get(`/getCeillerBouteille/${id}`)
-                                .then((res) => {
-                                    setData(res.data);
-                                });
-                        });
-                }
+                                  .then((res) => {
+                                      setData(res.data);
+                                    });
+                           });
+                     }
+             
+                }).catch((error) => {
+                console.error("Erreur lors de la validation des champs:", error);
             });
-            setModalMethodEnregistrerBouteille(false);
+        }
+        setModalMethodEnregistrerBouteille(false);
     };
 
     const CardeBouteilleListe = ({ bouteille }) => {
         return (
-          <Card>
-            <div>
-                <Button danger className="btnFermerBoutListe" onClick={() => {fermeCarteBoutListe()} }>X</Button>
-                <br />
-            </div>
-            <div className="carteBouteilleListe">
-                <img src={bouteille.image} alt={bouteille.nom} />
-                <div className="carteBouteilleListe__infos">
-                    <p><b>{bouteille.nom} </b></p>
-                    <p>Pays : <b>{bouteille.pays}</b> </p>
-                    <p>Type : <b>{bouteille.type == 1 ? "Vin rouge" : "Vin blanc"} - {bouteille.format}</b></p>
-                    <p>Prix : <b>{bouteille.prix} $</b></p>
-                    <p><a href={bouteille.url_saq} target="_blank">Voir chez SAQ</a></p>
+            <Card className="carteBouteilleListe">
+                <div>
+                    <CloseCircleOutlined
+                        className="iconFermerBoutListe"
+                        onClick={() => {
+                            fermeCarteBoutListe();
+                        }}
+                    />
                 </div>
-            </div>
-          </Card>
+                <div>
+                    <p className="carteBouteilleListe__titre">
+                        <b>{bouteille.nom} </b>
+                    </p>
+                    <div className="carteBouteilleListe__corps">
+                        <div className="carteBouteilleListe__infos">
+                            <p>
+                                Pays: <b>{bouteille.pays}</b>{" "}
+                            </p>
+                            <p>
+                                Type:{" "}
+                                <b>
+                                    {bouteille.type == 1
+                                        ? "Vin rouge"
+                                        : "Vin blanc"}
+                                </b>
+                            </p>
+                            <p>
+                                Format: <b>{bouteille.format}</b>
+                            </p>
+                            <p>
+                                Prix: <b>{bouteille.prix} $</b>
+                            </p>
+                        </div>
+                        <img src={bouteille.image} alt={bouteille.nom} />
+                    </div>
+                    <Button
+                        type="link"
+                        className="btnLienSAQ"
+                        href={bouteille.url_saq}
+                        target="_blank"
+                    >
+                        En savoir plus{" "}
+                    </Button>
+                </div>
+            </Card>
         );
-      };
+    };
 
     const fermeCarteBoutListe = () => {
+        setBtnAjoutBouteilleDisponible(false)
         setBouteilleChoisiEstNonListe(true);
+        formulaireAjoutBouteille.current.setFieldsValue({ bouteille: bouteilleSaq[0].id });
         formulaireAjoutBouteille.current?.resetFields();
-        formulaireAjoutBouteille.current.setFieldsValue({nom: ""});
-    }
+        formulaireAjoutBouteille.current.setFieldsValue({ nom: "" });
+    };
 
     const ajouterBoutteilNlAuCellierFormOk = (formData) => {
         const showErrorModal = () => {
             Modal.error({
-              title: 'Erreur',
-              content: 'Le nom choisi n\'est pas autorisé ! Veuillez choisir un autre nom.',
-              okText: 'OK',
+                title: "Erreur",
+                content:
+                    "Le nom choisi n'est pas autorisé ! Veuillez choisir un autre nom.",
+                okText: "OK",
             });
         };
 
-        if ( data.some((item) => item.nom === formData.nom )  ) showErrorModal();
-        else if ( bouteilleSaq.some((item) => item.nom === formData.nom )  ) {
+        if (data.some((item) => item.nom === formData.nom)) showErrorModal();
+        else if (bouteilleSaq.some((item) => item.nom === formData.nom)) {
             showErrorModal();
-        }
-        else{
+        } else {
             setModalAjouteBoutteilNonListeAuCellier(false);
             let objNouvelleBout = {
                 nom: formData.nom,
                 image: formData.image ? formData.image : null,
                 pays: formData.pays ? formData.pays : "-----",
-            	code_saq: null,
+                code_saq: null,
                 description: formData.description ? formData.description : null,
                 prix: formData.prix,
                 note: formData.note ? formData.note : null,
                 millesime: formData.millesime ? formData.millesime : null,
-                garde_jusqua: formData.garde_jusqua ? formData.garde_jusqua : null,
-            	url_saq: null,
+                garde_jusqua: formData.garde_jusqua
+                    ? formData.garde_jusqua
+                    : null,
+                url_saq: null,
                 url_img: null,
                 format: formData.format ? formData.format : null,
                 type: formData.type_vin,
-                ganreliste: 0
+                ganreliste: 0,
             };
 
-            axios.post(`/ajouteBouteilleNl`, objNouvelleBout)
-            .then((res) => {
+            axios.post(`/ajouteBouteilleNl`, objNouvelleBout).then((res) => {
                 let objBouteille = {
                     bouteille_id: res.data,
                     cellier_id: id,
-                    date_achat: formData.date_achat ? formData.date_achat : Aujourdhui,
-                    quantite: formData.quantite
+                    date_achat: formData.date_achat
+                        ? formData.date_achat
+                        : Aujourdhui,
+                    quantite: formData.quantite,
                 };
 
-            //console.log(objBouteille);
-            axios.post(`/ajouteBouteilleCellier`, objBouteille)
+                //console.log(objBouteille);
+                axios
+                    .post(`/ajouteBouteilleCellier`, objBouteille)
                     .then((res) => {
                         //console.log(res);
-                        axios.get(`/getCeillerBouteille/${id}`)
-                            .then((res) => {
-                                setData(res.data);
+                        axios.get(`/getCeillerBouteille/${id}`).then((res) => {
+                            setData(res.data);
                         });
-                });
-        });
-
+                    });
+            });
         }
     };
 
@@ -540,194 +664,337 @@ export default function Cellier() {
                 </Button>
             </div>
             <Table
-                    columns={columns}
-                    dataSource={data}
-                    pagination={{ pageSize: 5 }}
-                    rowKey={(item) => item.id}
-                    className="responsive-table"
+                columns={columns}
+                dataSource={data}
+                pagination={{ pageSize: 5 }}
+                rowKey={(item) => item.id}
+                className="responsive-table"
             />
             <div className="button-middle">
                 <Button
                     type="primary"
                     onClick={() => setModalMethodEnregistrerBouteille(id)}
                 >
-                    Ajouter une nouvelle bouteille
+                    Ajouter une bouteille
                 </Button>
             </div>
 
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal
                 open={modalMethodEnregistrerBouteille}
-                title="Ajouter une nouvelle bouteille listée au cellier"
+                title="Ajouter une bouteille"
                 okText="Ajouter"
                 cancelText="Annuler"
-                onOk={() => ajouterBoutteilAuCellierFormOk()}
+                //onOk={() => ajouterBoutteilAuCellierFormOk()}
                 onCancel={() => {
                     setModalMethodEnregistrerBouteille(false);
                 }}
+                footer={[
+                    <Button
+                        key="Ajouter"
+                        type="primary"
+                        disabled={!btnAjoutBouteilleDisponible}
+                        onClick={() => {
+                            ajouterBoutteilAuCellierFormOk();
+                        }}
+                    >
+                        Ajouter
+                    </Button>,
+                    <Button
+                        key="annuler"
+                        onClick={() =>
+                            setModalMethodEnregistrerBouteille(false)
+                        }
+                    >
+                        Annuler
+                    </Button>,
+                ]}
             >
-                {/* Modal ajout une bouteille listée */}
-                <Form 
-                    ref={formulaireAjoutBouteille}
-                    layout="vertical"
-                    validateTrigger='onBlur'
-                    onValuesChange={(changedValues, allValues) => {
-                        setFormulaireBtLiValide(
-                            allValues.quantite &&
-                            allValues.prix
-                        );
-                    }}
-                >
                 Séléctionnez une bouteille :
                 <Select
                     showSearch
                     className="nom_bouteille"
                     onChange={choisirVin}
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0
                     }
+                    defaultValue="default"
+                    ref={selectBouteilleRef}
                 >
-                    {bouteilleSaq.map((bouteille) => (
-                        (bouteille.ganreliste === null) ? (<Option value={bouteille.id} key={bouteille.id}>{bouteille.nom}</Option>) : null
-                    ))}
+                    <Option value="default" key="default" disabled>
+                        --- Bouteilles existantes chez SAQ ---
+                    </Option>
+                    {bouteilleSaq.map((bouteille) =>
+                        bouteille.ganreliste === null ? (
+                            <Option value={bouteille.id} key={bouteille.id}>
+                                {bouteille.nom}
+                            </Option>
+                        ) : null
+                    )}
                 </Select>
-            {bouteilleChoisiEstNonListe ? 
-                <>
-                <Form.Item
-                    name="nom"
-                    label="Nom de la bouteille :"
-                                initialValue={boutSelectione.nom}
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Veuillez entrer au moins 3 caractères !",
-                                    },
-                                ]}
-                            >
-                    <Input type="text"/>
-                </Form.Item>
-                <Form.Item label="Prix (Obligatoire)" name="prix"
-                                    rules={[{ required: true, message: 'Veuillez entrer le prix de la bouteille.' }]}>
-                            <Input step={0.01} min="0"/>
-                        </Form.Item>
-                    <Form.Item
-                        name="quantite"
-                        label="Quantite"
-                        initialValue={1}
-                        rules={[
-                            {
-                                required: true,
-                                message: "Veuillez entrer la quantité !",
-                            },
-                        ]}
-                            >
-                        <Input type="number" min="1" step="1" />
-                    </Form.Item>
-                    <Form.Item
-                        name="dateAchat"
-                        label="Date d'achat"
-                        initialValue={Aujourdhui}
-                        rules={[
-                            {
-                                required: true,
-                                        message:
-                                            "Veuillez entrer la date d'achat !",
-                                    },
-                                ]}
-                        >
-                            <Input type="date"/>
-                        </Form.Item>
-                        <Form.Item label="Type de vin (Obligatoire)" name="type_vin" rules={[{ required: true, message: 'Veuillez choisir le type de vin.' }]}>
-                            <Select>
-                                <Option value="1">Vin rouge</Option>
-                                <Option value="2">Vin blanc</Option>
-                                <Option value="3">Vin rosé</Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item label="Veuillez sélectionner le pays (optionnelle)" name="pays">
+                {/* Modal ajout une bouteille listée */}
+                <Form
+                    ref={formulaireAjoutBouteille}
+                    layout="vertical"
+                    validateTrigger="onBlur"
+                    onValuesChange={(changedValues, allValues) => {
+                        
+                        if (!bouteilleChoisiEstNonListe) setBtnAjoutBouteilleDisponible(true);
+                        else {
+                            console.log("salutttttttttttt");
+                            if( (allValues.nom !== undefined) &&
+                                allValues.type != "--- Sélétionez le type ---" &&
+                                allValues.prix != undefined) {
+                                    console.log(allValues);
+                                }
+                             setBtnAjoutBouteilleDisponible(true);
+                            // console.log("here: ",btnAjoutBouteilleDisponible);
+                        }
+                    }}
+                >
+                    <div className="formAjoutBoutAuCellier">
+                        {bouteilleChoisiEstNonListe ? (
+                            <>
+                                <Form.Item
+                                    name="nom"
+                                    label="Nom de la bouteille (Obligatoire)"
+                                    initialValue={boutSelectione.nom}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer au moins 3 caractères !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="text" />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Prix (Obligatoire)"
+                                    name="prix"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer le prix de la bouteille.",
+                                        },
+                                    ]}
+                                >
+                                    <Input step={0.01} min="0" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="quantite"
+                                    label="Quantite (Obligatoire)"
+                                    initialValue={1}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer la quantité !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="number" min="1" step="1" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="dateAchat"
+                                    label="Date d'achat (Obligatoire)"
+                                    initialValue={Aujourdhui}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer la date d'achat !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="date" />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Type de vin (Obligatoire)"
+                                    name="type_vin"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez choisir le type de vin.",
+                                        },
+                                    ]}
+                                >
+                                    <Select defaultValue="default">
+                                        <Option value="default" key="default" disabled>--- Sélétionez le type ---</Option>
+                                        <Option value="1">Vin rouge</Option>
+                                        <Option value="2">Vin blanc</Option>
+                                        <Option value="3">Vin rosé</Option>
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item
+                                    label="Veuillez sélectionner le pays (optionnelle)"
+                                    name="pays"
+                                >
                                     <Select
-                                         showSearch
-                                        filterOption={
-                                            (input, option) =>
-                                            option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                        showSearch
+                                        filterOption={(input, option) =>
+                                            option.label
+                                                .toLowerCase()
+                                                .indexOf(input.toLowerCase()) >=
+                                            0
                                         }
                                     >
                                         {listePays.map((pays) => (
-                                            <Option key={pays.value} value={pays.value} label={pays.label}>
+                                            <Option
+                                                key={pays.value}
+                                                value={pays.value}
+                                                label={pays.label}
+                                            >
                                                 {pays.label}
                                             </Option>
                                         ))}
                                     </Select>
                                 </Form.Item>
-                        <Collapse bordered={false}>
-                            <Panel header="Options supplémentaires" key="1">
-                                <Form.Item label="Millesime" name="millesime"><Input type="date" /></Form.Item>
-                                <Form.Item label="Garde" name="garde_jusqua"><Input type="date" /></Form.Item>
-                                <Form.Item label="Note" name="note"><Input type="number" min={0} max={5} /></Form.Item>
-                                <Form.Item label="Image" name="image"><Input /></Form.Item>
-                                <Form.Item label="Format" name="format"><Input /></Form.Item>
-                                <Form.Item label="Description" name="description"><Input.TextArea /></Form.Item>
-                            </Panel>
-                        </Collapse>
-                    </> : 
-                    <>
-                        <CardeBouteilleListe bouteille={boutSelectione} />
-                        <Form.Item
-                            name="quantite"
-                            label="Quantite"
-                            initialValue={1}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Veuillez entrer la quantité !",
-                                },
-                            ]}
+                                <Collapse bordered={false}>
+                                    <Panel
+                                        header="Options supplémentaires"
+                                        key="1"
+                                    >
+                                        <Form.Item
+                                            label="Millesime"
+                                            name="millesime"
+                                        >
+                                            <Input type="date" />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Garde"
+                                            name="garde_jusqua"
+                                        >
+                                            <Input type="date" />
+                                        </Form.Item>
+                                        <Form.Item label="Note" name="note">
+                                            <Input
+                                                type="number"
+                                                min={0}
+                                                max={5}
+                                            />
+                                        </Form.Item>
+                                        <Form.Item label="Image" name="image">
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item label="Format" name="format">
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Description"
+                                            name="description"
+                                        >
+                                            <Input.TextArea />
+                                        </Form.Item>
+                                    </Panel>
+                                </Collapse>
+                                <Form.Item
+                                    hidden
+                                    label="ganreliste"
+                                    name="ganreliste"
+                                    initialValue="0"
                                 >
-                            <Input type="number" min="1" step="1" />
-                        </Form.Item>
-                    </> 
-                    }
+                                    <Input />
+                                </Form.Item>
+                            </>
+                        ) : (
+                            <>
+                                <CardeBouteilleListe
+                                    bouteille={boutSelectione}
+                                />
+                                <Form.Item
+                                    name="quantite"
+                                    label="Quantite"
+                                    initialValue={1}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer la quantité !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="number" min="1" step="1" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="dateAchat"
+                                    label="Date d'achat"
+                                    initialValue={Aujourdhui}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer la date d'achat !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="date" />
+                                </Form.Item>
+                            </>
+                        )}
+                    </div>
                 </Form>
             </Modal>
 
-            <Modal
-               open={modalAjouteBoutteilNonListeAuCellier}
-               title="Ajouter une nouvelle bouteille non listée"
-               onCancel={() => {setModalAjouteBoutteilNonListeAuCellier(false)}}
-               footer={[
-                <Button key="Ajouter" type="primary"
-                        disabled={!formulaireBtNlValide}
+            {/* <Modal
+                open={modalAjouteBoutteilNonListeAuCellier}
+                title="Ajouter une nouvelle bouteille non listée"
+                onCancel={() => {
+                    setModalAjouteBoutteilNonListeAuCellier(false);
+                }}
+                footer={[
+                    <Button
+                        key="Ajouter"
+                        type="primary"
+                        disabled="true"
                         onClick={() => {
                             // récupérez les données du formulaire
-                            const formData = ajouteBoutteilNonListeAuCellierForm.current.getFieldsValue();
-                            ajouterBoutteilNlAuCellierFormOk(formData);
-                        }}>
-                    Ajouter
-                </Button>,
-                <Button key="annuler" onClick={() => setModalAjouteBoutteilNonListeAuCellier(false)}>
-                    Annuler
-                </Button>,
-            ]}>
-
-               {/* formulaire d'ajout d'une bouteille non listée */}
-               <Form ref={ajouteBoutteilNonListeAuCellierForm}
-                     layout="vertical"
-                     validateTrigger='onBlur'
-                     onValuesChange={(changedValues, allValues) => {
+                            const formData =
+                                ajouteBoutteilNonListeAuCellierForm.current.getFieldsValue();
+                                ajouterBoutteilNlAuCellierFormOk(formData);
+                        }}
+                    >
+                        Ajouter
+                    </Button>,
+                    <Button
+                        key="annuler"
+                        onClick={() =>
+                            setModalAjouteBoutteilNonListeAuCellier(false)
+                        }
+                    >
+                        Annuler
+                    </Button>,
+                ]}
+            >
+                {/* formulaire d'ajout d'une bouteille non listée 
+                <Form
+                    ref={ajouteBoutteilNonListeAuCellierForm}
+                    layout="vertical"
+                    validateTrigger="onBlur"
+                    onValuesChange={(changedValues, allValues) => {
                         setFormulaireBtNlValide(
                             allValues.nom &&
-                            allValues.quantite &&
-                            allValues.prix &&
-                            allValues.type_vin
+                                allValues.quantite &&
+                                allValues.prix &&
+                                allValues.type_vin
                         );
                         //console.log(formulaireBtNlValide);
-                      }}>
-
-
->
-                    <Form.Item hidden label="ganreliste" name="ganreliste" initialValue="0"><Input /></Form.Item>
+                    }}
+                >
+                    <Form.Item
+                        hidden
+                        label="ganreliste"
+                        name="ganreliste"
+                        initialValue="0"
+                    >
+                        <Input />
+                    </Form.Item>
                 </Form>
-            </Modal>
+            </Modal> */}
 
             {/* modal supprimer une boutteille du cellier */}
             <Modal
@@ -759,12 +1026,8 @@ export default function Cellier() {
                 onOk={() => modBouteilleFormOk()}
             >
                 <Form ref={modBouteilleForm} layout="vertical">
-                    <Form.Item
-                        name="nom"
-                        label="Nom"
-
-                    >
-                        <Input  />
+                    <Form.Item name="nom" label="Nom">
+                        <Input />
                     </Form.Item>
                     <Form.Item
                         name="prix"
@@ -788,7 +1051,8 @@ export default function Cellier() {
                                 message:
                                     "Please input the title of collection!",
                             },
-                        ]}>
+                        ]}
+                    >
                         <Input />
                     </Form.Item>
                     <Form.Item
@@ -819,26 +1083,37 @@ export default function Cellier() {
                             ]}
                         />
                     </Form.Item>
-                    <Form.Item name="id" label="id" hidden="true"><Input /></Form.Item>
-                    <Form.Item name="id_cellier"   label="id_cellier" hidden="true"><Input /></Form.Item>
-                    <Form.Item
-                            name="quantite"
-                            label="Quantite"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Veuillez entrer la quantité !",
-                                },
-                            ]}
-                        >
-                            <Input type="number" min="1" step="1" />
+                    <Form.Item name="id" label="id" hidden="true">
+                        <Input />
                     </Form.Item>
-                    <Form.Item name="dateAchat" label="Date d'achat" initialValue={Aujourdhui}></Form.Item>
+                    <Form.Item
+                        name="id_cellier"
+                        label="id_cellier"
+                        hidden="true"
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="quantite"
+                        label="Quantite"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Veuillez entrer la quantité !",
+                            },
+                        ]}
+                    >
+                        <Input type="number" min="1" step="1" />
+                    </Form.Item>
+                    <Form.Item
+                        name="dateAchat"
+                        label="Date d'achat"
+                        initialValue={Aujourdhui}
+                    ></Form.Item>
                 </Form>
             </Modal>
         </div>
     );
-
 }
 
 if (document.getElementById("cellier")) {

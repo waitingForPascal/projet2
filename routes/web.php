@@ -71,7 +71,7 @@ Route::get('/cellier/{id}', function () {return view('cellier');});
 Route::get('/verificationUser', [UserController::class, 'index']);
 // aller vers page de gestion d'utilisateur
 Route::get('/listeUsager', [UserController::class, 'gestionUsager']);
-// récupérer tous les usagers
+// récupérer tous les usagers    non admin
 Route::get('/getTousUser', [UserController::class, 'getTousUser']);
 // modificaiton d'usager
 Route::patch('/modUser/{id}', [UserController::class, 'update']);

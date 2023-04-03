@@ -34,23 +34,76 @@
     width: 100%;
   }
 
-  .carteBouteilleListe {
-    display: flex;
-    gap: 5%;
+  .nom_bouteille {
+    width: 100%;
   }
 
-  .btnFermerBoutListe {
+  .iconFermerBoutListe {
     position: absolute;
-    top: 5px; right: 10px;
+    /* color: red; */
+    font-size: 1.5rem;
+    top: 10px; right: 10px;
   }
 
-  .carteBouteilleListe img {
+  .carteBouteilleListe {
+    background-color: rgb(252, 252, 252);
+    margin: 15px 0;
+    border-radius: 10px;
+    padding: 0 5px !important;
+  }
+
+  .carteBouteilleListe__titre {
+    text-align: center;
+    font-size: 1.1rem;
+    /* color: rgb(8, 18, 136); */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 30px;
+  }
+
+  .carteBouteilleListe__corps {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .carteBouteilleListe__corps img {
+    align-self: stretch;
+    width: 30%;
     object-fit: contain;    
   }
 
   .carteBouteilleListe__infos {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+  }
+  .carteBouteilleListe__infos p {
+    margin: 5px 0;
+  }
+
+  .btnLienSAQ {
+    display: flex;
+    margin: auto;
+    max-width: max-content;
+    margin-top: 25px;
+    text-decoration: none;
+    color: #0d6efd !important;
+  }
+
+  .formAjoutBoutAuCellier {
+    margin-top: 20px;
   }
   
+  .formAjoutBoutAuCellier label {
+    margin-top: 0;
+  }
+
+  .formAjoutBoutAuCellier Input {
+    margin: 0;
+
+  }
+ 
   @media screen and (max-width: 768px) {
     .ant-table {
       overflow-x: auto;
