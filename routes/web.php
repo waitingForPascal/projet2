@@ -119,10 +119,12 @@ Route::post('/voirCellier', [CellierController::class, 'voir']);
 
 Route::get('/bouteille', [SAQController::class, 'index']);
 Route::post('/ajouteBouteilleNl' , [BouteilleController::class, 'storeNl']);
+
+//importer des bouteilles du SAQ
 Route::get('/importerBouteille', [BouteilleController::class, 'importerBouteillesSAQ']);
 
 // Aller dans la page pour importer des bouteilles de SAQ
-Route::get('/bouteilleSAQ', [BouteilleController::class, 'bouteilleSAQ']);
+// Route::get('/bouteilleSAQ', [BouteilleController::class, 'bouteilleSAQ']);
 // Importer des bouteilles de SAQ
-Route::post('/bouteilleSAQ', [BouteilleController::class, 'importerBouteillesSAQ']);
+// Route::post('/bouteilleSAQ', [BouteilleController::class, 'importerBouteillesSAQ']);
 
