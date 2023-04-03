@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import { FacebookShareButton, TwitterShareButton, LinkedinShareButton } from 'react-share';
+import { FacebookShareButton, TwitterShareButton } from 'react-share';
+import { FaFacebook, FaTwitter } from 'react-icons/fa';
 
 import {
     Button,
@@ -323,16 +324,13 @@ export default function Cellier() {
                 return (
                     <div>
                         <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
-                        Share on Facebook
+                        <FaFacebook />
                         </FacebookShareButton>
 
                         <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
-                        Share on Twitter
+                        <FaTwitter />
                         </TwitterShareButton>
 
-                        <LinkedinShareButton url={"https://www.saq.com/fr/14154238"}>
-                        Share on LinkedIn
-                        </LinkedinShareButton> 
                     </div>
                 );
             },
