@@ -24,8 +24,9 @@
 <body>
     <div id="app" class="page-container">
 
-        <nav class="navbarEntete wrapper">
+        <nav class="navbarEntete">
 
+        <div class="nav-menu">
             <a href="/home" ><img src="{{ asset('img/vino.png') }}" alt="logo" class="logo"></a>
 
             <div class="hamburger-menu">
@@ -33,6 +34,8 @@
                 <div class="bar"></div>
                 <div class="bar"></div>
             </div>
+
+        </div>
 
 
 
@@ -69,12 +72,12 @@
         <main class="wrapper-contenu">
             @yield('content')
         </main>
-
+<!-- 
         <footer>
             <div class="footer-container">
                 <p>&copy; 2023 VINO. Tous les droits sont réservés.</p>
             </div>
-        </footer>
+        </footer> -->
     </div>
     <script src="{{ asset('script/main.js') }}"></script>
 

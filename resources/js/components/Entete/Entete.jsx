@@ -53,24 +53,27 @@ export default function Entete() {
                         xl={8}
                         xxl={4}
                     >
-                        <Card
-                            hoverable
-                            style={{
-                                width: 250,
-                            }}
-                            bordered={false}
-                            cover={
-                                <img
-                                    alt="listeUsager"
-                                    src="/img/listeUsager.jpg" 
-                                />
-                            }
-                        >
-                            <a href="/listeUsager" style={{ textDecoration: 'none' }}>
-                               <Meta title="Liste d'usagers"/> 
-                            </a>
-                           
-                        </Card>
+                        <div className="card-center">
+                            <Card
+                                hoverable
+                                style={{
+                                    width: 250,
+                                }}
+                                bordered={false}
+                                cover={
+                                    <img
+                                        alt="listeUsager"
+                                        src="/img/listeUsager.jpg" 
+                                    />
+                                }
+                            >
+                                <a href="/listeUsager" style={{ textDecoration: 'none' }}>
+                                <Meta title="Liste d'usagers"/> 
+                                </a>
+                            
+                            </Card>
+                        </div>
+         
                     </Col>
 
                     <Col
@@ -81,6 +84,8 @@ export default function Entete() {
                         xl={8}
                         xxl={4}
                     >
+                        <div className="card-center">
+
                         <Card
                             hoverable
                             style={{
@@ -99,6 +104,8 @@ export default function Entete() {
                             </a>
                            
                         </Card>
+                        </div>
+
                     </Col>
 
                     <Col
@@ -109,6 +116,8 @@ export default function Entete() {
                         xl={8}
                         xxl={4}
                     >
+                        <div className="card-center">
+
                         <Card
                             hoverable
                             style={{
@@ -128,6 +137,8 @@ export default function Entete() {
                             </a>
                             
                         </Card>
+                        </div>
+
                     </Col>
             </Row>
             )}

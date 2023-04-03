@@ -24,11 +24,14 @@ main {
   padding: 30px 25px 30px 25px;
 }
 
-
-
 .navbarEntete {
   background-color: #2C3333;
   color: #fff;
+
+  /* padding: 25px 20px; */
+}
+
+.nav-menu{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -70,10 +73,10 @@ main {
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 65px;
-  right: -110%;
+  top: -110%;
+  /* right: -110%; */
   width: 100%;
-  height: calc(100vh - 65px);
+  height: calc(100vh - 80px);
   background-color: #2C3333;
   z-index: 1;
   transition: all 0.3s ease;
@@ -92,7 +95,8 @@ main {
 }
 
 .show-nav {
-  right: 0;
+  /* right: 0; */
+  top:100px;
 }
 
 
@@ -102,8 +106,9 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+    text-align: center;
   }
+
 
   .navbarEntete .hamburger-menu {
     display: none;
@@ -119,7 +124,7 @@ main {
     right: 0;
     height: 20px;
     padding: 0;
-    margin-top: 0;
+    margin-top: 34px;
     margin-bottom: 0;
   }
 
@@ -127,7 +132,6 @@ main {
     padding: 15px;
     list-style: none;
   }
-
   
 }
 
