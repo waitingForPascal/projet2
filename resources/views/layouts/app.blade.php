@@ -23,50 +23,48 @@
 </head>
 <body>
     <div id="app" class="page-container">
+
         <nav class="navbarEntete wrapper">
-            <ul class="navbarEntete-nav">
+
+            <a href="/home" ><img src="{{ asset('img/vino.png') }}" alt="logo" class="logo"></a>
+
+            <div class="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+
+
+
+            <ul class="nav-links">
+            @guest
+                @if (Route::has('login'))
+                    <li class="navEntete-item">
+                        <a class="navEntete-link" href="{{ route('login') }}">Se connecter</a>
+                    </li>
+                @endif
+
+                @if (Route::has('register'))
+                    <li class="navEntete-item">
+                        <a class="navEntete-link" href="{{ route('register') }}">Crée un compte</a>
+                    </li>
+                @endif
+            @else
                 <li class="navEntete-item">
-                    <a href="/home" ><img src="{{ asset('img/vino.png') }}" alt="logo" class="logo"></a>
-
+                    <a class="navEntete-link" href="#" role="button" href="#}}">
+                        Bonjour, {{ Auth::user()->name }}
+                    </a>
                 </li>
-                <span class="spacer"></span>
 
-                @guest
-                    @if (Route::has('login'))
-                        <li class="navEntete-item">
-                            <a class="navEntete-link" href="{{ route('login') }}">Se connecter</a>
-                        </li>
-                    @endif
-
-                    @if (Route::has('register'))
-                        <li class="navEntete-item">
-                            <a class="navEntete-link" href="{{ route('register') }}">Crée un compte</a>
-                        </li>
-                    @endif
-                @else
-                    <li class="navEntete-item">
-                        <a class="navEntete-link" href="#" role="button" href="#}}">
-                            Bonjour, {{ Auth::user()->name }}
-                        </a>
-                    </li>
-
-                    <li class="navEntete-item">
-                        <a class="" href="{{ route('logout') }}"
-                            >
-                            <!-- onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();" -->
-                                            Se déconnecter
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    </li>
-                @endguest
-
+                <li class="navEntete-item">
+                    <a class="" href="{{ route('logout') }}">Se déconnecter</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+            @endguest
             </ul>
         </nav>
-
 
         <main class="wrapper-contenu">
             @yield('content')
@@ -78,5 +76,7 @@
             </div>
         </footer>
     </div>
+    <script src="{{ asset('script/main.js') }}"></script>
+
 </body>
 </html>
