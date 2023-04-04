@@ -2,7 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import axios from "axios";
 import { Card, Button, Space, Modal, Input, Form, Col, Row } from "antd";
-
+import {
+    PlusCircleOutlined,
+    DeleteOutlined,
+    EditOutlined,
+} from "@ant-design/icons";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Accueil.css";
 
@@ -17,8 +21,8 @@ export default function Accueil() {
     const modBouteilleForm = useRef(null);
     const ajoutCellierForm = useRef(null);
     const [admin, setadmin] = useState(false);
-
     const { Meta } = Card;
+
 
     useEffect(() => {
         // obtenir les celliers personnels d'utilisateur connecté
@@ -116,19 +120,31 @@ export default function Accueil() {
             });
         });
     };
+
+    function getRandomImage() {
+        const randomIndex = Math.floor(Math.random() * 12+1);
+        return "/img/celliers/cellier" + [randomIndex] + ".jpg";
+    }
+
     return (
         <div>
-            {/* ovrire le modal d'ajout de cellier */}
 
-            <Button
-                style={{ visibility: admin ? "hidden" : "visible" }}
-                type="primary"
-                onClick={() => {
-                    setmodalAjoutCellier(true);
-                }}
-            >
-                Ajouter un cellier
-            </Button>
+            {/* ovrire le modal d'ajout de cellier */}
+            <div className="btn-container">
+
+                <Button
+                    className="btn-ajouter"
+                    style={{ visibility: admin ? "hidden" : "visible"}}
+                    icon={<PlusCircleOutlined />}
+                    onClick={() => {
+                        setmodalAjoutCellier(true);
+                    }}
+                >
+                    Ajouter un cellier
+                </Button>
+            </div>
+
+            {/* afficher des celliers */}
             <Row justify="center" align="middle" gutter={[0, 16]}>
                 {data.map((cellier) => (
                     <Col
@@ -140,6 +156,7 @@ export default function Accueil() {
                         xxl={4}
                         key={cellier.id}
                     >
+                        <div className="card-center">
                         <Card
                             hoverable
                             style={{
@@ -148,34 +165,35 @@ export default function Accueil() {
                             cover={
                                 <img
                                     alt="cellier"
-                                    //src="{bouteiile.image}"
-                                    //src="https://cdn.shopify.com/s/files/1/1057/2942/products/3-frontenac_720x.jpg?v=1631750927"
+                                    src={getRandomImage()}
                                 />
                             }
                         >
                             {/* <a href={`#/detail/${data.id}`}>{data.label}</a> */}
 
-                            <Meta title={cellier.nom} />
-                            <br />
-
+                            <div className="cellier">
+                                <Meta title={cellier.nom}/>
                             <Space>
                                 <Button
+                                    type="primary"
+                                    ghost
+                                    shape="circle"
+                                    icon={<EditOutlined />}
+                                    // cliquer ce botton pour afficher le modal de form pour la modification de cellier
                                     onClick={() =>
-                                        // cliquer ce botton pour afficher le modal de form pour la modification de cellier
-                                        handleModCellier(cellier)
-                                    }
-                                >
-                                    Modifier
-                                </Button>
+                                        handleModCellier(cellier)}
+                                ></Button>
 
                                 <Button
+                                    className="userBtn"
                                     danger
+                                    shape="circle"
+                                    icon={<DeleteOutlined />}
                                     onClick={() => {
                                         confirmMethod(cellier);
                                     }}
-                                >
-                                    Supprimer
-                                </Button>
+                                ></Button>
+
                                 <Button type="primary">
                                     <a
                                         style={{ textDecoration: "none" }}
@@ -185,7 +203,11 @@ export default function Accueil() {
                                     </a>
                                 </Button>
                             </Space>
+                            </div>
                         </Card>
+
+                        </div>
+
                     </Col>
                 ))}
             </Row>

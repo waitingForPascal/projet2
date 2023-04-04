@@ -1,7 +1,37 @@
 .py-2{
     padding: 50px 0 50px 0;
     font-size: 25px;
-    
+}
+
+.btn-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15vh;
 }
 
 
+.btn-ajouter {
+    background-color: #0e8388;
+    width: 300px;
+    height: 40px;
+    color: white;
+  }
+
+  .btn-ajouter:active {
+    background-color: #2e4f4f;
+    color: white;
+
+  }
+
+  .card-center{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+
+}
+.cellier{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
