@@ -552,6 +552,23 @@ export default function Cellier() {
         );
     };
 
+    const augmentQuantiteBouteilleUn = (test) => {
+        axios.patch(`/ajouteBouteilleCellierPatch/${idBout}`,
+            {
+                quantite:bouteilleDansCellier.quantite +1,
+                id_cellier: bouteilleDansCellier.id_cellier,
+                date_achat: objBouteille.date_achat,
+            }
+                            )
+                            .then((res) => {
+                                axios
+                                 .get(`/getCeillerBouteille/${id}`)
+                                 .then((res) => {
+                                      setData(res.data);
+                                 });
+                            });
+    }
+
     const fermeCarteBoutListe = () => {
         setBtnAjoutBouteilleDisponible(false)
         setBouteilleChoisiEstNonListe(true);
