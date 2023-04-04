@@ -30,17 +30,37 @@
     text-decoration: none;
   }
 
-  .monCellier {
-    border: 2px solid red;
-    display: flex;
-    flex-direction: column;
-    
+  .monCellier > * {
+    margin: 0 2px;
   }
 
   .carteBouteilleCellier {
-    max-width: 98%;
-    border: 2px solid blue;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid blue; */
+    justify-content: center;
   }
+
+  .carteBouteilleCellier img {
+    /* border: 2px solid red; */
+    width: 50%;
+    
+  }
+
+  .carteBouteilleCellier__titre {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgb(8, 18, 136);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+  }
+
+
+
+
 
   .btnModifBout {
     display: flex;

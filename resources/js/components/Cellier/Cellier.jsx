@@ -3,27 +3,8 @@ import ReactDOM from "react-dom/client";
 import { FacebookShareButton, TwitterShareButton } from 'react-share';
 import { FaFacebook, FaTwitter } from 'react-icons/fa';
 
-import {
-    Button,
-    Select,
-    Table,
-    Modal,
-    Space,
-    Form,
-    Input,
-    Collapse,
-    Card,
-} from "antd";
-import {
-    SearchOutlined,
-    DeleteOutlined,
-    EditOutlined,
-    CloseCircleOutlined,
-    PlusCircleOutlined,
-    PlusOutlined,
-    MinusOutlined,
-    FieldNumberOutlined
-} from "@ant-design/icons";
+import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col} from "antd";
+import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
@@ -680,70 +661,100 @@ export default function Cellier() {
             </div>
 
 
+            <Row justify="center" align="middle" gutter={[0, 16]} className="monCellier">
+ 
+        {data.map((item, index) => (
+            <Col
+                        xs={20}
+                        sm={16}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        xxl={4}
+                        key={item.id}
+            >
+          <Card
+            key={item.id}
+            title={item.title}
+            bordered={false}
+            
+          >
+            <div className="carteBouteilleCellier">
+            <div>
+                <img src={item.image ? item.image : "img/boutNl.JPG"} alt=""/>
+            </div>
+              <div className="carteBouteilleCellier__titre">
+                  <p><FieldNumberOutlined /> {index+1}- <b>{item.nom}</b></p>
+              </div>
 
-  <div class="monCellier">
-      {data.map((item, index) => (
-        <Card
-          key={item.id}
-          title={item.title}
-          bordered={false}
-          className="carteBouteilleCellier"
-        >
-            <div className="carteBouteilleListe__titre">
-                <p><FieldNumberOutlined /> {index+1}- <b>{item.nom}</b></p>
-            </div>
-            <div className="carteBouteilleListe__corps">
-            <>
-                <div className="quantiteBout">
-                    <Button
-                        icon={<MinusOutlined />}
-                        shape="circle"
-                        onClick={(e) => {
-                            console.log("Augementer: ", item);
-                            //augmentQuantiteBouteille(item.id);
-                        }}
-                    >
-                    </Button>
-                    {item.quantite}
-                    <Button
-                        icon={<PlusOutlined />}
-                        shape="circle"
-                        onClick={() => {
-                            console.log("Diminuer: ", item.quantite);
-                        }}
-                    >
-                    </Button>
-                </div>
-                            
-                    <p>Pays: {item.pays}</p>
-                    <p>Prix: {item.prix}</p>
-                    <div className="btnModifBout">
-                        <Button
-                            className="userBtn"
-                            danger
-                            shape="circle"
-                            icon={<DeleteOutlined />}
-                            onClick={() => {
-                                setIdBoutASupprim(item.id);
-                                setModalSupprimeBoutteilCellier(item.id);
-                            }}
-                        ></Button>
-                        <Button
-                            type="primary"
-                            shape="circle"
-                            icon={<EditOutlined />}
-                            onClick={() => handleUpdate(item)}
-                        ></Button>
-                        
+              <div className="carteBouteilleListe__corps">
+              <div className="boutinfo">
+                 
+                      <p>Pays: {item.pays}</p>
+                      <p>Prix: {item.prix} $</p>
+                      <div className="quantiteBout">
+                      <Button
+                          icon={<MinusOutlined />}
+                          shape="circle"
+                          onClick={(e) => {
+                              console.log("Augementer: ", item);
+                              //augmentQuantiteBouteille(item.id);
+                          }}
+                      >
+                      </Button>
+                      {item.quantite}
+                      <Button
+                          icon={<PlusOutlined />}
+                          shape="circle"
+                          onClick={() => {
+                              console.log("Diminuer: ", item.quantite);
+                          }}
+                      >
+                      </Button>
+                  </div>
+
+                  </div>
+
+
+
+
+<div className="btnModifBout">
+                          <Button
+                              className="userBtn"
+                              danger
+                              shape="circle"
+                              icon={<DeleteOutlined />}
+                              onClick={() => {
+                                  setIdBoutASupprim(item.id);
+                                  setModalSupprimeBoutteilCellier(item.id);
+                              }}
+                          ></Button>
+                          <Button
+                              type="primary"
+                              shape="circle"
+                              icon={<EditOutlined />}
+                              onClick={() => handleUpdate(item)}
+                          ></Button>
+                      </div>
+                      <div className="reseauxSocieaux">
+                        <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                        <FaFacebook />
+                        </FacebookShareButton>
+
+                        <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+                        <FaTwitter />
+                        </TwitterShareButton>
+
                     </div>
-                </>
-                <>
-                    <img src={item.image ? item.image : "img/boutNl.JPG"} alt=""/>
-                </>
-            </div>
-        </Card>
-      ))}
-    </div>
+
+
+              </div>
+              </div>
+          </Card>
+          </Col>
+        ))}
+        </Row>
+  
 
 
             {/* modal ajouter une nouvelle boutteille au cellier */}
@@ -810,7 +821,6 @@ export default function Cellier() {
                         
                         if (!bouteilleChoisiEstNonListe) setBtnAjoutBouteilleDisponible(true);
                         else {
-                            console.log("salutttttttttttt");
                             if( (allValues.nom !== undefined) &&
                                 allValues.type != "--- Sélétionez le type ---" &&
                                 allValues.prix != undefined) {
