@@ -1,0 +1,28 @@
+            <Table
+                columns={columns}
+                dataSource={data}
+                pagination={{ pageSize: 3 }}
+                rowKey={(item) => item.id}
+                className="responsive-table"
+                rowClassName={(record, index) => {
+                    return index % 2 === 0 ? 'even-row' : 'odd-row';
+                  }}
+                  onRow={(record) => ({
+                    onClick: () => {
+                      console.log("quo quo");
+                    },
+                  })}
+            />
+
+
+
+
+            
+  <Card title="carteBouteilleCellier" bordered={false} style={{ width: 300 }}>
+    <p>Card content</p>
+    <p>Card content</p>
+    <p>Card content</p>
+  </Card>
+
+
+  <img src="../../../../public/img/boutNl.JPG" alt="">
