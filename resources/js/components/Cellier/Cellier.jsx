@@ -56,6 +56,7 @@ export default function Cellier() {
     const { Panel } = Collapse;
     const [modBouteille, setmodBouteille] = useState(null);
     const [isUpdate, setisUpdate] = useState(false);
+    const [ganreListe, setGanreListe] = useState(1);
 
     useEffect(() => {
         axios
@@ -349,10 +350,11 @@ export default function Cellier() {
         setTimeout(() => {
             modBouteilleForm.current.setFieldsValue(item);
         }, 0);
+        (item.ganreliste != null) ? setGanreListe(1):setGanreListe(0);
     };
 
     const modBouteilleFormOk = () => {
-        console.log("Commencement fonctoin modBouteilleFormOk");
+        console.log("Commencement fonctoin modBouteilleFormOk",ganreListe);
         const formValues = modBouteilleForm.current.getFieldsValue();
 
         // Désactiver les champs "nom", "pays" et "prix" si le champ "ganreliste" n'est pas nul
@@ -456,7 +458,7 @@ export default function Cellier() {
         }
         else if (!bouteilleChoisiEstNonListe) {
             formulaireAjoutBouteille.current.validateFields().then((value) => {
-            
+
                 let objBouteille = {
                     bouteille_id: boutSelectione.id,
                     cellier_id: id,
@@ -502,7 +504,7 @@ export default function Cellier() {
                                     });
                            });
                      }
-             
+
                 }).catch((error) => {
                 console.error("Erreur lors de la validation des champs:", error);
             });
@@ -738,7 +740,7 @@ export default function Cellier() {
                     layout="vertical"
                     validateTrigger="onBlur"
                     onValuesChange={(changedValues, allValues) => {
-                        
+
                         if (!bouteilleChoisiEstNonListe) setBtnAjoutBouteilleDisponible(true);
                         else {
                             console.log("salutttttttttttt");
@@ -968,7 +970,7 @@ export default function Cellier() {
                     </Button>,
                 ]}
             >
-                {/* formulaire d'ajout d'une bouteille non listée 
+                {/* formulaire d'ajout d'une bouteille non listée
                 <Form
                     ref={ajouteBoutteilNonListeAuCellierForm}
                     layout="vertical"
@@ -1024,12 +1026,13 @@ export default function Cellier() {
                 onOk={() => modBouteilleFormOk()}
             >
                 <Form ref={modBouteilleForm} layout="vertical">
-                    <Form.Item name="nom" label="Nom">
-                        <Input />
+                    <Form.Item name="nom" label="Nom"  >
+                        <Input disabled={!ganreListe}/>
                     </Form.Item>
                     <Form.Item
                         name="prix"
                         label="Prix"
+
                         rules={[
                             {
                                 required: true,
@@ -1038,11 +1041,12 @@ export default function Cellier() {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled={!ganreListe} />
                     </Form.Item>
                     <Form.Item
                         name="pays"
                         label="Pays"
+                        disabled={!ganreListe}
                         rules={[
                             {
                                 required: true,
@@ -1051,11 +1055,12 @@ export default function Cellier() {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled={!ganreListe} />
                     </Form.Item>
                     <Form.Item
                         name="type"
                         label="Type"
+                        disabled={!ganreListe}
                         rules={[
                             {
                                 required: true,
@@ -1079,6 +1084,7 @@ export default function Cellier() {
                                     label: "Vin blanc",
                                 },
                             ]}
+                            disabled={!ganreListe}
                         />
                     </Form.Item>
                     <Form.Item name="id" label="id" hidden="true">
