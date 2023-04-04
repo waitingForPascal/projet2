@@ -34,6 +34,16 @@
     width: 100%;
   }
 
+  .responsive-table {
+    width: 100%;
+    border: 5px solid red
+  }
+
+  .responsive-table>div>div>div>div>div td {
+    border: 2px dotted blue;
+    width: 100%;
+  }
+
   .nom_bouteille {
     width: 100%;
   }
@@ -103,6 +113,36 @@
     margin: 0;
 
   }
+
+  .boutonAjoutBouteille {
+    color: aliceblue;
+    background-color: #0E8388;
+    border-color:#0E8388 !important;
+  }
+
+  .boutonAjoutBouteille:hover {
+    color: #2E4F4F !important;
+    background-color: #CBE4DE !important;
+    border-color: #0E8388;
+  }
+
+  .nomBouteille {
+    /* white-space: nowrap; */
+    color: green;
+    text-overflow: ellipsis;
+  }
+
+  .quantiteBout {
+    display: flex;
+    gap: 10px;
+  }
+
+  .quantiteBout>Button {
+    font-size: .6rem;
+    border: none;
+    background: white;
+  }
+  
  
   @media screen and (max-width: 768px) {
     .ant-table {

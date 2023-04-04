@@ -19,6 +19,7 @@ import {
     DeleteOutlined,
     EditOutlined,
     CloseCircleOutlined,
+    PlusCircleOutlined,
     PlusOutlined,
     MinusOutlined,
 } from "@ant-design/icons";
@@ -261,6 +262,8 @@ export default function Cellier() {
             key: "nom",
             width: "30%",
             sorter: (a, b) => a.nom.localeCompare(b.nom),
+            render: (item) => <span className="nomBouteille">{item}</span>
+
         },
         {
             title: "Quantité",
@@ -269,6 +272,30 @@ export default function Cellier() {
             width: "20%",
             sorter: {
                 compare: (a, b) => a.quantite - b.quantite,
+            },
+            render: (item) => {
+                return (
+                    <div className="quantiteBout">
+                        <Button
+                            icon={<PlusOutlined />}
+                            shape="circle"
+                            onClick={(e) => {
+                                console.log("Augementer: ", item);
+                                //augmentQuantiteBouteille(item.id);
+                            }}
+                        >
+                        </Button>
+                        {item}
+                        <Button
+                            icon={<MinusOutlined />}
+                            shape="circle"
+                            onClick={() => {
+                                console.log("Diminuer: ", );
+                            }}
+                        >
+                        </Button>
+                    </div>
+                );
             },
         },
         {
@@ -441,7 +468,7 @@ export default function Cellier() {
                             date_achat: value.dateAchat ? value.dateAchat : Aujourdhui,
                             quantite: value.quantite,
                         };
-                        console.log("mmmmmm", objBouteille);
+                        console.log(objBouteille);
                         axios.post(`/ajouteBouteilleCellier`, objBouteille);
                     })
                     .then((res) =>
@@ -661,6 +688,14 @@ export default function Cellier() {
                     </a>
                 </Button>
             </div>
+            <div className="button-middle">
+                <Button
+                    className="boutonAjoutBouteille"
+                    onClick={() => setModalMethodEnregistrerBouteille(id)}
+                >
+                    <PlusCircleOutlined />Ajouter une bouteille
+                </Button>
+            </div>
             <Table
                 columns={columns}
                 dataSource={data}
@@ -668,14 +703,7 @@ export default function Cellier() {
                 rowKey={(item) => item.id}
                 className="responsive-table"
             />
-            <div className="button-middle">
-                <Button
-                    type="primary"
-                    onClick={() => setModalMethodEnregistrerBouteille(id)}
-                >
-                    Ajouter une bouteille
-                </Button>
-            </div>
+
 
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal
@@ -937,62 +965,6 @@ export default function Cellier() {
                     </div>
                 </Form>
             </Modal>
-
-            {/* <Modal
-                open={modalAjouteBoutteilNonListeAuCellier}
-                title="Ajouter une nouvelle bouteille non listée"
-                onCancel={() => {
-                    setModalAjouteBoutteilNonListeAuCellier(false);
-                }}
-                footer={[
-                    <Button
-                        key="Ajouter"
-                        type="primary"
-                        disabled="true"
-                        onClick={() => {
-                            // récupérez les données du formulaire
-                            const formData =
-                                ajouteBoutteilNonListeAuCellierForm.current.getFieldsValue();
-                                ajouterBoutteilNlAuCellierFormOk(formData);
-                        }}
-                    >
-                        Ajouter
-                    </Button>,
-                    <Button
-                        key="annuler"
-                        onClick={() =>
-                            setModalAjouteBoutteilNonListeAuCellier(false)
-                        }
-                    >
-                        Annuler
-                    </Button>,
-                ]}
-            >
-                {/* formulaire d'ajout d'une bouteille non listée 
-                <Form
-                    ref={ajouteBoutteilNonListeAuCellierForm}
-                    layout="vertical"
-                    validateTrigger="onBlur"
-                    onValuesChange={(changedValues, allValues) => {
-                        setFormulaireBtNlValide(
-                            allValues.nom &&
-                                allValues.quantite &&
-                                allValues.prix &&
-                                allValues.type_vin
-                        );
-                        //console.log(formulaireBtNlValide);
-                    }}
-                >
-                    <Form.Item
-                        hidden
-                        label="ganreliste"
-                        name="ganreliste"
-                        initialValue="0"
-                    >
-                        <Input />
-                    </Form.Item>
-                </Form>
-            </Modal> */}
 
             {/* modal supprimer une boutteille du cellier */}
             <Modal
