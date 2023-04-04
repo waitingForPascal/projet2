@@ -30,11 +30,24 @@
     text-decoration: none;
   }
 
-  .responsive-table {
-    width: 100%;
+  .monCellier {
+    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    
   }
 
-  .nom_bouteille {
+  .carteBouteilleCellier {
+    max-width: 98%;
+    border: 2px solid blue;
+  }
+
+  .btnModifBout {
+    display: flex;
+    gap: 5px;
+  }
+
+   .nom_bouteille {
     width: 100%;
   }
 
@@ -68,8 +81,8 @@
   }
 
   .carteBouteilleListe__corps img {
-    align-self: stretch;
     width: 30%;
+    align-self: stretch;
     object-fit: contain;    
   }
 
@@ -103,6 +116,29 @@
     margin: 0;
 
   }
+
+  .boutonAjoutBouteille {
+    color: aliceblue;
+    background-color: #0E8388;
+    border-color:#0E8388 !important;
+  }
+
+  .boutonAjoutBouteille:hover {
+    color: #2E4F4F !important;
+    background-color: #CBE4DE !important;
+    border-color: #0E8388;
+  }
+
+  .quantiteBout {
+    display: flex;
+    gap: 10px;
+  }
+
+  .quantiteBout>Button {
+    font-size: .6rem;
+    background: white;
+  }
+  
  
   @media screen and (max-width: 768px) {
     .ant-table {
@@ -113,7 +149,7 @@
     .ant-table td:nth-of-type(3),
     .ant-table th:nth-of-type(3),
     .ant-table td:nth-of-type(4),
-    .ant-table th:nth-of-type(5),
+    .ant-table th:nth-of-type(4),
     .ant-table td:nth-of-type(5),
     .ant-table th:nth-of-type(5) {
       display: none;
