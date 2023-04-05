@@ -23,7 +23,6 @@ export default function Accueil() {
     const [admin, setadmin] = useState(false);
     const { Meta } = Card;
 
-
     useEffect(() => {
         // obtenir les celliers personnels d'utilisateur connecté
         axios.get("/getTousCelliers").then((res) => {
@@ -35,7 +34,6 @@ export default function Accueil() {
 
     useEffect(() => {
         axios.get("/verificationUser").then((res) => {
-            console.log(res.data);
             if (res.data == "admin") {
                 setadmin(true);
             }
@@ -122,19 +120,17 @@ export default function Accueil() {
     };
 
     function getRandomImage() {
-        const randomIndex = Math.floor(Math.random() * 12+1);
+        const randomIndex = Math.floor(Math.random() * 12 + 1);
         return "/img/celliers/cellier" + [randomIndex] + ".jpg";
     }
 
     return (
         <div>
-
             {/* ovrire le modal d'ajout de cellier */}
             <div className="btn-container">
-
                 <Button
                     className="btn-ajouter"
-                    style={{ visibility: admin ? "hidden" : "visible"}}
+                    style={{ visibility: admin ? "hidden" : "visible" }}
                     icon={<PlusCircleOutlined />}
                     onClick={() => {
                         setmodalAjoutCellier(true);
@@ -157,57 +153,55 @@ export default function Accueil() {
                         key={cellier.id}
                     >
                         <div className="card-center">
-                        <Card
-                            hoverable
-                            style={{
-                                width: 300,
-                            }}
-                            cover={
-                                <img
-                                    alt="cellier"
-                                    src={getRandomImage()}
-                                />
-                            }
-                        >
-                            {/* <a href={`#/detail/${data.id}`}>{data.label}</a> */}
+                            <Card
+                                hoverable
+                                style={{
+                                    width: 300,
+                                }}
+                                cover={
+                                    <img alt="cellier" src={getRandomImage()} />
+                                }
+                            >
+                                {/* <a href={`#/detail/${data.id}`}>{data.label}</a> */}
 
-                            <div className="cellier">
-                                <Meta title={cellier.nom}/>
-                            <Space>
-                                <Button
-                                    type="primary"
-                                    ghost
-                                    shape="circle"
-                                    icon={<EditOutlined />}
-                                    // cliquer ce botton pour afficher le modal de form pour la modification de cellier
-                                    onClick={() =>
-                                        handleModCellier(cellier)}
-                                ></Button>
+                                <div className="cellier">
+                                    <Meta title={cellier.nom} />
+                                    <Space>
+                                        <Button
+                                            type="primary"
+                                            ghost
+                                            shape="circle"
+                                            icon={<EditOutlined />}
+                                            // cliquer ce botton pour afficher le modal de form pour la modification de cellier
+                                            onClick={() =>
+                                                handleModCellier(cellier)
+                                            }
+                                        ></Button>
 
-                                <Button
-                                    className="userBtn"
-                                    danger
-                                    shape="circle"
-                                    icon={<DeleteOutlined />}
-                                    onClick={() => {
-                                        confirmMethod(cellier);
-                                    }}
-                                ></Button>
+                                        <Button
+                                            className="userBtn"
+                                            danger
+                                            shape="circle"
+                                            icon={<DeleteOutlined />}
+                                            onClick={() => {
+                                                confirmMethod(cellier);
+                                            }}
+                                        ></Button>
 
-                                <Button type="primary">
-                                    <a
-                                        style={{ textDecoration: "none" }}
-                                        href={`/cellier/${cellier.id}`}
-                                    >
-                                        Entrer
-                                    </a>
-                                </Button>
-                            </Space>
-                            </div>
-                        </Card>
-
+                                        <Button type="primary">
+                                            <a
+                                                style={{
+                                                    textDecoration: "none",
+                                                }}
+                                                href={`/cellier/${cellier.id}`}
+                                            >
+                                                Entrer
+                                            </a>
+                                        </Button>
+                                    </Space>
+                                </div>
+                            </Card>
                         </div>
-
                     </Col>
                 ))}
             </Row>
