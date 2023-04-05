@@ -443,6 +443,8 @@ export default function Cellier() {
                     const bouteilleDansCellier = data.find(
                         (item) => item.bouteille_id == boutSelectione.id
                     );
+                    console.log("-------",boutSelectione.id);
+                    console.log("++++++", bouteilleDansCellier );
                     axios
                         .patch(
                             `/ajouteBouteilleCellierPatch/${boutSelectione.id}`,
@@ -533,21 +535,36 @@ export default function Cellier() {
         );
     };
 
-    const augmentQuantiteBouteilleUn = (test) => {
-        axios.patch(`/ajouteBouteilleCellierPatch/${idBout}`,
-            {
-                quantite:bouteilleDansCellier.quantite +1,
-                id_cellier: bouteilleDansCellier.id_cellier,
-                date_achat: objBouteille.date_achat,
-            }
-                            )
-                            .then((res) => {
-                                axios
-                                 .get(`/getCeillerBouteille/${id}`)
-                                 .then((res) => {
-                                      setData(res.data);
-                                 });
-                            });
+    const augmentQuantiteBouteilleUn = (bouteille) => {
+        axios.patch(`/ajouteBouteilleCellierPatch/${bouteille.id_bouteille}`, {
+                quantite:bouteille.quantite +1,
+                id_cellier: bouteille.id_cellier,
+                date_achat: Aujourdhui,
+            }).then((res) => {
+                    axios.get(`/getCeillerBouteille/${id}`)
+                        .then((res) => {
+                        setData(res.data);
+                    });
+            });
+    }
+
+    const diminuerQuantiteBouteilleUn = (bouteille) => {
+        if(bouteille.quantite > 1) {
+            axios.patch(`/ajouteBouteilleCellierPatch/${bouteille.id_bouteille}`, {
+                quantite:bouteille.quantite - 1,
+                id_cellier: bouteille.id_cellier,
+                date_achat: Aujourdhui,
+            }).then((res) => {
+                    axios.get(`/getCeillerBouteille/${id}`)
+                        .then((res) => {
+                        setData(res.data);
+                    });
+            });
+        }else {
+            setIdBoutASupprim(bouteille.id);
+            setModalSupprimeBoutteilCellier(bouteille.id);
+        }
+
     }
 
     const fermeCarteBoutListe = () => {
@@ -662,9 +679,8 @@ export default function Cellier() {
 
 
             <Row justify="center" align="middle" gutter={[0, 16]} className="monCellier">
- 
-        {data.map((item, index) => (
-            <Col
+                {data.map((item, index) => (
+                    <Col
                         xs={20}
                         sm={16}
                         md={12}
@@ -672,87 +688,72 @@ export default function Cellier() {
                         xl={8}
                         xxl={4}
                         key={item.id}
-            >
-          <Card
-            key={item.id}
-            title={item.title}
-            bordered={false}
-            
-          >
-            <div className="carteBouteilleCellier">
-            <div>
-                <img src={item.image ? item.image : "img/boutNl.JPG"} alt=""/>
-            </div>
-              <div className="carteBouteilleCellier__titre">
-                  <p><FieldNumberOutlined /> {index+1}- <b>{item.nom}</b></p>
-              </div>
+                    >
+                        <Card
+                            key={item.id}
+                            title={item.title}
+                            bordered={false}
+                        >
+                            <div className="carteBouteilleCellier">
+                                <img src={item.image ? item.image : "img/boutNl.JPG"} alt=""/>
+                                <div className="carteBouteilleCellier__titre">
+                                    <FieldNumberOutlined /> {index+1}- <b>{item.nom}</b>
+                                </div>
+                                <div className="quantiteBout">
+                                            <Button
+                                                icon={<MinusOutlined />}
+                                                shape="circle"
+                                                onClick={(e) => {
+                                                    //console.log("Augementer: ", item);
+                                                    diminuerQuantiteBouteilleUn(item);
+                                                }}
+                                            ></Button>
+                                            <b>Quantité: {item.quantite}</b>
+                                            <Button
+                                                icon={<PlusOutlined />}
+                                                shape="circle"
+                                                onClick={() => {
+                                                    augmentQuantiteBouteilleUn(item);
+                                                }}
+                                            ></Button>
+                                        </div>
+                                <div className="carteBouteilleCellier__corps">
+                                    <div className="boutinfo">
+                                            <p>Pays: <b>{item.pays}</b></p>
+                                            <p>Prix: <b>{item.prix}</b> $</p>
+                                    </div>
+                                <div className="btnModifEtRs">
+                                    <Button
+                                        type="primary"
+                                        shape="circle"
+                                        icon={<EditOutlined />}
+                                        onClick={() => handleUpdate(item)}
+                                    ></Button>
+                                    <Button
+                                        className="userBtn"
+                                        danger
+                                        shape="circle"
+                                        icon={<DeleteOutlined />}
+                                        onClick={() => {
+                                            console.log("abcdefg ", item.id);
+                                            setIdBoutASupprim(item.id);
+                                            setModalSupprimeBoutteilCellier(item.id);
+                                        }}
+                                    ></Button>
 
-              <div className="carteBouteilleListe__corps">
-              <div className="boutinfo">
-                 
-                      <p>Pays: {item.pays}</p>
-                      <p>Prix: {item.prix} $</p>
-                      <div className="quantiteBout">
-                      <Button
-                          icon={<MinusOutlined />}
-                          shape="circle"
-                          onClick={(e) => {
-                              console.log("Augementer: ", item);
-                              //augmentQuantiteBouteille(item.id);
-                          }}
-                      >
-                      </Button>
-                      {item.quantite}
-                      <Button
-                          icon={<PlusOutlined />}
-                          shape="circle"
-                          onClick={() => {
-                              console.log("Diminuer: ", item.quantite);
-                          }}
-                      >
-                      </Button>
-                  </div>
+                                    <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                                    <FaFacebook />
+                                    </FacebookShareButton>
 
-                  </div>
-
-
-
-
-<div className="btnModifBout">
-                          <Button
-                              className="userBtn"
-                              danger
-                              shape="circle"
-                              icon={<DeleteOutlined />}
-                              onClick={() => {
-                                  setIdBoutASupprim(item.id);
-                                  setModalSupprimeBoutteilCellier(item.id);
-                              }}
-                          ></Button>
-                          <Button
-                              type="primary"
-                              shape="circle"
-                              icon={<EditOutlined />}
-                              onClick={() => handleUpdate(item)}
-                          ></Button>
-                      </div>
-                      <div className="reseauxSocieaux">
-                        <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
-                        <FaFacebook />
-                        </FacebookShareButton>
-
-                        <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
-                        <FaTwitter />
-                        </TwitterShareButton>
-
-                    </div>
-
-
-              </div>
-              </div>
-          </Card>
-          </Col>
-        ))}
+                                    <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+                                    <FaTwitter />
+                                    </TwitterShareButton>
+                                </div>
+                            </div>
+                        </div>
+                    </Card>
+                </Col>
+            ))}
         </Row>
   
 
@@ -863,7 +864,7 @@ export default function Cellier() {
                                 </Form.Item>
                                 <Form.Item
                                     name="quantite"
-                                    label="Quantite (Obligatoire)"
+                                    label="Quantité (Obligatoire)"
                                     initialValue={1}
                                     rules={[
                                         {

@@ -30,41 +30,72 @@
     text-decoration: none;
   }
 
+  .monCellier {
+    margin-top: 25px;;
+  }
+
+  .monCellier>div {
+    border: 1px solid #2E4F4F;
+    border-radius: 1px;
+  }
+
   .monCellier > * {
     margin: 0 2px;
   }
 
   .carteBouteilleCellier {
-    height: 450px;
+    height: 550px;
     display: flex;
     flex-direction: column;
-    /* border: 2px solid blue; */
     justify-content: center;
+    align-items: center;
   }
 
   .carteBouteilleCellier img {
-    /* border: 2px solid red; */
     width: 50%;
-    
   }
 
   .carteBouteilleCellier__titre {
+    max-width: 90%;
+    margin: 25px 0 35px 0;
     text-align: center;
     font-size: 1.1rem;
     color: rgb(8, 18, 136);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
   }
 
+  /* .carteBouteilleCellier__titre:hover {
+    border: 2px solid red;
+    max-width: 90%;
+    text-align: center;
+    font-size: .9rem;
+    color: rgb(136, 8, 12);
+    white-space: wrap;
+    text-overflow: ;
+  } */
+.carteBouteilleCellier__corps {
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.boutinfo>P{
+  margin: 0;
+}
 
 
-
-
-  .btnModifBout {
-    display: flex;
-    gap: 5px;
+.boutinfo,
+.btnModifEtRs {
+  width: 100%;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;  
+  align-content: center;
+  justify-content: space-evenly;
   }
 
    .nom_bouteille {
@@ -173,6 +204,21 @@
     .ant-table td:nth-of-type(5),
     .ant-table th:nth-of-type(5) {
       display: none;
+    }
+
+    .carteBouteilleCellier{
+      height: 380px;
+    }
+
+    .carteBouteilleCellier__titre {
+      max-width: 90%;
+      margin: 15px 0;
+      text-align: center;
+      font-size: 1rem;
+      color: rgb(8, 18, 136);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
