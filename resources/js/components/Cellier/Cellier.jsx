@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { FaFacebook, FaTwitter } from "react-icons/fa";
 
+
 import {
     Button,
     Select,
@@ -30,6 +31,7 @@ import {
     UpOutlined,
     DownOutlined,
 } from "@ant-design/icons";
+
 import Highlighter from "react-highlight-words";
 import "./Cellier.css";
 import moment from "moment";
@@ -484,7 +486,7 @@ export default function Cellier() {
                                 Format: <b>{bouteille.format}</b>
                             </p>
                             <p>
-                                Prix: <b>{bouteille.prix} $</b>
+                                Prix: <b>{bouteille.prix}</b>
                             </p>
                         </div>
                         <img src={bouteille.image} alt={bouteille.nom} />
@@ -638,6 +640,7 @@ export default function Cellier() {
                 </Button>
             </div>
 
+
             <Row
                 justify="center"
                 align="middle"
@@ -756,6 +759,7 @@ export default function Cellier() {
                                             >
                                                 <FaFacebook className="reseauxSocieaux" />
                                             </FacebookShareButton>
+
 
                                             <TwitterShareButton
                                                 url={
