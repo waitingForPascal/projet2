@@ -33,6 +33,11 @@ class cellierBouteilleController extends Controller
 
     public function accueil()
     {
+
+        if (Auth::user()->privilege == 'admin') {
+
+            return view('admin');
+        }
         return view('accueil');
     }
 

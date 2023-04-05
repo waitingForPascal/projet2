@@ -69,14 +69,15 @@ class StatistiqueController extends Controller
             ->leftJoin('celliers', 'celliers.user_id', '=', 'users.id')
             ->leftJoin('bouteilles_celliers', function($join){
                 $join->on('bouteilles_celliers.cellier_id', '=', 'celliers.id')
-                     ->on('users.id', '=', 'celliers.user_id');
+                    ->on('users.id', '=', 'celliers.user_id');
             })
+            ->join('bouteilles', 'bouteilles_celliers.bouteille_id', '=', 'bouteilles.id')
             ->where('users.privilege', '<>', 'admin')
-            ->select('users.id', DB::raw('IFNULL(SUM(quantite), null) as total_quantite'))
+            ->whereNotNull('bouteilles.id')
+            ->select('users.id', DB::raw('IFNULL(SUM(bouteilles_celliers.quantite), null) as total_quantite'))
             ->groupBy('users.id')
             ->orderBy('users.id')
             ->get();
-
         return response()->json($nombre);
     }
 
