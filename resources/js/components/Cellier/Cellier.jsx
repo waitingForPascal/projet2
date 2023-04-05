@@ -4,7 +4,7 @@ import { FacebookShareButton, TwitterShareButton } from 'react-share';
 import { FaFacebook, FaTwitter } from 'react-icons/fa';
 
 import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col, List} from "antd";
-import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined, InfoCircleOutlined, MenuOutlined, AppstoreOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
+import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined, GlobalOutlined, MenuOutlined, AppstoreOutlined, UpOutlined, DownOutlined, DollarOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
@@ -416,7 +416,7 @@ export default function Cellier() {
                                 Format: <b>{bouteille.format}</b>
                             </p>
                             <p>
-                                Prix: <b>{bouteille.prix} $</b>
+                                Prix: <b>{bouteille.prix}</b>
                             </p>
                         </div>
                         <img src={bouteille.image} alt={bouteille.nom} />
@@ -570,7 +570,7 @@ export default function Cellier() {
             />
             <div className="quantiteBoutCellierListe">
               <p>Qté: {item.quantite}</p>
-              <p>{item.prix} $</p>
+              <p><DollarOutlined /> {item.prix}</p>
               <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={() => handleUpdate(item)}></Button>
               <Button
                 className="userBtn"
@@ -622,27 +622,28 @@ export default function Cellier() {
                                       <FieldNumberOutlined /> {index+1}- <b>{item.nom}</b>
                                   </div>
                                   <div className="quantiteBout">
-                                              <Button
-                                                  icon={<MinusOutlined />}
-                                                  shape="circle"
-                                                  onClick={(e) => {
-                                                      //console.log("Augementer: ", item);
-                                                      diminuerQuantiteBouteilleUn(item);
-                                                  }}
-                                              ></Button>
-                                              <b>Quantité: {item.quantite}</b>
-                                              <Button
-                                                  icon={<PlusOutlined />}
-                                                  shape="circle"
-                                                  onClick={() => {
-                                                      augmentQuantiteBouteilleUn(item);
-                                                  }}
-                                              ></Button>
-                                          </div>
+                                        <Button
+                                            icon={<MinusOutlined />}
+                                            shape="circle"
+                                            onClick={(e) => {
+                                                //console.log("Augementer: ", item);
+                                                diminuerQuantiteBouteilleUn(item);
+                                            }}
+                                        ></Button>
+                                        <b>Quantité: {item.quantite}</b>
+                                        <Button
+                                            icon={<PlusOutlined />}
+                                            shape="circle"
+                                            onClick={() => {
+                                                augmentQuantiteBouteilleUn(item);
+                                            }}
+                                        ></Button>
+                                </div>
                                   <div className="carteBouteilleCellier__corps">
                                       <div className="boutinfo">
-                                              <p>Pays: <b>{item.pays}</b></p>
-                                              <p>Prix: <b>{item.prix}</b> $</p>
+                                              <p><GlobalOutlined className="iconInfosBout"/> <b>{item.pays}</b></p>
+                                              <p><DollarOutlined className="iconInfosBout"/> <b>{item.prix}</b></p>
+                                              <p> <b>{item.format}</b></p>
                                       </div>
                                   <div className="btnModifEtRs">
                                       <Button

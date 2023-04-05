@@ -99,6 +99,7 @@
 .btnModifEtRs {
   width: 100%;
   padding: 8px 0;
+  background-color: rgba(233, 231, 231, 0.6);
   display: flex;
   align-items: center;  
   align-content: center;
@@ -190,6 +191,7 @@
   .quantiteBout {
     display: flex;
     gap: 10px;
+    color:rgb(8, 18, 136);
   }
 
   .quantiteBout>Button {
@@ -223,6 +225,10 @@
     display: flex;
     width: 100%;
     justify-content: space-evenly;
+  }
+
+  .iconInfosBout {
+    font-size: 1.3rem;
   }
   
  
