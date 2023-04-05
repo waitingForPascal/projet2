@@ -397,6 +397,7 @@ export default function Statistique() {
                     />
                     <Button
                         style={{
+                            marginLeft: 16,
                             marginTop: 16,
                         }}
                         type="primary"
@@ -412,6 +413,7 @@ export default function Statistique() {
 
                     <Button
                         style={{
+                            marginLeft: 16,
                             marginTop: 16,
                         }}
                         type="primary"
