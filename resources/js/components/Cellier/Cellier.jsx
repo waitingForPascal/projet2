@@ -570,7 +570,7 @@ export default function Cellier() {
             />
             <div className="quantiteBoutCellierListe">
               <p>Qté: {item.quantite}</p>
-              <p><DollarOutlined /> {item.prix}</p>
+              <p>{item.prix}</p>
               <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={() => handleUpdate(item)}></Button>
               <Button
                 className="userBtn"
@@ -622,30 +622,28 @@ export default function Cellier() {
                                       <FieldNumberOutlined /> {index+1}- <b>{item.nom}</b>
                                   </div>
                                   <div className="quantiteBout">
+                                        <p><b>{item.prix}</b></p>
+                                        <div>
                                         <Button
-                                            icon={<MinusOutlined />}
+                                            icon={<DownOutlined />}
                                             shape="circle"
                                             onClick={(e) => {
                                                 //console.log("Augementer: ", item);
                                                 diminuerQuantiteBouteilleUn(item);
                                             }}
                                         ></Button>
-                                        <b>Quantité: {item.quantite}</b>
+                                        <b>Qté: {item.quantite}</b>
                                         <Button
-                                            icon={<PlusOutlined />}
+                                            icon={<UpOutlined />}
                                             shape="circle"
                                             onClick={() => {
                                                 augmentQuantiteBouteilleUn(item);
                                             }}
                                         ></Button>
+                                        </div>
                                 </div>
                                   <div className="carteBouteilleCellier__corps">
-                                      <div className="boutinfo">
-                                              <p><GlobalOutlined className="iconInfosBout"/> <b>{item.pays}</b></p>
-                                              <p><DollarOutlined className="iconInfosBout"/> <b>{item.prix}</b></p>
-                                              <p> <b>{item.format}</b></p>
-                                      </div>
-                                  <div className="btnModifEtRs">
+                                   <div className="btnModifEtRs">
                                       <Button
                                           type="primary"
                                           shape="circle"

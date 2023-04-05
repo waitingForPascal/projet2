@@ -38,6 +38,7 @@
   .monCellier>div {
     border: 1px solid #2E4F4F;
     border-radius: 1px;
+    
   }
 
   .monCellier > * {
@@ -53,39 +54,28 @@
   }
 
   .carteBouteilleCellier img {
-    width: 50%;
+    width: 40%;
   }
 
   .iconSAQ {
     position: absolute;
     top: 0; right: 0;
-    max-width: 15%;
+    max-width: 12%;
   } 
 
   .carteBouteilleCellier__titre {
     max-width: 90%;
-    margin: 25px 0 35px 0;
     text-align: center;
-    font-size: 1.1rem;
-    color: rgb(8, 18, 136);
+    font-size: 1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  /* .carteBouteilleCellier__titre:hover {
-    border: 2px solid red;
-    max-width: 90%;
-    text-align: center;
-    font-size: .9rem;
-    color: rgb(136, 8, 12);
-    white-space: wrap;
-    text-overflow: ;
-  } */
 .carteBouteilleCellier__corps {
   width: 100%;
-  margin-top: 15px;
   display: flex;
+  padding: 0;
   flex-direction: column;
   
 }
@@ -98,20 +88,17 @@
 .btnModifEtRs {
   width: 100%;
   padding: 8px 0;
-  background-color: rgba(233, 231, 231, 0.6);
   display: flex;
   align-items: center;  
   align-content: center;
   justify-content: space-evenly;
   }
-
    .nom_bouteille {
     width: 100%;
   }
 
   .iconFermerBoutListe {
     position: absolute;
-    /* color: red; */
     font-size: 1.5rem;
     top: 10px; right: 10px;
   }
@@ -188,19 +175,22 @@
   }
 
   .quantiteBout {
+    width: 100%;
     display: flex;
-    gap: 10px;
-    color:rgb(8, 18, 136);
+    justify-content: space-evenly;
   }
+.quantiteBout>div {
+  display: flex;
+  gap: 5px;
+}
 
-  .quantiteBout>Button {
+  .quantiteBout Button {
     font-size: .6rem;
-    background: white;
+    border-color: rgba(238, 232, 232, 0.4);
   }
 
   .reseauxSocieaux {
     font-size: 1.7rem;
-    color:#2E4F4F;
   }
 
   .listeBtCell {
@@ -247,7 +237,8 @@
     }
 
     .carteBouteilleCellier{
-      height: 400px;
+      height: 330px;
+
     }
 
     #btnRetAccueil {
@@ -260,10 +251,8 @@
 
     .carteBouteilleCellier__titre {
       max-width: 90%;
-      margin: 15px 0;
       text-align: center;
       font-size: 1rem;
-      color: rgb(8, 18, 136);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
