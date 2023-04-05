@@ -31,7 +31,8 @@
   }
 
   .monCellier {
-    margin-top: 25px;;
+    margin-top: 25px;
+    position: 'relative';
   }
 
   .monCellier>div {
@@ -54,6 +55,12 @@
   .carteBouteilleCellier img {
     width: 50%;
   }
+
+  .iconSAQ {
+    position: absolute;
+    top: 0; right: 0;
+    max-width: 15%;
+  } 
 
   .carteBouteilleCellier__titre {
     max-width: 90%;

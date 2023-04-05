@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import { FacebookShareButton, TwitterShareButton } from 'react-share';
 import { FaFacebook, FaTwitter } from 'react-icons/fa';
 
-import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col} from "antd";
-import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined } from "@ant-design/icons";
+import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col, Image} from "antd";
+import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
@@ -20,7 +20,6 @@ export default function Cellier() {
 
     const [modalMethodEnregistrerBouteille,setModalMethodEnregistrerBouteille] = useState(false);
     const [bouteilleChoisiEstNonListe, setBouteilleChoisiEstNonListe] = useState(true);
-    const [modalAjouteBoutteilNonListeAuCellier, setModalAjouteBoutteilNonListeAuCellier ] = useState(false);
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
     const modBouteilleForm = useRef(null);
     const ajouteBoutteilListeAuCellierForm = useRef(null);
@@ -238,115 +237,115 @@ export default function Cellier() {
             ),
     });
 
-    const columns = [
-        {
-            title: "Nom",
-            dataIndex: "nom",
-            key: "nom",
-            width: "30%",
-            sorter: (a, b) => a.nom.localeCompare(b.nom),
-            render: (item) => <span className="nomBouteille">{item}</span>
+    // const columns = [
+    //     {
+    //         title: "Nom",
+    //         dataIndex: "nom",
+    //         key: "nom",
+    //         width: "30%",
+    //         sorter: (a, b) => a.nom.localeCompare(b.nom),
+    //         render: (item) => <span className="nomBouteille">{item}</span>
 
-        },
-        {
-            title: "Quantité",
-            dataIndex: "quantite",
-            key: "quantite",
-            width: "20%",
-            sorter: {
-                compare: (a, b) => a.quantite - b.quantite,
-            },
-            render: (item) => {
-                return (
-                    <div className="quantiteBout">
-                        <Button
-                            icon={<PlusOutlined />}
-                            shape="circle"
-                            onClick={(e) => {
-                                console.log("Augementer: ", item);
-                                //augmentQuantiteBouteille(item.id);
-                            }}
-                        >
-                        </Button>
-                        {item}
-                        <Button
-                            icon={<MinusOutlined />}
-                            shape="circle"
-                            onClick={() => {
-                                console.log("Diminuer: ", );
-                            }}
-                        >
-                        </Button>
-                    </div>
-                );
-            },
-        },
-        {
-            title: "Pays",
-            dataIndex: "pays",
-            key: "pays",
-            width: "20%",
-            sorter: (a, b) => a.pays.localeCompare(b.pays),
-        },
-        {
-            title: "Type",
-            dataIndex: "type",
-            key: "type",
-            width: "20%",
-            sorter: (a, b) => a.type.localeCompare(b.type),
-        },
-        {
-            title: "Prix",
-            dataIndex: "prix",
-            key: "prix",
-            sorter: {
-                compare: (a, b) => a.prix - b.prix,
-            },
-        },
-        {
-            title: "",
-            render: (item) => {
-                return (
-                    <div>
-                        <Button
-                            className="userBtn"
-                            danger
-                            shape="circle"
-                            icon={<DeleteOutlined />}
-                            onClick={() => {
-                                setIdBoutASupprim(item.id);
-                                setModalSupprimeBoutteilCellier(item.id);
-                            }}
-                        ></Button>
-                        <Button
-                            type="primary"
-                            shape="circle"
-                            icon={<EditOutlined />}
-                            onClick={() => handleUpdate(item)}
-                        ></Button>
-                    </div>
-                );
-            },
-        },
-        {
-            title: "",
-            render: (item) => {
-                return (
-                    <div>
-                        <FacebookShareButton url={"https://www.saq.com/fr/14154238"} >
-                        <FaFacebook />
-                        </FacebookShareButton>
+    //     },
+    //     {
+    //         title: "Quantité",
+    //         dataIndex: "quantite",
+    //         key: "quantite",
+    //         width: "20%",
+    //         sorter: {
+    //             compare: (a, b) => a.quantite - b.quantite,
+    //         },
+    //         render: (item) => {
+    //             return (
+    //                 <div className="quantiteBout">
+    //                     <Button
+    //                         icon={<PlusOutlined />}
+    //                         shape="circle"
+    //                         onClick={(e) => {
+    //                             console.log("Augementer: ", item);
+    //                             //augmentQuantiteBouteille(item.id);
+    //                         }}
+    //                     >
+    //                     </Button>
+    //                     {item}
+    //                     <Button
+    //                         icon={<MinusOutlined />}
+    //                         shape="circle"
+    //                         onClick={() => {
+    //                             console.log("Diminuer: ", );
+    //                         }}
+    //                     >
+    //                     </Button>
+    //                 </div>
+    //             );
+    //         },
+    //     },
+    //     {
+    //         title: "Pays",
+    //         dataIndex: "pays",
+    //         key: "pays",
+    //         width: "20%",
+    //         sorter: (a, b) => a.pays.localeCompare(b.pays),
+    //     },
+    //     {
+    //         title: "Type",
+    //         dataIndex: "type",
+    //         key: "type",
+    //         width: "20%",
+    //         sorter: (a, b) => a.type.localeCompare(b.type),
+    //     },
+    //     {
+    //         title: "Prix",
+    //         dataIndex: "prix",
+    //         key: "prix",
+    //         sorter: {
+    //             compare: (a, b) => a.prix - b.prix,
+    //         },
+    //     },
+    //     {
+    //         title: "",
+    //         render: (item) => {
+    //             return (
+    //                 <div>
+    //                     <Button
+    //                         className="userBtn"
+    //                         danger
+    //                         shape="circle"
+    //                         icon={<DeleteOutlined />}
+    //                         onClick={() => {
+    //                             setIdBoutASupprim(item.id);
+    //                             setModalSupprimeBoutteilCellier(item.id);
+    //                         }}
+    //                     ></Button>
+    //                     <Button
+    //                         type="primary"
+    //                         shape="circle"
+    //                         icon={<EditOutlined />}
+    //                         onClick={() => handleUpdate(item)}
+    //                     ></Button>
+    //                 </div>
+    //             );
+    //         },
+    //     },
+    //     {
+    //         title: "",
+    //         render: (item) => {
+    //             return (
+    //                 <div>
+    //                     <FacebookShareButton url={"https://www.saq.com/fr/14154238"} >
+    //                     <FaFacebook />
+    //                     </FacebookShareButton>
 
-                        <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
-                        <FaTwitter />
-                        </TwitterShareButton>
+    //                     <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+    //                     <FaTwitter />
+    //                     </TwitterShareButton>
 
-                        <Icon type="youtube" className="reseauxSocieaux" theme="Outlined"/>
-                    </div>
-                );
-            },
-        },
-    ];
+    //                     <Icon type="youtube" className="reseauxSocieaux" theme="Outlined"/>
+    //                 </div>
+    //             );
+    //         },
+    //     },
+    // ];
 
     const handleUpdate = (item) => {
         //console.log("RAHHAL",item.ganreliste);
@@ -364,7 +363,6 @@ export default function Cellier() {
     };
 
     const modBouteilleFormOk = () => {
-        console.log("Commencement fonctoin modBouteilleFormOk");
         const formValues = modBouteilleForm.current.getFieldsValue();
 
         // Désactiver les champs "nom", "pays" et "prix" si le champ "ganreliste" n'est pas nul
@@ -375,7 +373,7 @@ export default function Cellier() {
             axios
                 .patch(`/modiffBouteilleCellier/${modBouteille.id}`, value)
                 .then((res) => {
-                    console.log(res.data);
+                    //console.log(res.data);
                     axios.get(`/getCeillerBouteille/${id}`).then((res) => {
                         setData(res.data);
                     });
@@ -388,10 +386,17 @@ export default function Cellier() {
     const ajouterBoutteilAuCellierFormOk = () => {
         if (bouteilleChoisiEstNonListe){
             formulaireAjoutBouteille.current.validateFields().then((value) => {
+                const nomsBouteilles = data.map((bouteille) => bouteille.nom);
+                if (nomsBouteilles.some(nom => nom.toLowerCase() === value.nom.toLowerCase())) {
+                  return Modal.error({
+                    title: 'Nom de bouteille répété ou non acceptable !',
+                    content: 'Veuillez entrer un nom de bouteille différent.',
+                  });
+                } else {
                 let objNouvelleBout = {
                     nom: value.nom,
                     image: value.image ? value.image : null,
-                    pays: value.pays ? value.pays : "-----",
+                    pays: value.pays ? value.pays : "Non défini",
                     code_saq: null,
                     description: value.description ? value.description : null,
                     prix: value.prix,
@@ -410,14 +415,14 @@ export default function Cellier() {
 
                 axios.post('/ajouteBouteilleNl', objNouvelleBout)
                     .then((res) => {
-                        console.log(res);
+                        //console.log(res);
                         let objBouteille = {
                             bouteille_id: res.data,
                             cellier_id: id,
                             date_achat: value.dateAchat ? value.dateAchat : Aujourdhui,
                             quantite: value.quantite,
                         };
-                        console.log(objBouteille);
+                        //console.log(objBouteille);
                         axios.post(`/ajouteBouteilleCellier`, objBouteille);
                     })
                     .then((res) =>
@@ -426,7 +431,7 @@ export default function Cellier() {
                                 setData(res.data);
                             })
                     )
-            }).catch((error) => {
+            }}).catch((error) => {
                 console.error("Erreur lors de la validation des champs:", error);
             });
         }
@@ -575,63 +580,7 @@ export default function Cellier() {
         formulaireAjoutBouteille.current.setFieldsValue({ nom: "" });
     };
 
-    const ajouterBoutteilNlAuCellierFormOk = (formData) => {
-        const showErrorModal = () => {
-            Modal.error({
-                title: "Erreur",
-                content:
-                    "Le nom choisi n'est pas autorisé ! Veuillez choisir un autre nom.",
-                okText: "OK",
-            });
-        };
-
-        if (data.some((item) => item.nom === formData.nom)) showErrorModal();
-        else if (bouteilleSaq.some((item) => item.nom === formData.nom)) {
-            showErrorModal();
-        } else {
-            setModalAjouteBoutteilNonListeAuCellier(false);
-            let objNouvelleBout = {
-                nom: formData.nom,
-                image: formData.image ? formData.image : null,
-                pays: formData.pays ? formData.pays : "-----",
-                code_saq: null,
-                description: formData.description ? formData.description : null,
-                prix: formData.prix,
-                note: formData.note ? formData.note : null,
-                millesime: formData.millesime ? formData.millesime : null,
-                garde_jusqua: formData.garde_jusqua
-                    ? formData.garde_jusqua
-                    : null,
-                url_saq: null,
-                url_img: null,
-                format: formData.format ? formData.format : null,
-                type: formData.type_vin,
-                ganreliste: 0,
-            };
-
-            axios.post(`/ajouteBouteilleNl`, objNouvelleBout).then((res) => {
-                let objBouteille = {
-                    bouteille_id: res.data,
-                    cellier_id: id,
-                    date_achat: formData.date_achat
-                        ? formData.date_achat
-                        : Aujourdhui,
-                    quantite: formData.quantite,
-                };
-
-                //console.log(objBouteille);
-                axios
-                    .post(`/ajouteBouteilleCellier`, objBouteille)
-                    .then((res) => {
-                        //console.log(res);
-                        axios.get(`/getCeillerBouteille/${id}`).then((res) => {
-                            setData(res.data);
-                        });
-                    });
-            });
-        }
-    };
-
+    
     const supprimerBouteilleCellier = (idBouteille) => {
         axios.delete(`/deleteBouteilleCellier/${idBouteille}`).then((res) => {
             axios.get(`/getCeillerBouteille/${id}`).then((res) => {
@@ -689,12 +638,17 @@ export default function Cellier() {
                         xxl={4}
                         key={item.id}
                     >
+                        
+                        
                         <Card
                             key={item.id}
                             title={item.title}
                             bordered={false}
                         >
-                            <div className="carteBouteilleCellier">
+                            <div className="carteBouteilleCellier" style={{ position: 'relative' }}>
+                            {item.url_saq != null ? 
+                                <a href={item.url_saq} target="_blank"><img className="iconSAQ" src="/img/icons/iconSAQ.png" style={{ position: 'absolute', top: 0, right: 0 }}/></a> : <></>
+                            }
                                 <img src={item.image ? item.image : "/img/boutNl.JPG"} alt=""/>
                                 <div className="carteBouteilleCellier__titre">
                                     <FieldNumberOutlined /> {index+1}- <b>{item.nom}</b>
@@ -735,7 +689,6 @@ export default function Cellier() {
                                         shape="circle"
                                         icon={<DeleteOutlined />}
                                         onClick={() => {
-                                            console.log("abcdefg ", item.id);
                                             setIdBoutASupprim(item.id);
                                             setModalSupprimeBoutteilCellier(item.id);
                                         }}
@@ -764,8 +717,8 @@ export default function Cellier() {
                 title="Ajouter une bouteille"
                 okText="Ajouter"
                 cancelText="Annuler"
-                //onOk={() => ajouterBoutteilAuCellierFormOk()}
                 onCancel={() => {
+                    console.log("coucou");
                     setModalMethodEnregistrerBouteille(false);
                 }}
                 footer={[
@@ -819,17 +772,14 @@ export default function Cellier() {
                     layout="vertical"
                     validateTrigger="onBlur"
                     onValuesChange={(changedValues, allValues) => {
-                        
-                        if (!bouteilleChoisiEstNonListe) setBtnAjoutBouteilleDisponible(true);
-                        else {
-                            if( (allValues.nom !== undefined) &&
-                                allValues.type != "--- Sélétionez le type ---" &&
-                                allValues.prix != undefined) {
-                                    console.log(allValues);
-                                }
-                             setBtnAjoutBouteilleDisponible(true);
-                            // console.log("here: ",btnAjoutBouteilleDisponible);
+                        if(allValues.nom.length < 3          || 
+                            allValues.prix == undefined      || allValues.prix == ""     ||
+                            allValues.type_vin == undefined  || allValues.type_vin == "" ||
+                            allValues.quantite == undefined  || allValues.quantite == "" ||
+                            allValues.dateAchat == undefined || allValues.dateAchat  == "" ) {
+                                setBtnAjoutBouteilleDisponible(false);
                         }
+                        else setBtnAjoutBouteilleDisponible(true);
                     }}
                 >
                     <div className="formAjoutBoutAuCellier">
@@ -1033,6 +983,7 @@ export default function Cellier() {
                     setIdBoutASupprim(null);
                     setModalSupprimeBoutteilCellier(false);
                 }}
+                okButtonProps={{ danger: true }}
             >
                 <p>Êtes-vous sûr de vouloir supprimer cette bouteille ?</p>
             </Modal>
