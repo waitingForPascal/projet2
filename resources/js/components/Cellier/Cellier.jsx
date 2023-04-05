@@ -39,6 +39,7 @@ export default function Cellier() {
     const { Panel } = Collapse;
     const [modBouteille, setmodBouteille] = useState(null);
     const [isUpdate, setisUpdate] = useState(false);
+    const [ganreListe, setGanreListe] = useState(1);
 
     useEffect(() => {
         axios
@@ -332,7 +333,7 @@ export default function Cellier() {
             render: (item) => {
                 return (
                     <div>
-                        <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                        <FacebookShareButton url={"https://www.saq.com/fr/14154238"} >
                         <FaFacebook />
                         </FacebookShareButton>
 
@@ -340,6 +341,7 @@ export default function Cellier() {
                         <FaTwitter />
                         </TwitterShareButton>
 
+                        <Icon type="youtube" className="reseauxSocieaux" theme="Outlined"/>
                     </div>
                 );
             },
@@ -358,6 +360,7 @@ export default function Cellier() {
         setTimeout(() => {
             modBouteilleForm.current.setFieldsValue(item);
         }, 0);
+        (item.ganreliste != null) ? setGanreListe(1):setGanreListe(0);
     };
 
     const modBouteilleFormOk = () => {
@@ -443,8 +446,6 @@ export default function Cellier() {
                     const bouteilleDansCellier = data.find(
                         (item) => item.bouteille_id == boutSelectione.id
                     );
-                    console.log("-------",boutSelectione.id);
-                    console.log("++++++", bouteilleDansCellier );
                     axios
                         .patch(
                             `/ajouteBouteilleCellierPatch/${boutSelectione.id}`,
@@ -467,7 +468,6 @@ export default function Cellier() {
                         axios
                         .post(`/ajouteBouteilleCellier`, objBouteille)
                              .then((res) => {
-                                console.log(res);
                             })
                             .then((res) => {
                                 axios
@@ -662,9 +662,9 @@ export default function Cellier() {
         <div>
             <div className="button-right">
                 <span></span>
-                <Button type="primary" ghost>
+                <Button id="btnRetAccueil" type="primary" ghost>
                     <a href="/home" className="nonDecoration">
-                        Retouner
+                        Retourner
                     </a>
                 </Button>
             </div>
@@ -695,7 +695,7 @@ export default function Cellier() {
                             bordered={false}
                         >
                             <div className="carteBouteilleCellier">
-                                <img src={item.image ? item.image : "img/boutNl.JPG"} alt=""/>
+                                <img src={item.image ? item.image : "/img/boutNl.JPG"} alt=""/>
                                 <div className="carteBouteilleCellier__titre">
                                     <FieldNumberOutlined /> {index+1}- <b>{item.nom}</b>
                                 </div>
@@ -742,11 +742,11 @@ export default function Cellier() {
                                     ></Button>
 
                                     <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
-                                    <FaFacebook />
+                                    <FaFacebook className="reseauxSocieaux"/>
                                     </FacebookShareButton>
 
                                     <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
-                                    <FaTwitter />
+                                    <FaTwitter className="reseauxSocieaux"/>
                                     </TwitterShareButton>
                                 </div>
                             </div>
@@ -1049,7 +1049,7 @@ export default function Cellier() {
             >
                 <Form ref={modBouteilleForm} layout="vertical">
                     <Form.Item name="nom" label="Nom">
-                        <Input />
+                        <Input disabled={!ganreListe}/>
                     </Form.Item>
                     <Form.Item
                         name="prix"
@@ -1062,7 +1062,7 @@ export default function Cellier() {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled={!ganreListe}/>
                     </Form.Item>
                     <Form.Item
                         name="pays"
@@ -1075,7 +1075,7 @@ export default function Cellier() {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled={!ganreListe}/>
                     </Form.Item>
                     <Form.Item
                         name="type"
@@ -1089,6 +1089,7 @@ export default function Cellier() {
                         ]}
                     >
                         <Select
+                            disabled={!ganreListe}
                             style={{
                                 width: 120,
                             }}
@@ -1101,6 +1102,10 @@ export default function Cellier() {
                                 {
                                     value: "2",
                                     label: "Vin blanc",
+                                },
+                                {
+                                    value: "3",
+                                    label: "Vin rosé",
                                 },
                             ]}
                         />
@@ -1131,7 +1136,9 @@ export default function Cellier() {
                         name="dateAchat"
                         label="Date d'achat"
                         initialValue={Aujourdhui}
-                    ></Form.Item>
+                    >
+                        <Input type="date"/>
+                    </Form.Item>
                 </Form>
             </Modal>
         </div>

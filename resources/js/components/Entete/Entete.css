@@ -12,3 +12,17 @@
     text-align: center;
 
 }
+
+.retournCellier {
+    display: none;
+}
+
+@media screen and (max-width: 575px) {
+    .retournCellier {
+        display: block;
+    }
+
+    .navEntete-item {
+        list-style-type: none;
+    }
+}

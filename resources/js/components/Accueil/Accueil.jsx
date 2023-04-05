@@ -35,7 +35,6 @@ export default function Accueil() {
 
     useEffect(() => {
         axios.get("/verificationUser").then((res) => {
-            console.log(res.data);
             if (res.data == "admin") {
                 setadmin(true);
             }

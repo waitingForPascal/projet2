@@ -189,9 +189,14 @@
     font-size: .6rem;
     background: white;
   }
+
+  .reseauxSocieaux {
+    font-size: 1.7rem;
+    color:#2E4F4F;
+  }
   
  
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 450px) {
     .ant-table {
       overflow-x: auto;
       display: block;
@@ -207,7 +212,15 @@
     }
 
     .carteBouteilleCellier{
-      height: 380px;
+      height: 400px;
+    }
+
+    #btnRetAccueil {
+      display: none;
+    }
+
+    .wrapper-contenu {
+      padding-top: 0;
     }
 
     .carteBouteilleCellier__titre {
@@ -219,6 +232,18 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+  }
+
+  @media screen and (min-width: 450px) {
+    .carteBouteilleCellier{
+      height: 500px;
+    }
+  }
+
+  @media screen and (min-width: 1320px) {
+    .carteBouteilleCellier{
+      height: 600px;
     }
   }
 
