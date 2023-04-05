@@ -49,7 +49,7 @@ export default function Entete() {
     }, []);
 
     return (
-        <div className="dashboard-admin">
+        <div className="dashboard-admin my">
             {admin && (
             <Row justify="center" align="middle" gutter={[0, 16]}>
                 <Col
@@ -150,40 +150,6 @@ export default function Entete() {
             </Row>
          
             )}
-
-{/* 
-    <div className="footer-container">
-      <div className="footer-menu" >
-
-        <div
-          className="footer-menu-item" 
-          style={{color: activeIndex === 0 ? 'green' : 'black' }}
-          onClick={() => handleItemClick(0)}
-        >
-          <FaHome size={24} />
-          <span className="footer-menu-title" >Home</span>
-        </div>
-
-        <div
-         className="footer-menu-item" 
-          style={{ color: activeIndex === 1 ? 'green' : 'black' }}
-          onClick={() => handleItemClick(1)}
-        >
-          <FaUser size={24} />
-          <span className="footer-menu-title">Profile</span>
-        </div>
-
-        <div
-          className="footer-menu-item" 
-          style={{ color: activeIndex === 2 ? 'green' : 'black' }}
-          onClick={() => handleItemClick(2)}
-        >
-          <FaCog size={24} />
-          <span className="footer-menu-title">Settings</span>
-        </div>
-
-      </div>
-    </div> */}
 
 
             <Modal title="Salut" 

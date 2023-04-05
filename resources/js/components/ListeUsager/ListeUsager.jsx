@@ -123,7 +123,7 @@ export default function ListeUsager() {
         });
     };
     return (
-        <div>
+        <div className="wrapper">
             <Table
                 columns={columns}
                 dataSource={user}

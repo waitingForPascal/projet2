@@ -2,22 +2,22 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Card, Button, Modal, Menu, Form, Col, Row } from "antd";
 import "./Footer.css";
-import { FaChartBar, FaHospitalUser, FaDatabase } from 'react-icons/fa';
-
+import { FaChartBar, FaPlus, FaHospitalUser, FaDatabase,FaCartPlus,FaUserAlt } from 'react-icons/fa';
+ 
 export default function Footer() {
     const [admin, setadmin] = useState(false);
     const { Meta } = Card;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [message, setMessage] = useState('Hello World');
 
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(1);
 
     const handleItemClick = (index) => {
       setActiveIndex(index);
     };
 
-    const showModal = () => {
-    
+    const showModal = (index) => {
+        setActiveIndex(index);
         axios.get("/importerBouteille").then((res) => {
             console.log(res.data);
             if (res.data == true) {
@@ -48,9 +48,9 @@ export default function Footer() {
     }, []);
 
     return (
-        <div className="dashboard-admin">
+        <div className="">
 
-{admin ? (
+        {admin ? (
             <div className="footer-container">
             <div className="footer-menu" >
         
@@ -58,26 +58,25 @@ export default function Footer() {
                     href="/listeUsager" 
                     className="footer-menu-item"
                     onClick={() => handleItemClick(0)}
-                    style={{color: activeIndex === 0 ? 'green' : 'black' }}>
+                    style={{color: activeIndex === 0 ? '#0e8388' : 'black' }}>
                     <FaHospitalUser size={24} />
                     <span className="footer-menu-title" >ListeUsager</span>
                 </a>
-            
         
                 <a 
                     href="/statistique"
                     className="footer-menu-item" 
-                    style={{ color: activeIndex === 1 ? 'green' : 'black' }}
+                    style={{ color: activeIndex === 1 ? '#0e8388' : 'black' }}
                     onClick={() => handleItemClick(1)}>
                     <FaChartBar size={24} />
                     <span className="footer-menu-title">Statistiques</span>
                 </a>
 
                 <a 
-                    href="/importerBouteilles"
+                    href="#"
                     className="footer-menu-item" 
-                    style={{ color: activeIndex === 2 ? 'green' : 'black' }}
-                    onClick={() => handleItemClick(2)}
+                    style={{ color: activeIndex === 2 ? '#0e8388' : 'black' }}
+                    onClick={() => showModal}
                 >
                     <FaDatabase size={24} />
                     <span className="footer-menu-title">ImporterBouteilles</span>
@@ -90,38 +89,45 @@ export default function Footer() {
             <div className="footer-menu" >
         
                 <a 
-                    href="/listeUsager" 
+                    href="#" 
                     className="footer-menu-item"
                     onClick={() => handleItemClick(0)}
-                    style={{color: activeIndex === 0 ? 'green' : 'black' }}>
-                    <FaHospitalUser size={24} />
-                    <span className="footer-menu-title" >Bouteilles</span>
+                    style={{color: activeIndex === 0 ? '#0e8388' : 'black' }}>
+                    <FaUserAlt size={24} />
+                    <span className="footer-menu-title" >Profil</span>
                 </a>
-            
         
                 <a 
-                    href="/statistique"
+                    href="#"
                     className="footer-menu-item" 
-                    style={{ color: activeIndex === 1 ? 'green' : 'black' }}
+                    style={{ color: activeIndex === 1 ? '#0e8388' : 'black' }}
                     onClick={() => handleItemClick(1)}>
-                    <FaChartBar size={24} />
-                    <span className="footer-menu-title">profile</span>
+                    <FaPlus size={24} />
+                    <span className="footer-menu-title">AjouterCellier</span>
                 </a>
 
                 <a 
-                    href="/importerBouteilles"
+                    href="#"
                     className="footer-menu-item" 
-                    style={{ color: activeIndex === 2 ? 'green' : 'black' }}
+                    style={{ color: activeIndex === 2 ? '#0e8388' : 'black' }}
                     onClick={() => handleItemClick(2)}
                 >
-                    <FaDatabase size={24} />
-                    <span className="footer-menu-title">Autre</span>
+                    <FaCartPlus size={24} />
+                    <span className="footer-menu-title">ListeD'Achat</span>
                     </a>
 
                 </div>
             </div>
         )}
 
+            <Modal title="Salut" 
+                open={isModalOpen} 
+                onOk={handleOk} 
+                okText="Confirmer" 
+                onCancel={handleCancel} 
+                cancelText="Supprimer">
+                <p>{message}</p>
+            </Modal>
         </div>
 
                         

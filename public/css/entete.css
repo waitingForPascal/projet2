@@ -20,6 +20,26 @@ main {
     padding: 0 20px 0 20px;
 }
 
+
+@media only screen and (min-width: 768px) {
+  .wrapper {
+      padding: 0 30px;
+  }
+
+  
+}
+
+@media only screen and (min-width: 1200px) {
+  .wrapper {
+      padding: 0 6vw;
+  }
+
+  
+}
+.my{
+  margin: 30px 0 30px 0;
+}
+
 /* .wrapper-contenu{
   padding: 30px 25px 30px 25px;
 } */
