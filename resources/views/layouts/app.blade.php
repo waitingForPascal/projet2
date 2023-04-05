@@ -16,6 +16,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/entete.css') }}">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <!-- Scripts -->
     @viteReactRefresh
