@@ -8,6 +8,22 @@ use App\Http\Controllers\CellierBouteilleController ;
 use App\Http\Controllers\UserController ;
 use App\Http\Controllers\SAQController ;
 use App\Http\Controllers\StatistiqueController ;
+
+use App\Models\Cellier;
+
+Route::get('/cellier/{id}', function ($id) {
+    $cellier = Cellier::find($id);
+
+    // Si l'ID n'existe pas, rediriger vers la route "/home"
+    if (!$cellier) {
+        return redirect('/home');
+    }
+
+    // Si l'ID existe, renvoyer la vue "cellier"
+    return view('cellier');
+
+})->where('id', '[0-9]+'); // Condition pour s'assurer que l'ID est numérique
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,7 +80,7 @@ Route::delete('/deleteCellier/{id}' , [CellierController::class, 'destroy']);
 // récupérer les bouteilles dans le cellier spécial
 Route::get('/getCeillerBouteille/{id}', [CellierController::class, 'getListeBouteilleCellier']);
 // entrer dans un cellier précis
-Route::get('/cellier/{id}', function () {return view('cellier');});
+//Route::get('/cellier/{id}', function () {return view('cellier');});
 
 // ----------------------------------------------------------------------------------usager
 // vérifier si utilisateur est admin
