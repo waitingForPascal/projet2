@@ -1,5 +1,0 @@
-    const fermeCarteBoutListe = () => {
-        setBouteilleChoisiEstNonListe(true);
-        formulaireAjoutBouteille.current?.resetFields();
-        formulaireAjoutBouteille.current.setFieldsValue({nom: ""});
-    }

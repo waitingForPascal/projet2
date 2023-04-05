@@ -26,10 +26,20 @@ export default function ListeUsager() {
     }, []);
     const columns = [
         {
-            title: "Usager",
+            title: "Nom",
             dataIndex: "name",
             key: "name",
             render: (text) => <a>{text}</a>,
+        },
+        {
+            title: "Courriel",
+            dataIndex: "email",
+            responsive: ["md"],
+        },
+        {
+            title: "Role",
+            dataIndex: "privilege",
+            responsive: ["lg"],
         },
         {
             title: "",
@@ -79,7 +89,6 @@ export default function ListeUsager() {
 
             // envoyer une requête pour la modification d'usager
             axios.patch(`/modUser/${modUsager.id}`, value).then((res) => {
-                
                 // Récupérer les données, actualiser la page
                 // console.log(res.data);
                 axios.get("/getTousUser").then((res) => {
@@ -148,7 +157,6 @@ export default function ListeUsager() {
                     >
                         <Input />
                     </Form.Item>
-                   
                 </Form>
             </Modal>
         </div>

@@ -30,11 +30,82 @@
     text-decoration: none;
   }
 
-  .responsive-table {
-    width: 100%;
+  .monCellier {
+    margin-top: 25px;
+    position: 'relative';
   }
 
-  .nom_bouteille {
+  .monCellier>div {
+    border: 1px solid #2E4F4F;
+    border-radius: 1px;
+  }
+
+  .monCellier > * {
+    margin: 0 2px;
+  }
+
+  .carteBouteilleCellier {
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .carteBouteilleCellier img {
+    width: 50%;
+  }
+
+  .iconSAQ {
+    position: absolute;
+    top: 0; right: 0;
+    max-width: 15%;
+  } 
+
+  .carteBouteilleCellier__titre {
+    max-width: 90%;
+    margin: 25px 0 35px 0;
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgb(8, 18, 136);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* .carteBouteilleCellier__titre:hover {
+    border: 2px solid red;
+    max-width: 90%;
+    text-align: center;
+    font-size: .9rem;
+    color: rgb(136, 8, 12);
+    white-space: wrap;
+    text-overflow: ;
+  } */
+.carteBouteilleCellier__corps {
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.boutinfo>P{
+  margin: 0;
+}
+
+
+.boutinfo,
+.btnModifEtRs {
+  width: 100%;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;  
+  align-content: center;
+  justify-content: space-evenly;
+  }
+
+   .nom_bouteille {
     width: 100%;
   }
 
@@ -68,8 +139,8 @@
   }
 
   .carteBouteilleListe__corps img {
-    align-self: stretch;
     width: 30%;
+    align-self: stretch;
     object-fit: contain;    
   }
 
@@ -103,8 +174,59 @@
     margin: 0;
 
   }
+
+  .boutonAjoutBouteille {
+    color: aliceblue;
+    background-color: #0E8388;
+    border-color:#0E8388 !important;
+  }
+
+  .boutonAjoutBouteille:hover {
+    color: #2E4F4F !important;
+    background-color: #CBE4DE !important;
+    border-color: #0E8388;
+  }
+
+  .quantiteBout {
+    display: flex;
+    gap: 10px;
+  }
+
+  .quantiteBout>Button {
+    font-size: .6rem;
+    background: white;
+  }
+
+  .reseauxSocieaux {
+    font-size: 1.7rem;
+    color:#2E4F4F;
+  }
+
+  .listeBtCell {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .listeBtCell.even {
+    background-color: #f0f0f0;
+  }
+  
+  .listeBtCell.odd {
+    background-color: #ffffff;
+  }
+
+  .listeBouteilleTitre {
+    width: 100%;
+  }
+
+  .quantiteBoutCellierListe {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  
  
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 450px) {
     .ant-table {
       overflow-x: auto;
       display: block;
@@ -113,10 +235,45 @@
     .ant-table td:nth-of-type(3),
     .ant-table th:nth-of-type(3),
     .ant-table td:nth-of-type(4),
-    .ant-table th:nth-of-type(5),
+    .ant-table th:nth-of-type(4),
     .ant-table td:nth-of-type(5),
     .ant-table th:nth-of-type(5) {
       display: none;
+    }
+
+    .carteBouteilleCellier{
+      height: 400px;
+    }
+
+    #btnRetAccueil {
+      display: none;
+    }
+
+    .wrapper-contenu {
+      padding-top: 0;
+    }
+
+    .carteBouteilleCellier__titre {
+      max-width: 90%;
+      margin: 15px 0;
+      text-align: center;
+      font-size: 1rem;
+      color: rgb(8, 18, 136);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  @media screen and (min-width: 450px) {
+    .carteBouteilleCellier{
+      height: 500px;
+    }
+  }
+
+  @media screen and (min-width: 1320px) {
+    .carteBouteilleCellier{
+      height: 600px;
     }
   }
 
