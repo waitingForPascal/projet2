@@ -31,6 +31,8 @@ import {
     DownOutlined,
 } from "@ant-design/icons";
 
+import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col, List} from "antd";
+import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, ArrowDownOutlined, ArrowUpOutlined, FieldNumberOutlined, GlobalOutlined, MenuOutlined, AppstoreOutlined, UpOutlined, DownOutlined, DollarOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import "./Cellier.css";
 import moment from "moment";
@@ -714,6 +716,7 @@ export default function Cellier() {
                     enterButton
                 />
 
+<<<<<<< HEAD
                 {(sortedData.length > 0
                     ? sortedData
                     : filteredCards.length > 0
@@ -830,6 +833,132 @@ export default function Cellier() {
                     </Col>
                 ))}
             </Row>
+=======
+            <div>
+            <div>
+        <Button onClick={() => setModeListe(!modeListe)}>
+          {modeListe ? <AppstoreOutlined /> : <MenuOutlined />}
+        </Button>
+        <Select defaultValue="Trier par nom" style={{ width: 150 }} onChange={trier}>
+          <Option value="nom">Trier par nom</Option>
+          <Option value="prix">Trier par prix</Option>
+          <Option value="quantite">Trier par quantité</Option>
+        </Select>
+        {getIconeTri(triAscendant)}
+      </div>
+      {modeListe ? (
+        <List dataSource={data.sort(trierBouteilles)} renderItem={(item, index) => (
+          <List.Item
+            key={item.id}
+            className={index % 2 === 0 ? "listeBtCell even" : "listeBtCell odd"}
+          >
+            <List.Item.Meta
+              className="listeBouteilleTitre"
+              title={<div>{index + 1}. {item.nom}</div>}
+              description={<div></div>}
+            />
+            <div className="quantiteBoutCellierListe">
+              <p>X {item.quantite}</p>
+              <p>{item.prix}</p>
+              <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={() => handleUpdate(item)}></Button>
+              <Button
+                className="userBtn"
+                danger
+                shape="circle"
+                icon={<DeleteOutlined />}
+                onClick={() => {
+                  setIdBoutASupprim(item.id);
+                  setModalSupprimeBoutteilCellier(item.id);
+                }}
+              ></Button>
+              <div>
+                {item.ganreliste !== 0 ? (
+                  <a href={item.url_saq} target="_blank">
+                    <img src="/img/icons/iconSAQListe.png" alt="En savoir plus" style={{ maxWidth: "30px" }}/>
+                  </a>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          </List.Item>
+        )}
+        />
+            ) : (
+              <Row justify="center" align="middle" gutter={[0, 16]} className="monCellier">
+                  {data.map((item, index) => (
+                      <Col
+                          xs={20}
+                          sm={16}
+                          md={12}
+                          lg={8}
+                          xl={8}
+                          xxl={4}
+                          key={item.id}
+                      >
+
+                          <Card
+                              key={item.id}
+                              title={item.title}
+                              bordered={false}
+                          >
+                              <div className="carteBouteilleCellier">
+                                    <div className="carteBouteilleCellier__infos">
+                                            {item.url_saq != null ? 
+                                                <a href={item.url_saq} target="_blank"><img className="iconSAQ" src="/img/icons/iconSAQ.png" /></a> : <></>
+                                            }
+                                            <img className="carteBouteilleCellier__img" src={item.image ? item.image : "/img/bout_Nl.jpg"} alt=""/>
+                                        <div className="prixQnt">
+                                            <p>{item.pays}</p>
+                                            <p><b>{item.prix}</b></p>
+                                            <div className="quantiteBout">
+                                            <b>Quantité: {item.quantite}</b>
+                                            <ArrowDownOutlined
+                                                onClick={(e) => {
+                                                    //console.log("Augementer: ", item);
+                                                    diminuerQuantiteBouteilleUn(item);
+                                                }}
+                                            />
+                                            <ArrowUpOutlined onClick={() => {
+                                                    augmentQuantiteBouteilleUn(item);
+                                                }}/>
+                                        </div>
+                                        <div className="">
+                                            <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                                            <FaFacebook className="reseauxSocieaux"/>
+                                            </FacebookShareButton>
+
+                                            <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+                                            <FaTwitter className="reseauxSocieaux"/>
+                                            </TwitterShareButton>
+                                        </div>
+                                        <div className="btnModif">
+                                            <Button
+                                                type="primary"
+                                                onClick={() => handleUpdate(item)}
+                                            >Modiffier</Button>
+                                            <Button
+                                                className="userBtn"
+                                                danger
+                                                onClick={() => {
+                                                    setIdBoutASupprim(item.id);
+                                                    setModalSupprimeBoutteilCellier(item.id);
+                                                }}
+                                            >Supprimer</Button>
+                                        </div>
+                                      </div>
+                                </div>
+                                <div className="carteBouteilleCellier__titre">
+                                      <b>{item.nom}</b>
+                                </div>
+                            </div>
+                      </Card>
+                  </Col>
+              ))}
+          </Row>
+        )}
+    </div>
+>>>>>>> hamid
 
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal

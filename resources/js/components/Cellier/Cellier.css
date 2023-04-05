@@ -19,7 +19,10 @@
     justify-content:  space-between;
     align-items: center;
     margin: 20px 0 10px 0;
-    
+  }
+
+  .ant-card-body {
+    padding: 2px !important;
   }
 
  .elmFormBoutteilCellier {
@@ -32,7 +35,6 @@
 
   .monCellier {
     margin-top: 25px;
-    position: 'relative';
   }
 
   .monCellier>div {
@@ -46,20 +48,20 @@
   }
 
   .carteBouteilleCellier {
-    height: 550px;
     display: flex;
+    position: relative;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: start;
   }
-
-  .carteBouteilleCellier img {
-    width: 40%;
+  
+  .carteBouteilleCellier__img {
+    max-width: 50%;
   }
 
   .iconSAQ {
     position: absolute;
-    top: 0; right: 0;
+    top: 0; left: 0;
     max-width: 12%;
   } 
 
@@ -85,7 +87,7 @@
 }
 
 .boutinfo,
-.btnModifEtRs {
+.btnModif {
   width: 100%;
   padding: 8px 0;
   display: flex;
@@ -174,14 +176,29 @@
     border-color: #0E8388;
   }
 
-  .quantiteBout {
-    width: 100%;
+  .prixQnt {
     display: flex;
-    justify-content: space-evenly;
+    min-width: 75%;
+    flex-direction: column;
   }
-.quantiteBout>div {
+  
+  .prixQnt>p {
+    margin: 0;
+  }
+
+
+  .prixQnt>p:nth-of-type(2) b {
+    font-size: 1.2rem;
+  }
+
+  .quantiteBout {
+    display: flex;
+    gap: 3%;
+  }
+
+.btnModifEtRs {
+  max-width: 75%;
   display: flex;
-  gap: 5px;
 }
 
   .quantiteBout Button {
@@ -237,8 +254,8 @@
     }
 
     .carteBouteilleCellier{
-      height: 330px;
-
+      /* height: 330px; */
+      
     }
 
     #btnRetAccueil {
@@ -249,25 +266,32 @@
       padding-top: 0;
     }
 
+    .carteBouteilleCellier__infos {
+      display: flex;
+    }
+
+
     .carteBouteilleCellier__titre {
       max-width: 90%;
+      margin: auto;
       text-align: center;
       font-size: 1rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      border-top: 1px solid rgb(207, 202, 202);
     }
   }
 
   @media screen and (min-width: 450px) {
     .carteBouteilleCellier{
-      height: 500px;
+      /* height: 500px; */
     }
   }
 
   @media screen and (min-width: 1320px) {
     .carteBouteilleCellier{
-      height: 600px;
+      /* height: 600px; */
     }
   }
 

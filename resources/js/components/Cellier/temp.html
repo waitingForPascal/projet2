@@ -1,0 +1,34 @@
+
+                                  
+
+                                  <div >
+                                        
+
+                                    <p></p>
+                                </div>
+                                   <div className="btnModifEtRs">
+                                      <Button
+                                          type="primary"
+                                          shape="circle"
+                                          icon={<EditOutlined />}
+                                          onClick={() => handleUpdate(item)}
+                                      ></Button>
+                                      <Button
+                                          className="userBtn"
+                                          danger
+                                          shape="circle"
+                                          icon={<DeleteOutlined />}
+                                          onClick={() => {
+                                              setIdBoutASupprim(item.id);
+                                              setModalSupprimeBoutteilCellier(item.id);
+                                          }}
+                                      ></Button>
+
+                                      <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                                      <FaFacebook className="reseauxSocieaux"/>
+                                      </FacebookShareButton>
+
+                                      <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+                                      <FaTwitter className="reseauxSocieaux"/>
+                                      </TwitterShareButton>
+                              </div>
