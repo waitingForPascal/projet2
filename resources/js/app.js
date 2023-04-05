@@ -14,12 +14,11 @@ import "./bootstrap";
 
 import "./components/Test/Test";
 import "./components/Accueil/Accueil";
-import "./components/Entete/Entete";
+import "./components/Admin/Admin";
 import "./components/Cellier/Cellier";
 import "./components/ListeUsager/ListeUsager";
 import "./components/Bouteille/Bouteille";
 import "./components/Statistique/Statistique";
 import "./components/Ajout/Ajout";
-
 
 // Créer des composants dans les composants, créer des vues, router, puis importer

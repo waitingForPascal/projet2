@@ -1,0 +1,48 @@
+.dashboard-admin a {
+    text-decoration: "none";
+}
+
+.dashboard-admin a:hover {
+    font-weight: bolder;
+}
+.card-center {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.retournCellier {
+    display: none;
+}
+
+@media screen and (max-width: 575px) {
+    .retournCellier {
+        display: block;
+    }
+
+    .navEntete-item {
+        list-style-type: none;
+    }
+}
+
+.footer-container {
+    background-color: #f1f1f1;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.footer-menu {
+    display: flex;
+    justify-content: space-around;
+}
+.footer-menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-menu-title {
+    font-size: 12px;
+    margin-top: 5px;
+}

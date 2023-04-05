@@ -68,6 +68,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // $cellier = "La cave d'Ali Baba";
         $cellier = 'Cellier de ' . $data['name'];
         $last_user_id = DB::table('users')->latest('id')->value('id') + 1;
         DB::table('celliers')->insert([
