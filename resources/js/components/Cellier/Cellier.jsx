@@ -716,7 +716,6 @@ export default function Cellier() {
                     enterButton
                 />
 
-<<<<<<< HEAD
                 {(sortedData.length > 0
                     ? sortedData
                     : filteredCards.length > 0
@@ -833,7 +832,6 @@ export default function Cellier() {
                     </Col>
                 ))}
             </Row>
-=======
             <div>
             <div>
         <Button onClick={() => setModeListe(!modeListe)}>
@@ -958,8 +956,6 @@ export default function Cellier() {
           </Row>
         )}
     </div>
->>>>>>> hamid
-
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal
                 open={modalMethodEnregistrerBouteille}
