@@ -4,7 +4,7 @@ import { FacebookShareButton, TwitterShareButton } from 'react-share';
 import { FaFacebook, FaTwitter } from 'react-icons/fa';
 
 import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col, List} from "antd";
-import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined, InfoCircleOutlined, MenuOutlined, AppstoreOutlined } from "@ant-design/icons";
+import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined, InfoCircleOutlined, MenuOutlined, AppstoreOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
@@ -40,6 +40,9 @@ export default function Cellier() {
     const [isUpdate, setisUpdate] = useState(false);
     const [ganreListe, setGanreListe] = useState(1);
     const [modeListe, setModeListe] = useState(false);
+    const { Option } = Select;
+    const [triPar, setTriPar] = useState("nom");
+    const [triAscendant, setTriAscendant] = useState(true);
 
     useEffect(() => {
         axios
@@ -501,6 +504,27 @@ export default function Cellier() {
         setModeListe(!modeListe);
       };
 
+  
+      const trier = (value) => {
+        setTriPar(value);
+        setTriAscendant(!triAscendant);
+      };
+    
+      const trierBouteilles = (a, b) => {
+        if (triPar === "nom") {
+          return triAscendant ? a.nom.localeCompare(b.nom) : b.nom.localeCompare(a.nom);
+        } else if (triPar === "prix") {
+          return triAscendant ? a.prix - b.prix : b.prix - a.prix;
+        } else if (triPar === "quantite") {
+          return triAscendant ? a.quantite - b.quantite : b.quantite - a.quantite;
+        }
+      };
+    
+      const getIconeTri = (triAscendant) => {
+        return triAscendant ? <UpOutlined /> : <DownOutlined />;
+      };
+      
+
     return (
         // <div style={{ width: "80%", margin: "auto" }}>
         <div>
@@ -522,59 +546,55 @@ export default function Cellier() {
             </div>
 
             <div>
-                <div>
-                    <Button onClick={toggleModeListe}>{modeListe ? <AppstoreOutlined /> : <MenuOutlined />}</Button>
-                </div>
-                    {modeListe ? (
-                        <List
-                            dataSource={data}
-                            renderItem={(item, index) => (
-                              <List.Item
-                                key={item.id}
-                                className={index % 2 === 0 ? "listeBtCell even" : "listeBtCell odd"}
-                              >
-                                <List.Item.Meta
-                                    className="listeBouteilleTitre"
-                                    title={
-                                        <div>
-                                          {index + 1}. {item.nom}
-                                        </div>
-                                    }    
-                                    description={
-                                        <div>
-                                        </div>
-                                    }
-                        />
-                <div className="quantiteBoutCellierListe">
-                    <p>Qté: {item.quantite}</p>
-                    <p>{item.prix} $</p>
-
-                    <Button
-                        type="primary"
-                        shape="circle"
-                        icon={<EditOutlined />}
-                        onClick={() => handleUpdate(item)}
-                    ></Button>
-                    <Button
-                        className="userBtn"
-                        danger
-                        shape="circle"
-                        icon={<DeleteOutlined />}
-                        onClick={() => {
-                          setIdBoutASupprim(item.id);
-                        setModalSupprimeBoutteilCellier(item.id);
-                        }}
-                    ></Button>
-                    <div>
-                        {item.ganreliste !== 0 ? (
-                            <a href={item.url_saq} target="_blank">
-                                <img src="/img/icons/iconSAQListe.png" alt="En savoir plus" style={{ maxWidth: "30px" }}/>
-                            </a>) : <></>}
-                    </div>
-                    </div>
-                </List.Item>
-            )}
+            <div>
+        <Button onClick={() => setModeListe(!modeListe)}>
+          {modeListe ? <AppstoreOutlined /> : <MenuOutlined />}
+        </Button>
+        <Select defaultValue="Trier par nom" style={{ width: 150 }} onChange={trier}>
+          <Option value="nom">Trier par nom</Option>
+          <Option value="prix">Trier par prix</Option>
+          <Option value="quantite">Trier par quantité</Option>
+        </Select>
+        {getIconeTri(triAscendant)}
+      </div>
+      {modeListe ? (
+        <List dataSource={data.sort(trierBouteilles)} renderItem={(item, index) => (
+          <List.Item
+            key={item.id}
+            className={index % 2 === 0 ? "listeBtCell even" : "listeBtCell odd"}
+          >
+            <List.Item.Meta
+              className="listeBouteilleTitre"
+              title={<div>{index + 1}. {item.nom}</div>}
+              description={<div></div>}
             />
+            <div className="quantiteBoutCellierListe">
+              <p>Qté: {item.quantite}</p>
+              <p>{item.prix} $</p>
+              <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={() => handleUpdate(item)}></Button>
+              <Button
+                className="userBtn"
+                danger
+                shape="circle"
+                icon={<DeleteOutlined />}
+                onClick={() => {
+                  setIdBoutASupprim(item.id);
+                  setModalSupprimeBoutteilCellier(item.id);
+                }}
+              ></Button>
+              <div>
+                {item.ganreliste !== 0 ? (
+                  <a href={item.url_saq} target="_blank">
+                    <img src="/img/icons/iconSAQListe.png" alt="En savoir plus" style={{ maxWidth: "30px" }}/>
+                  </a>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          </List.Item>
+        )}
+        />
             ) : (
               <Row justify="center" align="middle" gutter={[0, 16]} className="monCellier">
                   {data.map((item, index) => (
