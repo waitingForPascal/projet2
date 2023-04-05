@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { FacebookShareButton, TwitterShareButton } from 'react-share';
 import { FaFacebook, FaTwitter } from 'react-icons/fa';
-
 import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col, List} from "antd";
 import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined, GlobalOutlined, MenuOutlined, AppstoreOutlined, UpOutlined, DownOutlined, DollarOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
@@ -10,6 +9,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
 import moment from "moment";
 import axios from "axios";
+import Footer from '../Footer/Footer';
 
 // import '../theme.less'; // Import the theme file
 
@@ -1069,6 +1069,7 @@ if (document.getElementById("cellier")) {
     Index.render(
         <React.StrictMode>
             <Cellier />
+            <Footer />
         </React.StrictMode>
     );
 }

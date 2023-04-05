@@ -3,19 +3,22 @@ import ReactDOM from "react-dom/client";
 import { Card, Button, Modal, Menu, Form, Col, Row } from "antd";
 import "./Footer.css";
 import { FaChartBar, FaPlus, FaHospitalUser, FaDatabase,FaCartPlus,FaUserAlt } from 'react-icons/fa';
- 
+import { useParams } from "react-router-dom";
+
 export default function Footer() {
     const [admin, setadmin] = useState(false);
     const { Meta } = Card;
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [message, setMessage] = useState('Hello World');
+    const [message, setMessage] = useState('');
 
     const [activeIndex, setActiveIndex] = useState(1);
+    // const [params, setParams] = useState("");
 
     const handleItemClick = (index) => {
       setActiveIndex(index);
     };
 
+    // const params = useParams();
     const showModal = (index) => {
         setActiveIndex(index);
         axios.get("/importerBouteille").then((res) => {
@@ -46,6 +49,8 @@ export default function Footer() {
             }
         });
     }, []);
+
+
 
     return (
         <div className="">

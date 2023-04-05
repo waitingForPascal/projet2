@@ -9,6 +9,8 @@ import {
 } from "@ant-design/icons";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Accueil.css";
+import Footer from '../Footer/Footer';
+
 
 const { confirm } = Modal;
 
@@ -272,6 +274,8 @@ if (document.getElementById("accueil")) {
     Index.render(
         <React.StrictMode>
             <Accueil />
+            <Footer />
+
         </React.StrictMode>
     );
 }
