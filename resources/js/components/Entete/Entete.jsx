@@ -1,14 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import { Card, Button, Space, Modal, Input, Form, Col, Row } from "antd";
+import { Card, Button, Modal, Menu, Form, Col, Row } from "antd";
 import "./Entete.css";
-import { Content } from "antd/es/layout/layout";
+import { FaHome, FaUser, FaCog } from 'react-icons/fa';
+import Footer from '../Footer/Footer';
 
 export default function Entete() {
     const [admin, setadmin] = useState(false);
     const { Meta } = Card;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [message, setMessage] = useState('Hello World');
+
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const handleItemClick = (index) => {
+      setActiveIndex(index);
+    };
 
     const showModal = () => {
     
@@ -45,47 +52,15 @@ export default function Entete() {
         <div className="dashboard-admin">
             {admin && (
             <Row justify="center" align="middle" gutter={[0, 16]}>
-                    <Col
-                        xs={20}
-                        sm={16}
-                        md={12}
-                        lg={8}
-                        xl={8}
-                        xxl={4}
-                    >
-                        <div className="card-center">
-                            <Card
-                                hoverable
-                                style={{
-                                    width: 250,
-                                }}
-                                bordered={false}
-                                cover={
-                                    <img
-                                        alt="listeUsager"
-                                        src="/img/listeUsager.jpg" 
-                                    />
-                                }
-                            >
-                                <a href="/listeUsager" style={{ textDecoration: 'none' }}>
-                                <Meta title="Liste d'usagers"/> 
-                                </a>
-                            
-                            </Card>
-                        </div>
-         
-                    </Col>
-
-                    <Col
-                        xs={20}
-                        sm={16}
-                        md={12}
-                        lg={8}
-                        xl={8}
-                        xxl={4}
-                    >
-                        <div className="card-center">
-
+                <Col
+                    xs={20}
+                    sm={16}
+                    md={12}
+                    lg={8}
+                    xl={8}
+                    xxl={4}
+                >
+                    <div className="card-center">
                         <Card
                             hoverable
                             style={{
@@ -94,54 +69,122 @@ export default function Entete() {
                             bordered={false}
                             cover={
                                 <img
-                                    alt="statistiques"
-                                    src="/img/statistiques.jpg" 
+                                    alt="listeUsager"
+                                    src="/img/listeUsager.jpg" 
                                 />
                             }
                         >
-                            <a href="/statistique" style={{ textDecoration: 'none' }}>
-                                <Meta title="Statistiques d'usagers"/> 
+                            <a href="/listeUsager" style={{ textDecoration: 'none' }}>
+                            <Meta title="Liste d'usagers"/> 
                             </a>
-                           
+                        
                         </Card>
-                        </div>
+                    </div>
+        
+                </Col>
 
-                    </Col>
+                <Col
+                    xs={20}
+                    sm={16}
+                    md={12}
+                    lg={8}
+                    xl={8}
+                    xxl={4}
+                >
+                    <div className="card-center">
 
-                    <Col
-                        xs={20}
-                        sm={16}
-                        md={12}
-                        lg={8}
-                        xl={8}
-                        xxl={4}
+                    <Card
+                        hoverable
+                        style={{
+                            width: 250,
+                        }}
+                        bordered={false}
+                        cover={
+                            <img
+                                alt="statistiques"
+                                src="/img/statistiques.jpg" 
+                            />
+                        }
                     >
-                        <div className="card-center">
+                        <a href="/statistique" style={{ textDecoration: 'none' }}>
+                            <Meta title="Statistiques d'usagers"/> 
+                        </a>
+                        
+                    </Card>
+                    </div>
 
-                        <Card
-                            hoverable
-                            style={{
-                                width: 250,
-                            }}
-                            bordered={false}
-                            cover={
-                                <img
-                                    alt="BouteillesSAQ"
-                                    src="/img/importerBouteilles.jpg" 
-                                />
-                            }
-                        >
-                            
-                            <a href="#" style={{ textDecoration: 'none'}} onClick={showModal}>
-                                <Meta title="Importer des bouteillesSAQ" />
-                            </a>
-                            
-                        </Card>
-                        </div>
+                </Col>
 
-                    </Col>
+                <Col
+                    xs={20}
+                    sm={16}
+                    md={12}
+                    lg={8}
+                    xl={8}
+                    xxl={4}
+                >
+                    <div className="card-center">
+
+                    <Card
+                        hoverable
+                        style={{
+                            width: 250,
+                        }}
+                        bordered={false}
+                        cover={
+                            <img
+                                alt="BouteillesSAQ"
+                                src="/img/importerBouteilles.jpg" 
+                            />
+                        }
+                    >
+                        
+                        <a href="#" style={{ textDecoration: 'none'}} onClick={showModal}>
+                            <Meta title="Importer des bouteillesSAQ" />
+                        </a>
+                        
+                    </Card>
+                    </div>
+
+                </Col>
             </Row>
+         
             )}
+
+{/* 
+    <div className="footer-container">
+      <div className="footer-menu" >
+
+        <div
+          className="footer-menu-item" 
+          style={{color: activeIndex === 0 ? 'green' : 'black' }}
+          onClick={() => handleItemClick(0)}
+        >
+          <FaHome size={24} />
+          <span className="footer-menu-title" >Home</span>
+        </div>
+
+        <div
+         className="footer-menu-item" 
+          style={{ color: activeIndex === 1 ? 'green' : 'black' }}
+          onClick={() => handleItemClick(1)}
+        >
+          <FaUser size={24} />
+          <span className="footer-menu-title">Profile</span>
+        </div>
+
+        <div
+          className="footer-menu-item" 
+          style={{ color: activeIndex === 2 ? 'green' : 'black' }}
+          onClick={() => handleItemClick(2)}
+        >
+          <FaCog size={24} />
+          <span className="footer-menu-title">Settings</span>
+        </div>
+
+      </div>
+    </div> */}
+
 
             <Modal title="Salut" 
                 open={isModalOpen} 
@@ -152,7 +195,11 @@ export default function Entete() {
                 <p>{message}</p>
             </Modal>
 
+            
+
         </div>
+
+                        
     );
 }
 
@@ -162,6 +209,7 @@ if (document.getElementById("entete")) {
     Index.render(
         <React.StrictMode>
             <Entete />
+            <Footer />
         </React.StrictMode>
     );
 }
