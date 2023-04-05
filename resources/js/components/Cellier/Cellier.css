@@ -201,6 +201,29 @@
     font-size: 1.7rem;
     color:#2E4F4F;
   }
+
+  .listeBtCell {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .listeBtCell.even {
+    background-color: #f0f0f0;
+  }
+  
+  .listeBtCell.odd {
+    background-color: #ffffff;
+  }
+
+  .listeBouteilleTitre {
+    width: 100%;
+  }
+
+  .quantiteBoutCellierListe {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+  }
   
  
   @media screen and (max-width: 450px) {

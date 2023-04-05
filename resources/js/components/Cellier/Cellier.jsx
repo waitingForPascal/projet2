@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import { FacebookShareButton, TwitterShareButton } from 'react-share';
 import { FaFacebook, FaTwitter } from 'react-icons/fa';
 
-import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col, Image} from "antd";
-import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col, List} from "antd";
+import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined, InfoCircleOutlined, MenuOutlined, AppstoreOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
@@ -39,6 +39,7 @@ export default function Cellier() {
     const [modBouteille, setmodBouteille] = useState(null);
     const [isUpdate, setisUpdate] = useState(false);
     const [ganreListe, setGanreListe] = useState(1);
+    const [modeListe, setModeListe] = useState(false);
 
     useEffect(() => {
         axios
@@ -236,116 +237,6 @@ export default function Cellier() {
                 text
             ),
     });
-
-    // const columns = [
-    //     {
-    //         title: "Nom",
-    //         dataIndex: "nom",
-    //         key: "nom",
-    //         width: "30%",
-    //         sorter: (a, b) => a.nom.localeCompare(b.nom),
-    //         render: (item) => <span className="nomBouteille">{item}</span>
-
-    //     },
-    //     {
-    //         title: "Quantité",
-    //         dataIndex: "quantite",
-    //         key: "quantite",
-    //         width: "20%",
-    //         sorter: {
-    //             compare: (a, b) => a.quantite - b.quantite,
-    //         },
-    //         render: (item) => {
-    //             return (
-    //                 <div className="quantiteBout">
-    //                     <Button
-    //                         icon={<PlusOutlined />}
-    //                         shape="circle"
-    //                         onClick={(e) => {
-    //                             console.log("Augementer: ", item);
-    //                             //augmentQuantiteBouteille(item.id);
-    //                         }}
-    //                     >
-    //                     </Button>
-    //                     {item}
-    //                     <Button
-    //                         icon={<MinusOutlined />}
-    //                         shape="circle"
-    //                         onClick={() => {
-    //                             console.log("Diminuer: ", );
-    //                         }}
-    //                     >
-    //                     </Button>
-    //                 </div>
-    //             );
-    //         },
-    //     },
-    //     {
-    //         title: "Pays",
-    //         dataIndex: "pays",
-    //         key: "pays",
-    //         width: "20%",
-    //         sorter: (a, b) => a.pays.localeCompare(b.pays),
-    //     },
-    //     {
-    //         title: "Type",
-    //         dataIndex: "type",
-    //         key: "type",
-    //         width: "20%",
-    //         sorter: (a, b) => a.type.localeCompare(b.type),
-    //     },
-    //     {
-    //         title: "Prix",
-    //         dataIndex: "prix",
-    //         key: "prix",
-    //         sorter: {
-    //             compare: (a, b) => a.prix - b.prix,
-    //         },
-    //     },
-    //     {
-    //         title: "",
-    //         render: (item) => {
-    //             return (
-    //                 <div>
-    //                     <Button
-    //                         className="userBtn"
-    //                         danger
-    //                         shape="circle"
-    //                         icon={<DeleteOutlined />}
-    //                         onClick={() => {
-    //                             setIdBoutASupprim(item.id);
-    //                             setModalSupprimeBoutteilCellier(item.id);
-    //                         }}
-    //                     ></Button>
-    //                     <Button
-    //                         type="primary"
-    //                         shape="circle"
-    //                         icon={<EditOutlined />}
-    //                         onClick={() => handleUpdate(item)}
-    //                     ></Button>
-    //                 </div>
-    //             );
-    //         },
-    //     },
-    //     {
-    //         title: "",
-    //         render: (item) => {
-    //             return (
-    //                 <div>
-    //                     <FacebookShareButton url={"https://www.saq.com/fr/14154238"} >
-    //                     <FaFacebook />
-    //                     </FacebookShareButton>
-
-    //                     <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
-    //                     <FaTwitter />
-    //                     </TwitterShareButton>
-
-    //                     <Icon type="youtube" className="reseauxSocieaux" theme="Outlined"/>
-    //                 </div>
-    //             );
-    //         },
-    //     },
-    // ];
 
     const handleUpdate = (item) => {
         //console.log("RAHHAL",item.ganreliste);
@@ -606,6 +497,10 @@ export default function Cellier() {
         };
     };
 
+    const toggleModeListe = () => {
+        setModeListe(!modeListe);
+      };
+
     return (
         // <div style={{ width: "80%", margin: "auto" }}>
         <div>
@@ -626,153 +521,206 @@ export default function Cellier() {
                 </Button>
             </div>
 
-
-            <Row justify="center" align="middle" gutter={[0, 16]} className="monCellier">
-                {data.map((item, index) => (
-                    <Col
-                        xs={20}
-                        sm={16}
-                        md={12}
-                        lg={8}
-                        xl={8}
-                        xxl={4}
-                        key={item.id}
-                    >
-                        
-                        
-                        <Card
-                            key={item.id}
-                            title={item.title}
-                            bordered={false}
-                        >
-                            <div className="carteBouteilleCellier" style={{ position: 'relative' }}>
-                            {item.url_saq != null ? 
-                                <a href={item.url_saq} target="_blank"><img className="iconSAQ" src="/img/icons/iconSAQ.png" style={{ position: 'absolute', top: 0, right: 0 }}/></a> : <></>
-                            }
-                                <img src={item.image ? item.image : "/img/boutNl.JPG"} alt=""/>
-                                <div className="carteBouteilleCellier__titre">
-                                    <FieldNumberOutlined /> {index+1}- <b>{item.nom}</b>
-                                </div>
-                                <div className="quantiteBout">
-                                            <Button
-                                                icon={<MinusOutlined />}
-                                                shape="circle"
-                                                onClick={(e) => {
-                                                    //console.log("Augementer: ", item);
-                                                    diminuerQuantiteBouteilleUn(item);
-                                                }}
-                                            ></Button>
-                                            <b>Quantité: {item.quantite}</b>
-                                            <Button
-                                                icon={<PlusOutlined />}
-                                                shape="circle"
-                                                onClick={() => {
-                                                    augmentQuantiteBouteilleUn(item);
-                                                }}
-                                            ></Button>
+            <div>
+                <div>
+                    <Button onClick={toggleModeListe}>{modeListe ? <AppstoreOutlined /> : <MenuOutlined />}</Button>
+                </div>
+                    {modeListe ? (
+                        <List
+                            dataSource={data}
+                            renderItem={(item, index) => (
+                              <List.Item
+                                key={item.id}
+                                className={index % 2 === 0 ? "listeBtCell even" : "listeBtCell odd"}
+                              >
+                                <List.Item.Meta
+                                    className="listeBouteilleTitre"
+                                    title={
+                                        <div>
+                                          {index + 1}. {item.nom}
                                         </div>
-                                <div className="carteBouteilleCellier__corps">
-                                    <div className="boutinfo">
-                                            <p>Pays: <b>{item.pays}</b></p>
-                                            <p>Prix: <b>{item.prix}</b> $</p>
-                                    </div>
-                                <div className="btnModifEtRs">
-                                    <Button
-                                        type="primary"
-                                        shape="circle"
-                                        icon={<EditOutlined />}
-                                        onClick={() => handleUpdate(item)}
-                                    ></Button>
-                                    <Button
-                                        className="userBtn"
-                                        danger
-                                        shape="circle"
-                                        icon={<DeleteOutlined />}
-                                        onClick={() => {
-                                            setIdBoutASupprim(item.id);
-                                            setModalSupprimeBoutteilCellier(item.id);
-                                        }}
-                                    ></Button>
+                                    }    
+                                    description={
+                                        <div>
+                                        </div>
+                                    }
+                        />
+                <div className="quantiteBoutCellierListe">
+                    <p>Qté: {item.quantite}</p>
+                    <p>{item.prix} $</p>
 
-                                    <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
-                                    <FaFacebook className="reseauxSocieaux"/>
-                                    </FacebookShareButton>
-
-                                    <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
-                                    <FaTwitter className="reseauxSocieaux"/>
-                                    </TwitterShareButton>
-                                </div>
-                            </div>
-                        </div>
-                    </Card>
-                </Col>
-            ))}
-        </Row>
-  
-
-
-            {/* modal ajouter une nouvelle boutteille au cellier */}
-            <Modal
-                open={modalMethodEnregistrerBouteille}
-                title="Ajouter une bouteille"
-                okText="Ajouter"
-                cancelText="Annuler"
-                onCancel={() => {
-                    console.log("coucou");
-                    setModalMethodEnregistrerBouteille(false);
-                }}
-                footer={[
                     <Button
-                        key="Ajouter"
                         type="primary"
-                        disabled={!btnAjoutBouteilleDisponible}
-                        onClick={() => {
-                            ajouterBoutteilAuCellierFormOk();
-                        }}
-                    >
-                        Ajouter
-                    </Button>,
+                        shape="circle"
+                        icon={<EditOutlined />}
+                        onClick={() => handleUpdate(item)}
+                    ></Button>
                     <Button
-                        key="annuler"
-                        onClick={() =>
-                            setModalMethodEnregistrerBouteille(false)
-                        }
-                    >
-                        Annuler
-                    </Button>,
-                ]}
+                        className="userBtn"
+                        danger
+                        shape="circle"
+                        icon={<DeleteOutlined />}
+                        onClick={() => {
+                          setIdBoutASupprim(item.id);
+                        setModalSupprimeBoutteilCellier(item.id);
+                        }}
+                    ></Button>
+                    <div>
+                        {item.ganreliste !== 0 ? (
+                            <a href={item.url_saq} target="_blank">
+                                <img src="/img/icons/iconSAQListe.png" alt="En savoir plus" style={{ maxWidth: "30px" }}/>
+                            </a>) : <></>}
+                    </div>
+                    </div>
+                </List.Item>
+            )}
+            />
+            ) : (
+              <Row justify="center" align="middle" gutter={[0, 16]} className="monCellier">
+                  {data.map((item, index) => (
+                      <Col
+                          xs={20}
+                          sm={16}
+                          md={12}
+                          lg={8}
+                          xl={8}
+                          xxl={4}
+                          key={item.id}
+                      >
+
+                          <Card
+                              key={item.id}
+                              title={item.title}
+                              bordered={false}
+                          >
+                              <div className="carteBouteilleCellier" style={{ position: 'relative' }}>
+                              {item.url_saq != null ? 
+                                  <a href={item.url_saq} target="_blank"><img className="iconSAQ" src="/img/icons/iconSAQ.png" style={{ position: 'absolute', top: 0, right: 0 }}/></a> : <></>
+                              }
+                                  <img src={item.image ? item.image : "/img/boutNl.JPG"} alt=""/>
+                                  <div className="carteBouteilleCellier__titre">
+                                      <FieldNumberOutlined /> {index+1}- <b>{item.nom}</b>
+                                  </div>
+                                  <div className="quantiteBout">
+                                              <Button
+                                                  icon={<MinusOutlined />}
+                                                  shape="circle"
+                                                  onClick={(e) => {
+                                                      //console.log("Augementer: ", item);
+                                                      diminuerQuantiteBouteilleUn(item);
+                                                  }}
+                                              ></Button>
+                                              <b>Quantité: {item.quantite}</b>
+                                              <Button
+                                                  icon={<PlusOutlined />}
+                                                  shape="circle"
+                                                  onClick={() => {
+                                                      augmentQuantiteBouteilleUn(item);
+                                                  }}
+                                              ></Button>
+                                          </div>
+                                  <div className="carteBouteilleCellier__corps">
+                                      <div className="boutinfo">
+                                              <p>Pays: <b>{item.pays}</b></p>
+                                              <p>Prix: <b>{item.prix}</b> $</p>
+                                      </div>
+                                  <div className="btnModifEtRs">
+                                      <Button
+                                          type="primary"
+                                          shape="circle"
+                                          icon={<EditOutlined />}
+                                          onClick={() => handleUpdate(item)}
+                                      ></Button>
+                                      <Button
+                                          className="userBtn"
+                                          danger
+                                          shape="circle"
+                                          icon={<DeleteOutlined />}
+                                          onClick={() => {
+                                              setIdBoutASupprim(item.id);
+                                              setModalSupprimeBoutteilCellier(item.id);
+                                          }}
+                                      ></Button>
+
+                                      <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                                      <FaFacebook className="reseauxSocieaux"/>
+                                      </FacebookShareButton>
+
+                                      <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+                                      <FaTwitter className="reseauxSocieaux"/>
+                                      </TwitterShareButton>
+                                  </div>
+                              </div>
+                          </div>
+                      </Card>
+                  </Col>
+              ))}
+          </Row>
+        )}
+    </div>
+
+    {/* modal ajouter une nouvelle boutteille au cellier */}
+    <Modal
+        open={modalMethodEnregistrerBouteille}
+        title="Ajouter une bouteille"
+        okText="Ajouter"
+        cancelText="Annuler"
+        onCancel={() => {
+            console.log("coucou");
+            setModalMethodEnregistrerBouteille(false);
+        }}
+        footer={[
+            <Button
+                key="Ajouter"
+                type="primary"
+                disabled={!btnAjoutBouteilleDisponible}
+                onClick={() => {
+                    ajouterBoutteilAuCellierFormOk();
+                }}
             >
-                Séléctionnez une bouteille :
-                <Select
-                    showSearch
-                    className="nom_bouteille"
-                    onChange={choisirVin}
-                    filterOption={(input, option) =>
-                        option.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                    }
-                    defaultValue="default"
-                    ref={selectBouteilleRef}
-                >
-                    <Option value="default" key="default" disabled>
-                        --- Bouteilles existantes chez SAQ ---
-                    </Option>
-                    {bouteilleSaq.map((bouteille) =>
-                        bouteille.ganreliste === null ? (
-                            <Option value={bouteille.id} key={bouteille.id}>
-                                {bouteille.nom}
-                            </Option>
-                        ) : null
-                    )}
-                </Select>
-                {/* Modal ajout une bouteille listée */}
-                <Form
-                    ref={formulaireAjoutBouteille}
-                    layout="vertical"
-                    validateTrigger="onBlur"
-                    onValuesChange={(changedValues, allValues) => {
-                        if(allValues.nom.length < 3          || 
+                Ajouter
+            </Button>,
+            <Button
+                key="annuler"
+                onClick={() =>
+                    setModalMethodEnregistrerBouteille(false)
+                }
+            >
+                Annuler
+            </Button>,
+        ]}
+    >
+    Séléctionnez une bouteille :
+    <Select
+        showSearch
+        className="nom_bouteille"
+        onChange={choisirVin}
+        filterOption={(input, option) =>
+            option.children
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) >= 0
+        }
+        defaultValue="default"
+        ref={selectBouteilleRef}
+    >
+        <Option value="default" key="default" disabled>
+            --- Bouteilles existantes chez SAQ ---
+        </Option>
+        {bouteilleSaq.map((bouteille) =>
+            bouteille.ganreliste === null ? (
+                <Option value={bouteille.id} key={bouteille.id}>
+                    {bouteille.nom}
+                </Option>
+            ) : null
+        )}
+    </Select>
+    {/* Modal ajout une bouteille listée */}
+    <Form
+        ref={formulaireAjoutBouteille}
+        layout="vertical"
+        validateTrigger="onBlur"
+        onValuesChange={(changedValues, allValues) => {
+            if(allValues.nom.length < 3          || 
                             allValues.prix == undefined      || allValues.prix == ""     ||
                             allValues.type_vin == undefined  || allValues.type_vin == "" ||
                             allValues.quantite == undefined  || allValues.quantite == "" ||
