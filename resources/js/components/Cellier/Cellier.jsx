@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { FaFacebook, FaTwitter } from "react-icons/fa";
 
-
 import {
     Button,
     Select,
@@ -49,6 +48,10 @@ export default function Cellier() {
     // Recherche
     const [RechercheText, setRechercheText] = useState("");
     const [filteredCards, setFilteredCards] = useState(data);
+
+    // tri
+    const [sortedData, setSortedData] = useState([]);
+
     const [
         modalMethodEnregistrerBouteille,
         setModalMethodEnregistrerBouteille,
@@ -148,7 +151,7 @@ export default function Cellier() {
     useEffect(() => {
         // récupérer les bouteilles dans le cellier spécial
         axios.get(`/getCeillerBouteille/${id}`).then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             setData(res.data);
         });
     }, []);
@@ -603,7 +606,6 @@ export default function Cellier() {
     };
 
     // recherche
-
     useEffect(() => {
         const filtered = data.filter(
             (card) =>
@@ -616,10 +618,63 @@ export default function Cellier() {
     }, [searchText]);
 
     function handleRecherche(value) {
+        // console.log(value);
+        if (value == "") {
+            setFilteredCards([]);
+            setSortedData([]);
+        }
         setSearchText(value);
     }
-    console.log(RechercheText);
-    console.log(filteredCards);
+
+    // tri
+    const handleSortPays = () => {
+        const newSortedData = [
+            ...(filteredCards.length > 0 ? filteredCards : data),
+        ];
+        newSortedData.sort((a, b) => a.pays.localeCompare(b.pays));
+        setSortedData(newSortedData);
+    };
+
+    const handleSortPaysDesc = () => {
+        const newSortedData = [
+            ...(filteredCards.length > 0 ? filteredCards : data),
+        ];
+        newSortedData.sort((a, b) => b.pays.localeCompare(a.pays));
+        setSortedData(newSortedData);
+    };
+
+    const handleSortQuantite = () => {
+        const newSortedData = [
+            ...(filteredCards.length > 0 ? filteredCards : data),
+        ];
+        newSortedData.sort((a, b) => a.quantite - b.quantite);
+        setSortedData(newSortedData);
+    };
+
+    const handleSortQuantiteDesc = () => {
+        const newSortedData = [
+            ...(filteredCards.length > 0 ? filteredCards : data),
+        ];
+        newSortedData.sort((a, b) => b.quantite - a.quantite);
+        setSortedData(newSortedData);
+    };
+
+    const handleSortNom = () => {
+        const newSortedData = [
+            ...(filteredCards.length > 0 ? filteredCards : data),
+        ];
+        newSortedData.sort((a, b) => a.nom.localeCompare(b.nom));
+        setSortedData(newSortedData);
+    };
+
+    const handleSortNomDesc = () => {
+        const newSortedData = [
+            ...(filteredCards.length > 0 ? filteredCards : data),
+        ];
+        newSortedData.sort((a, b) => b.nom.localeCompare(a.nom));
+        setSortedData(newSortedData);
+    };
+
     return (
         <div>
             <div className="button-right">
@@ -639,8 +694,14 @@ export default function Cellier() {
                     Ajouter une bouteille
                 </Button>
             </div>
-
-
+            <button onClick={handleSortPays}>Sort by Pays ASC</button>
+            <button onClick={handleSortPaysDesc}>Sort by Pays DESC</button>
+            <button onClick={handleSortQuantite}>Sort by Quantité ASC</button>
+            <button onClick={handleSortQuantiteDesc}>
+                Sort by Quantité DESC
+            </button>
+            <button onClick={handleSortNom}>Sort by Nom ASC</button>
+            <button onClick={handleSortNomDesc}>Sort by Nom DESC</button>
             <Row
                 justify="center"
                 align="middle"
@@ -652,348 +713,123 @@ export default function Cellier() {
                     onSearch={handleRecherche}
                     enterButton
                 />
-                {(filteredCards.length > 0 ? filteredCards : data).map(
-                    (item, index) => (
-                        <Col
-                            xs={20}
-                            sm={16}
-                            md={12}
-                            lg={8}
-                            xl={8}
-                            xxl={4}
-                            key={item.id}
-                        >
-                            <Card
-                                key={item.id}
-                                title={item.title}
-                                bordered={false}
-                            >
-                                <div
-                                    className="carteBouteilleCellier"
-                                    style={{ position: "relative" }}
-                                >
-                                    {item.url_saq != null ? (
-                                        <a href={item.url_saq} target="_blank">
-                                            <img
-                                                className="iconSAQ"
-                                                src="/img/icons/iconSAQ.png"
-                                                style={{
-                                                    position: "absolute",
-                                                    top: 0,
-                                                    right: 0,
-                                                }}
-                                            />
-                                        </a>
-                                    ) : (
-                                        <></>
-                                    )}
-                                    <img
-                                        src={
-                                            item.image
-                                                ? item.image
-                                                : "/img/boutNl.JPG"
-                                        }
-                                        alt=""
-                                    />
-                                    <div className="carteBouteilleCellier__titre">
-                                        <FieldNumberOutlined /> {index + 1}-{" "}
-                                        <b>{item.nom}</b>
-                                    </div>
-                                    <div className="quantiteBout">
-                                        <Button
-                                            icon={<MinusOutlined />}
-                                            shape="circle"
-                                            onClick={(e) => {
-                                                //console.log("Augementer: ", item);
-                                                diminuerQuantiteBouteilleUn(
-                                                    item
-                                                );
-                                            }}
-                                        ></Button>
-                                        <b>Quantité: {item.quantite}</b>
-                                        <Button
-                                            icon={<PlusOutlined />}
-                                            shape="circle"
-                                            onClick={() => {
-                                                augmentQuantiteBouteilleUn(
-                                                    item
-                                                );
-                                            }}
-                                        ></Button>
-                                    </div>
-                                    <div className="carteBouteilleCellier__corps">
-                                        <div className="boutinfo">
-                                            <p>
-                                                Pays: <b>{item.pays}</b>
-                                            </p>
-                                            <p>
-                                                Prix: <b>{item.prix}</b> $
-                                            </p>
-                                        </div>
-                                        <div className="btnModifEtRs">
-                                            <Button
-                                                type="primary"
-                                                shape="circle"
-                                                icon={<EditOutlined />}
-                                                onClick={() =>
-                                                    handleUpdate(item)
-                                                }
-                                            ></Button>
-                                            <Button
-                                                className="userBtn"
-                                                danger
-                                                shape="circle"
-                                                icon={<DeleteOutlined />}
-                                                onClick={() => {
-                                                    setIdBoutASupprim(item.id);
-                                                    setModalSupprimeBoutteilCellier(
-                                                        item.id
-                                                    );
-                                                }}
-                                            ></Button>
 
-                                            <FacebookShareButton
-                                                url={
-                                                    "https://www.saq.com/fr/14154238"
-                                                }
-                                            >
-                                                <FaFacebook className="reseauxSocieaux" />
-                                            </FacebookShareButton>
-
-
-                                            <TwitterShareButton
-                                                url={
-                                                    "https://www.saq.com/fr/14154238"
-                                                }
-                                            >
-                                                <FaTwitter className="reseauxSocieaux" />
-                                            </TwitterShareButton>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card>
-                        </Col>
-                    )
-                )}
-            </Row>
-            {/* <div>
-                <div>
-                    <Button onClick={() => setModeListe(!modeListe)}>
-                        {modeListe ? <AppstoreOutlined /> : <MenuOutlined />}
-                    </Button>
-                    <Select
-                        defaultValue="Trier par nom"
-                        style={{ width: 150 }}
-                        onChange={trier}
+                {(sortedData.length > 0
+                    ? sortedData
+                    : filteredCards.length > 0
+                    ? filteredCards
+                    : data
+                ).map((item, index) => (
+                    <Col
+                        xs={20}
+                        sm={16}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        xxl={4}
+                        key={item.id}
                     >
-                        <Option value="nom">Trier par nom</Option>
-                        <Option value="prix">Trier par prix</Option>
-                        <Option value="quantite">Trier par quantité</Option>
-                    </Select>
-                    {getIconeTri(triAscendant)}
-                </div>
-                {modeListe ? (
-                    <List
-                        dataSource={data.sort(trierBouteilles)}
-                        renderItem={(item, index) => (
-                            <List.Item
-                                key={item.id}
-                                className={
-                                    index % 2 === 0
-                                        ? "listeBtCell even"
-                                        : "listeBtCell odd"
-                                }
+                        <Card key={item.id} title={item.title} bordered={false}>
+                            <div
+                                className="carteBouteilleCellier"
+                                style={{ position: "relative" }}
                             >
-                                <List.Item.Meta
-                                    className="listeBouteilleTitre"
-                                    title={
-                                        <div>
-                                            {index + 1}. {item.nom}
-                                        </div>
+                                {item.url_saq != null ? (
+                                    <a href={item.url_saq} target="_blank">
+                                        <img
+                                            className="iconSAQ"
+                                            src="/img/icons/iconSAQ.png"
+                                            style={{
+                                                position: "absolute",
+                                                top: 0,
+                                                right: 0,
+                                            }}
+                                        />
+                                    </a>
+                                ) : (
+                                    <></>
+                                )}
+                                <img
+                                    src={
+                                        item.image
+                                            ? item.image
+                                            : "/img/boutNl.JPG"
                                     }
-                                    description={<div></div>}
+                                    alt=""
                                 />
-                                <div className="quantiteBoutCellierListe">
-                                    <p>Qté: {item.quantite}</p>
-                                    <p>{item.prix} $</p>
+                                <div className="carteBouteilleCellier__titre">
+                                    <FieldNumberOutlined /> {index + 1}-{" "}
+                                    <b>{item.nom}</b>
+                                </div>
+                                <div className="quantiteBout">
                                     <Button
-                                        type="primary"
+                                        icon={<MinusOutlined />}
                                         shape="circle"
-                                        icon={<EditOutlined />}
-                                        onClick={() => handleUpdate(item)}
-                                    ></Button>
-                                    <Button
-                                        className="userBtn"
-                                        danger
-                                        shape="circle"
-                                        icon={<DeleteOutlined />}
-                                        onClick={() => {
-                                            setIdBoutASupprim(item.id);
-                                            setModalSupprimeBoutteilCellier(
-                                                item.id
-                                            );
+                                        onClick={(e) => {
+                                            //console.log("Augementer: ", item);
+                                            diminuerQuantiteBouteilleUn(item);
                                         }}
                                     ></Button>
-                                    <div>
-                                        {item.ganreliste !== 0 ? (
-                                            <a
-                                                href={item.url_saq}
-                                                target="_blank"
-                                            >
-                                                <img
-                                                    src="/img/icons/iconSAQListe.png"
-                                                    alt="En savoir plus"
-                                                    style={{ maxWidth: "30px" }}
-                                                />
-                                            </a>
-                                        ) : (
-                                            <></>
-                                        )}
+                                    <b>Quantité: {item.quantite}</b>
+                                    <Button
+                                        icon={<PlusOutlined />}
+                                        shape="circle"
+                                        onClick={() => {
+                                            augmentQuantiteBouteilleUn(item);
+                                        }}
+                                    ></Button>
+                                </div>
+                                <div className="carteBouteilleCellier__corps">
+                                    <div className="boutinfo">
+                                        <p>
+                                            Pays: <b>{item.pays}</b>
+                                        </p>
+                                        <p>
+                                            Prix: <b>{item.prix}</b> $
+                                        </p>
+                                    </div>
+                                    <div className="btnModifEtRs">
+                                        <Button
+                                            type="primary"
+                                            shape="circle"
+                                            icon={<EditOutlined />}
+                                            onClick={() => handleUpdate(item)}
+                                        ></Button>
+                                        <Button
+                                            className="userBtn"
+                                            danger
+                                            shape="circle"
+                                            icon={<DeleteOutlined />}
+                                            onClick={() => {
+                                                setIdBoutASupprim(item.id);
+                                                setModalSupprimeBoutteilCellier(
+                                                    item.id
+                                                );
+                                            }}
+                                        ></Button>
+
+                                        <FacebookShareButton
+                                            url={
+                                                "https://www.saq.com/fr/14154238"
+                                            }
+                                        >
+                                            <FaFacebook className="reseauxSocieaux" />
+                                        </FacebookShareButton>
+
+                                        <TwitterShareButton
+                                            url={
+                                                "https://www.saq.com/fr/14154238"
+                                            }
+                                        >
+                                            <FaTwitter className="reseauxSocieaux" />
+                                        </TwitterShareButton>
                                     </div>
                                 </div>
-                            </List.Item>
-                        )}
-                    />
-                ) : (
-                    <Row
-                        justify="center"
-                        align="middle"
-                        gutter={[0, 16]}
-                        className="monCellier"
-                    >
-                        <Search
-                            placeholder="请输入搜索关键字"
-                            onSearch={handleRecherche}
-                            enterButton
-                        />
-                        {data.map((item, index) => (
-                            <Col
-                                xs={20}
-                                sm={16}
-                                md={12}
-                                lg={8}
-                                xl={8}
-                                xxl={4}
-                                key={item.id}
-                            >
-                                <Card
-                                    key={item.id}
-                                    title={item.title}
-                                    bordered={false}
-                                >
-                                    <div
-                                        className="carteBouteilleCellier"
-                                        style={{ position: "relative" }}
-                                    >
-                                        {item.url_saq != null ? (
-                                            <a
-                                                href={item.url_saq}
-                                                target="_blank"
-                                            >
-                                                <img
-                                                    className="iconSAQ"
-                                                    src="/img/icons/iconSAQ.png"
-                                                    style={{
-                                                        position: "absolute",
-                                                        top: 0,
-                                                        right: 0,
-                                                    }}
-                                                />
-                                            </a>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        <img
-                                            src={
-                                                item.image
-                                                    ? item.image
-                                                    : "/img/boutNl.JPG"
-                                            }
-                                            alt=""
-                                        />
-                                        <div className="carteBouteilleCellier__titre">
-                                            <FieldNumberOutlined /> {index + 1}-{" "}
-                                            <b>{item.nom}</b>
-                                        </div>
-                                        <div className="quantiteBout">
-                                            <Button
-                                                icon={<MinusOutlined />}
-                                                shape="circle"
-                                                onClick={(e) => {
-                                                    //console.log("Augementer: ", item);
-                                                    diminuerQuantiteBouteilleUn(
-                                                        item
-                                                    );
-                                                }}
-                                            ></Button>
-                                            <b>Quantité: {item.quantite}</b>
-                                            <Button
-                                                icon={<PlusOutlined />}
-                                                shape="circle"
-                                                onClick={() => {
-                                                    augmentQuantiteBouteilleUn(
-                                                        item
-                                                    );
-                                                }}
-                                            ></Button>
-                                        </div>
-                                        <div className="carteBouteilleCellier__corps">
-                                            <div className="boutinfo">
-                                                <p>
-                                                    Pays: <b>{item.pays}</b>
-                                                </p>
-                                                <p>
-                                                    Prix: <b>{item.prix}</b> $
-                                                </p>
-                                            </div>
-                                            <div className="btnModifEtRs">
-                                                <Button
-                                                    type="primary"
-                                                    shape="circle"
-                                                    icon={<EditOutlined />}
-                                                    onClick={() =>
-                                                        handleUpdate(item)
-                                                    }
-                                                ></Button>
-                                                <Button
-                                                    className="userBtn"
-                                                    danger
-                                                    shape="circle"
-                                                    icon={<DeleteOutlined />}
-                                                    onClick={() => {
-                                                        setIdBoutASupprim(
-                                                            item.id
-                                                        );
-                                                        setModalSupprimeBoutteilCellier(
-                                                            item.id
-                                                        );
-                                                    }}
-                                                ></Button>
-
-                                                <FacebookShareButton
-                                                    url={
-                                                        "https://www.saq.com/fr/14154238"
-                                                    }
-                                                >
-                                                    <FaFacebook className="reseauxSocieaux" />
-                                                </FacebookShareButton>
-
-                                                <TwitterShareButton
-                                                    url={
-                                                        "https://www.saq.com/fr/14154238"
-                                                    }
-                                                >
-                                                    <FaTwitter className="reseauxSocieaux" />
-                                                </TwitterShareButton>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
-                )}
-            </div> */}
+                            </div>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
 
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal
