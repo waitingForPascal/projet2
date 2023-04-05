@@ -4,7 +4,7 @@ import { FacebookShareButton, TwitterShareButton } from 'react-share';
 import { FaFacebook, FaTwitter } from 'react-icons/fa';
 
 import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col, List} from "antd";
-import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, PlusOutlined, MinusOutlined, FieldNumberOutlined, GlobalOutlined, MenuOutlined, AppstoreOutlined, UpOutlined, DownOutlined, DollarOutlined } from "@ant-design/icons";
+import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, ArrowDownOutlined, ArrowUpOutlined, FieldNumberOutlined, GlobalOutlined, MenuOutlined, AppstoreOutlined, UpOutlined, DownOutlined, DollarOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Cellier.css";
@@ -569,7 +569,7 @@ export default function Cellier() {
               description={<div></div>}
             />
             <div className="quantiteBoutCellierListe">
-              <p>Qté: {item.quantite}</p>
+              <p>X {item.quantite}</p>
               <p>{item.prix}</p>
               <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={() => handleUpdate(item)}></Button>
               <Button
@@ -613,64 +613,56 @@ export default function Cellier() {
                               title={item.title}
                               bordered={false}
                           >
-                              <div className="carteBouteilleCellier" style={{ position: 'relative' }}>
-                              {item.url_saq != null ? 
-                                  <a href={item.url_saq} target="_blank"><img className="iconSAQ" src="/img/icons/iconSAQ.png" style={{ position: 'absolute', top: 0, right: 0 }}/></a> : <></>
-                              }
-                                  <img src={item.image ? item.image : "/img/boutNl.JPG"} alt=""/>
-                                  <div className="carteBouteilleCellier__titre">
-                                      <FieldNumberOutlined /> {index+1}- <b>{item.nom}</b>
-                                  </div>
-                                  <div className="quantiteBout">
-                                        <p><b>{item.prix}</b></p>
-                                        <div>
-                                        <Button
-                                            icon={<DownOutlined />}
-                                            shape="circle"
-                                            onClick={(e) => {
-                                                //console.log("Augementer: ", item);
-                                                diminuerQuantiteBouteilleUn(item);
-                                            }}
-                                        ></Button>
-                                        <b>Qté: {item.quantite}</b>
-                                        <Button
-                                            icon={<UpOutlined />}
-                                            shape="circle"
-                                            onClick={() => {
-                                                augmentQuantiteBouteilleUn(item);
-                                            }}
-                                        ></Button>
+                              <div className="carteBouteilleCellier">
+                                    <div className="carteBouteilleCellier__infos">
+                                            {item.url_saq != null ? 
+                                                <a href={item.url_saq} target="_blank"><img className="iconSAQ" src="/img/icons/iconSAQ.png" /></a> : <></>
+                                            }
+                                            <img className="carteBouteilleCellier__img" src={item.image ? item.image : "/img/bout_Nl.jpg"} alt=""/>
+                                        <div className="prixQnt">
+                                            <p>{item.pays}</p>
+                                            <p><b>{item.prix}</b></p>
+                                            <div className="quantiteBout">
+                                            <b>Quantité: {item.quantite}</b>
+                                            <ArrowDownOutlined
+                                                onClick={(e) => {
+                                                    //console.log("Augementer: ", item);
+                                                    diminuerQuantiteBouteilleUn(item);
+                                                }}
+                                            />
+                                            <ArrowUpOutlined onClick={() => {
+                                                    augmentQuantiteBouteilleUn(item);
+                                                }}/>
                                         </div>
+                                        <div className="">
+                                            <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                                            <FaFacebook className="reseauxSocieaux"/>
+                                            </FacebookShareButton>
+
+                                            <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+                                            <FaTwitter className="reseauxSocieaux"/>
+                                            </TwitterShareButton>
+                                        </div>
+                                        <div className="btnModif">
+                                            <Button
+                                                type="primary"
+                                                onClick={() => handleUpdate(item)}
+                                            >Modiffier</Button>
+                                            <Button
+                                                className="userBtn"
+                                                danger
+                                                onClick={() => {
+                                                    setIdBoutASupprim(item.id);
+                                                    setModalSupprimeBoutteilCellier(item.id);
+                                                }}
+                                            >Supprimer</Button>
+                                        </div>
+                                      </div>
                                 </div>
-                                  <div className="carteBouteilleCellier__corps">
-                                   <div className="btnModifEtRs">
-                                      <Button
-                                          type="primary"
-                                          shape="circle"
-                                          icon={<EditOutlined />}
-                                          onClick={() => handleUpdate(item)}
-                                      ></Button>
-                                      <Button
-                                          className="userBtn"
-                                          danger
-                                          shape="circle"
-                                          icon={<DeleteOutlined />}
-                                          onClick={() => {
-                                              setIdBoutASupprim(item.id);
-                                              setModalSupprimeBoutteilCellier(item.id);
-                                          }}
-                                      ></Button>
-
-                                      <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
-                                      <FaFacebook className="reseauxSocieaux"/>
-                                      </FacebookShareButton>
-
-                                      <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
-                                      <FaTwitter className="reseauxSocieaux"/>
-                                      </TwitterShareButton>
-                                  </div>
-                              </div>
-                          </div>
+                                <div className="carteBouteilleCellier__titre">
+                                      <b>{item.nom}</b>
+                                </div>
+                            </div>
                       </Card>
                   </Col>
               ))}
