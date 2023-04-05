@@ -10,7 +10,13 @@ export default function Footer() {
     const { Meta } = Card;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [message, setMessage] = useState('');
-
+    const pathname = window.location.pathname;
+    const firstSlashIndex = pathname.indexOf('/');
+    const secondSlashIndex = pathname.indexOf('/', firstSlashIndex + 1);
+    const value = pathname.substring(firstSlashIndex + 1, secondSlashIndex);
+    console.log(value);
+    
+// console.log(window.location.pathname)
     const [activeIndex, setActiveIndex] = useState(1);
     // const [params, setParams] = useState("");
 
