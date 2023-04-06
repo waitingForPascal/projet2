@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Button, Col, Row, Statistic, Drawer } from "antd";
 import * as Echarts from "echarts";
 import Footer from "../Footer/Footer";
+import Entete from '../Entete/Entete';
 
 export default function Statistique() {
     const [usagers, setUsagers] = useState([]);
@@ -485,6 +486,9 @@ export default function Statistique() {
                     marginBottom: "60px",
                 }}
             ></div>
+            
+
+
         </div>
     );
 }

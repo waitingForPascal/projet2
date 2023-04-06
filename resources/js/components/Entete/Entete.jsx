@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { Card, Button, Modal, Menu, Form, Col, Row } from "antd";
 import "./Entete.css";
 import { FaHome, FaUser, FaCog } from 'react-icons/fa';
-import Footer from '../Footer/Footer';
 
 export default function Entete() {
     const [admin, setadmin] = useState(false);
@@ -175,7 +174,6 @@ if (document.getElementById("entete")) {
     Index.render(
         <React.StrictMode>
             <Entete />
-            <Footer />
         </React.StrictMode>
     );
 }

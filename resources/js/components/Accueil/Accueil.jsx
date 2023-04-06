@@ -127,6 +127,20 @@ export default function Accueil() {
 
     return (
         <div className="my">
+            {/* ovrire le modal d'ajout de cellier */}
+            <div className="button-middle">
+                <Button
+                    className="btn-ajouter"
+                    style={{ visibility: admin ? "hidden" : "visible" }}
+                    icon={<PlusCircleOutlined />}
+                    onClick={() => {
+                        setmodalAjoutCellier(true);
+                    }}
+                >
+                    Ajouter un cellier
+                </Button>
+            </div>
+
             {/* afficher des celliers */}
             {/* <button className="jia">+</button> */}
             <Row justify="center" align="middle" gutter={[0, 16]}>
