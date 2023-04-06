@@ -94,7 +94,6 @@ main {
   align-items: center;
   position: absolute;
   top: -110%;
-  /* right: -110%; */
   width: 100%;
   height: calc(100vh - 80px);
   background-color: #2C3333;
@@ -155,22 +154,4 @@ main {
   
 }
 
-
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #2C3333;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  height: 60px;
-  margin-top: 60px;
-}
-
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
 

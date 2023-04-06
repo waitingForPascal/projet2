@@ -546,17 +546,17 @@ export default function Cellier() {
             </div>
 
             <div>
-            <div>
-        <Button onClick={() => setModeListe(!modeListe)}>
-          {modeListe ? <AppstoreOutlined /> : <MenuOutlined />}
-        </Button>
-        <Select defaultValue="Trier par nom" style={{ width: 150 }} onChange={trier}>
-          <Option value="nom">Trier par nom</Option>
-          <Option value="prix">Trier par prix</Option>
-          <Option value="quantite">Trier par quantité</Option>
-        </Select>
-        {getIconeTri(triAscendant)}
-      </div>
+                <div>
+                    <Button onClick={() => setModeListe(!modeListe)}>
+                    {modeListe ? <AppstoreOutlined /> : <MenuOutlined />}
+                    </Button>
+                    <Select defaultValue="Trier par nom" style={{ width: 150 }} onChange={trier}>
+                    <Option value="nom">Trier par nom</Option>
+                    <Option value="prix">Trier par prix</Option>
+                    <Option value="quantite">Trier par quantité</Option>
+                    </Select>
+                    {getIconeTri(triAscendant)}
+                </div>
       {modeListe ? (
         <List dataSource={data.sort(trierBouteilles)} renderItem={(item, index) => (
           <List.Item
