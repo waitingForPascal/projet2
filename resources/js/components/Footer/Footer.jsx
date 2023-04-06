@@ -36,19 +36,14 @@ export default function Footer() {
     const [modalSupprimeBoutteilCellier, setModalSupprimeBoutteilCellier] = useState(false);
     const [isUpdate, setisUpdate] = useState(false);
 
+    // Pour obtenir le valeur et puis changer le nom/la fonction dans le menu footer
     const firstSlashIndex = pathname.indexOf('/');
     const secondSlashIndex = pathname.indexOf('/', firstSlashIndex + 1);
     const valRoute = pathname.substring(firstSlashIndex + 1, secondSlashIndex);
-
-    console.log(valRoute);
-    
     const lastSlashIndex = pathname.lastIndexOf('/');
     const valIdCellier = pathname.substring(lastSlashIndex + 1);
-    console.log(valIdCellier);
 
     let elBtn = "AjouterCellier";
-    // let elUrl = "AjouterCellier";
-
     if(valRoute == "cellier"){
         elBtn = "AjouterBouteille";
     }
@@ -106,8 +101,6 @@ export default function Footer() {
         if(valRoute !== "cellier"){        
             setmodalAjoutCellier(true);
         }else{
-            console.log("ddddddddd");
-            console.log(valIdCellier);
             setModalMethodEnregistrerBouteille(valIdCellier);
         }
     }
@@ -381,7 +374,7 @@ export default function Footer() {
                     href="#"
                     className="footer-menu-item" 
                     style={{ color: activeIndex === 2 ? '#0e8388' : 'black' }}
-                    onClick={() => showModal}
+                    onClick={() => showModal(2)}
                 >
                     <FaDatabase size={24} />
                     <span className="footer-menu-title">ImporterBouteilles</span>

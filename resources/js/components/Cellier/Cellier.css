@@ -271,5 +271,33 @@
     }
   }
 
+  .btn-bouteille-container{
+    display: flex;
+    justify-content: space-between;
+    width: 280px; 
+    margin: 0 auto;
+  }
+
+  .btn-bouteille-container button{
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 10px;
+    
+  }
+
+  .rechercher{
+    width:280px;
+    height: 50px;
+  }
+
+  .rechercher input {
+    padding: 5px;
+  }
   
-  
+  @media only screen and (min-width: 768px) {
+    .rechercher{
+      width:75%;
+    }
+    
+  }
