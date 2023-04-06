@@ -15,6 +15,26 @@ export default function Admin() {
 
     const [activeIndex, setActiveIndex] = useState(0);
 
+    const [screenSize, setScreenSize] = useState({
+        width: window.innerWidth,
+    });
+
+    if (window.innerWidth < 700) {
+        window.location.pathname = "/statistique";
+    }
+    useEffect(() => {
+        const handleResize = () => {
+            if (screenSize.width < 700) {
+                window.location.pathname = "/statistique";
+            }
+            setScreenSize({
+                width: window.innerWidth,
+            });
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const handleItemClick = (index) => {
         setActiveIndex(index);
     };
@@ -39,7 +59,6 @@ export default function Admin() {
         setIsModalOpen(false);
     };
 
-    
     return (
         <div className="dashboard-admin">
             <Row justify="center" align="middle" gutter={[0, 16]}>
