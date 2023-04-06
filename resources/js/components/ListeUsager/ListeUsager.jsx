@@ -7,6 +7,8 @@ import {
 import ReactDOM from "react-dom/client";
 import { Table, Button, Modal, Form, Input } from "antd";
 import "./ListeUsager.css";
+import Footer from "../Footer/Footer";
+
 
 const { confirm } = Modal;
 
@@ -169,6 +171,8 @@ if (document.getElementById("listeUsager")) {
     Index.render(
         <React.StrictMode>
             <ListeUsager />
+            <Footer />
+
         </React.StrictMode>
     );
 }
