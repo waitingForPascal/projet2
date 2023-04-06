@@ -52,8 +52,11 @@ Route::get('/ajout', function () {
 });
 
 Route::get('/statistique', function () {
+    if (Auth::user()->privilege != 'admin') {
+        return redirect('/home'); 
+    }
     return view('statistique');
-});
+})->middleware('auth');
 
 Route::get('/', [CellierBouteilleController::class, 'index']);
 Route::get('/home', [CellierBouteilleController::class, 'accueil'])->middleware('auth');
@@ -79,7 +82,8 @@ Route::get('/getCeillerBouteille/{id}', [CellierController::class, 'getListeBout
 // vérifier si utilisateur est admin
 Route::get('/verificationUser', [UserController::class, 'index']);
 // aller vers page de gestion d'utilisateur
-Route::get('/listeUsager', [UserController::class, 'gestionUsager']);
+Route::get('/listeUsager', [UserController::class, 'gestionUsager'])->middleware('auth');
+
 // récupérer tous les usagers    non admin
 Route::get('/getTousUser', [UserController::class, 'getTousUser']);
 // modificaiton d'usager

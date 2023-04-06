@@ -24,6 +24,9 @@ class UserController extends Controller
     public function gestionUsager()
     {
         //
+        if (Auth::user()->privilege != 'admin') {
+            return redirect('/home'); 
+        }
         return view('listeUsager');
     }
 
