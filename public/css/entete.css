@@ -20,6 +20,26 @@ main {
     padding: 0 20px 0 20px;
 }
 
+
+@media only screen and (min-width: 768px) {
+  .wrapper {
+      padding: 0 30px;
+  }
+
+  
+}
+
+@media only screen and (min-width: 1200px) {
+  .wrapper {
+      padding: 0 6vw;
+  }
+
+  
+}
+.my{
+  margin: 30px 0 30px 0;
+}
+
 /* .wrapper-contenu{
   padding: 30px 25px 30px 25px;
 } */
@@ -74,7 +94,6 @@ main {
   align-items: center;
   position: absolute;
   top: -110%;
-  /* right: -110%; */
   width: 100%;
   height: calc(100vh - 80px);
   background-color: #2C3333;
@@ -135,22 +154,4 @@ main {
   
 }
 
-
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #2C3333;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  height: 60px;
-  margin-top: 60px;
-}
-
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
