@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Button, Col, Row, Statistic, Drawer } from "antd";
 import * as Echarts from "echarts";
+import Footer from "../Footer/Footer";
 
 export default function Statistique() {
     const [usagers, setUsagers] = useState([]);
@@ -494,6 +495,8 @@ if (document.getElementById("statistique")) {
     Index.render(
         <React.StrictMode>
             <Statistique />
+            <Footer />
+
         </React.StrictMode>
     );
 }
