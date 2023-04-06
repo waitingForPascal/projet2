@@ -50,13 +50,15 @@
   }
   
   .carteBouteilleCellier__img {
-    max-width: 50%;
+    max-width: 30%;
+    height: auto;
+    object-fit: contain;
   }
 
   .iconSAQ {
     position: absolute;
-    top: 0; left: 0;
-    max-width: 12%;
+    top: 5px; right: 5px;
+    max-width: 8%;
   } 
 
   .carteBouteilleCellier__titre {
@@ -80,16 +82,14 @@
   margin: 0;
 }
 
-.boutinfo,
 .btnModif {
-  width: 100%;
-  padding: 8px 0;
   display: flex;
-  align-items: center;  
   align-content: center;
-  justify-content: space-evenly;
+  gap: 15px;
+  padding: 8px 0;
   }
-   .nom_bouteille {
+
+  .nom_bouteille {
     width: 100%;
   }
 
@@ -109,7 +109,6 @@
   .carteBouteilleListe__titre {
     text-align: center;
     font-size: 1.1rem;
-    /* color: rgb(8, 18, 136); */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -170,18 +169,19 @@
     border-color: #0E8388;
   }
 
-  .prixQnt {
+  .carteBoutInfos {
     display: flex;
     min-width: 75%;
     flex-direction: column;
+
   }
   
-  .prixQnt>p {
+  .carteBoutInfos>p {
     margin: 0;
   }
 
 
-  .prixQnt>p:nth-of-type(2) b {
+  .carteBoutInfos>p:nth-of-type(2) b {
     font-size: 1.2rem;
   }
 
@@ -200,8 +200,13 @@
     border-color: rgba(238, 232, 232, 0.4);
   }
 
+  .btnAjoutMoin{
+    line-height: 25px;
+  }
+
   .reseauxSocieaux {
-    font-size: 1.7rem;
+    font-size: 1.4rem;
+    margin-right: 5px;
   }
 
   .listeBtCell {

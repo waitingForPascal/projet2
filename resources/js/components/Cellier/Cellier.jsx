@@ -789,44 +789,49 @@ export default function Cellier() {
                                                 <a href={item.url_saq} target="_blank"><img className="iconSAQ" src="/img/icons/iconSAQ.png" /></a> : <></>
                                             }
                                             <img className="carteBouteilleCellier__img" src={item.image ? item.image : "/img/bout_Nl.jpg"} alt=""/>
-                                        <div className="prixQnt">
+                                        <div className="carteBoutInfos">
                                             <p>{item.pays}</p>
                                             <p><b>{item.prix}</b></p>
                                             <div className="quantiteBout">
-                                            <b>Quantité: {item.quantite}</b>
-                                            <ArrowDownOutlined
-                                                onClick={(e) => {
-                                                    //console.log("Augementer: ", item);
-                                                    diminuerQuantiteBouteilleUn(item);
-                                                }}
-                                            />
-                                            <ArrowUpOutlined onClick={() => {
-                                                    augmentQuantiteBouteilleUn(item);
-                                                }}/>
-                                        </div>
-                                        <div className="">
-                                            <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
-                                            <FaFacebook className="reseauxSocieaux"/>
-                                            </FacebookShareButton>
+                                                <p>Quantité: </p>
+                                                <ArrowDownOutlined
+                                                    className="btnAjoutMoin"
+                                                    onClick={(e) => {
+                                                        //console.log("Augementer: ", item);
+                                                        diminuerQuantiteBouteilleUn(item);
+                                                    }}
+                                                />
+                                                <b>{item.quantite}</b>
+                                                <ArrowUpOutlined
+                                                    className="btnAjoutMoin"
+                                                    
+                                                    onClick={() => {
+                                                        augmentQuantiteBouteilleUn(item);
+                                                    }}/>
+                                            </div>
+                                            <div className="iconReseauxSocieaux">
+                                                <FacebookShareButton url={"https://www.saq.com/fr/14154238"}>
+                                                <FaFacebook className="reseauxSocieaux"/>
+                                                </FacebookShareButton>
 
-                                            <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
-                                            <FaTwitter className="reseauxSocieaux"/>
-                                            </TwitterShareButton>
-                                        </div>
-                                        <div className="btnModif">
-                                            <Button
-                                                type="primary"
-                                                onClick={() => handleUpdate(item)}
-                                            >Modiffier</Button>
-                                            <Button
-                                                className="userBtn"
-                                                danger
-                                                onClick={() => {
-                                                    setIdBoutASupprim(item.id);
-                                                    setModalSupprimeBoutteilCellier(item.id);
-                                                }}
-                                            >Supprimer</Button>
-                                        </div>
+                                                <TwitterShareButton url={"https://www.saq.com/fr/14154238"}>
+                                                <FaTwitter className="reseauxSocieaux"/>
+                                                </TwitterShareButton>
+                                            </div>
+                                            <div className="btnModif">
+                                                <Button
+                                                    type="primary"
+                                                    onClick={() => handleUpdate(item)}
+                                                >Modiffier</Button>
+                                                <Button
+                                                    className="userBtn"
+                                                    danger
+                                                    onClick={() => {
+                                                        setIdBoutASupprim(item.id);
+                                                        setModalSupprimeBoutteilCellier(item.id);
+                                                    }}
+                                                >Supprimer</Button>
+                                            </div>
                                       </div>
                                 </div>
                                 <div className="carteBouteilleCellier__titre">
