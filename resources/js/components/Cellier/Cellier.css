@@ -47,6 +47,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: start;
+    padding: 25px;
   }
   
   .carteBouteilleCellier__img {
