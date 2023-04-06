@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { FaFacebook, FaTwitter } from "react-icons/fa";
-
 import {
     Button,
     Select,
@@ -26,17 +25,19 @@ import {
     MinusOutlined,
     FieldNumberOutlined,
     MenuOutlined,
-    AppstoreOutlined,
     UpOutlined,
     DownOutlined,
+    ArrowUpOutlined,
     ArrowDownOutlined,
-    ArrowUpOutlined 
 } from "@ant-design/icons";
 
 import Highlighter from "react-highlight-words";
 import "./Cellier.css";
 import moment from "moment";
 import axios from "axios";
+import Footer from '../Footer/Footer';
+
+
 // recherche
 const { Search } = Input;
 const { Meta } = Card;
@@ -678,15 +679,15 @@ export default function Cellier() {
     };
 
     return (
-        <div>
-            <div className="button-right">
+        <div className="my">
+            {/* <div className="button-right">
                 <span></span>
                 <Button id="btnRetAccueil" type="primary" ghost>
                     <a href="/home" className="nonDecoration">
                         Retourner
                     </a>
                 </Button>
-            </div>
+            </div> */}
             <div className="button-middle">
                 <Button
                     className="boutonAjoutBouteille"
@@ -696,15 +697,34 @@ export default function Cellier() {
                     Ajouter une bouteille
                 </Button>
             </div>
-            <button onClick={handleSortPays}>Sort by Pays ASC</button>
-            <button onClick={handleSortPaysDesc}>Sort by Pays DESC</button>
-            <button onClick={handleSortQuantite}>Sort by Quantité ASC</button>
-            <button onClick={handleSortQuantiteDesc}>
-                Sort by Quantité DESC
-            </button>
-            <button onClick={handleSortNom}>Sort by Nom ASC</button>
-            <button onClick={handleSortNomDesc}>Sort by Nom DESC</button>
 
+            <div className="btn-bouteille-container"> 
+
+                <div>
+                    <span>Pays</span> 
+                    <button onClick={handleSortPays}><ArrowUpOutlined /></button>
+                    <button onClick={handleSortPaysDesc}><ArrowDownOutlined /></button>
+                </div>
+
+                <div>
+                    <span>Quantité</span>
+                    <button onClick={handleSortQuantite}><ArrowUpOutlined /></button>
+                    <button onClick={handleSortQuantiteDesc}><ArrowDownOutlined /></button>
+                </div>
+
+                <div>
+                    <span>Nom</span>
+                    <button onClick={handleSortNom}><ArrowUpOutlined /></button>
+                    <button onClick={handleSortNomDesc}><ArrowDownOutlined /></button>
+                </div>
+
+            </div>
+                <Search
+                    placeholder="Rechercher"
+                    className="rechercher"
+                    onSearch={handleRecherche}
+                    enterButton
+                />
             <div>
 
       {modeListe ? (
@@ -1221,6 +1241,7 @@ if (document.getElementById("cellier")) {
     Index.render(
         <React.StrictMode>
             <Cellier />
+            <Footer />
         </React.StrictMode>
     );
 }

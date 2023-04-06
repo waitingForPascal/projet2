@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Accueil.css";
+import Footer from "../Footer/Footer";
 
 const { confirm } = Modal;
 
@@ -125,9 +126,9 @@ export default function Accueil() {
     }
 
     return (
-        <div>
+        <div className="my">
             {/* ovrire le modal d'ajout de cellier */}
-            <div className="btn-container">
+            <div className="button-middle">
                 <Button
                     className="btn-ajouter"
                     style={{ visibility: admin ? "hidden" : "visible" }}
@@ -141,6 +142,7 @@ export default function Accueil() {
             </div>
 
             {/* afficher des celliers */}
+            {/* <button className="jia">+</button> */}
             <Row justify="center" align="middle" gutter={[0, 16]}>
                 {data.map((cellier) => (
                     <Col
@@ -272,6 +274,7 @@ if (document.getElementById("accueil")) {
     Index.render(
         <React.StrictMode>
             <Accueil />
+            <Footer />
         </React.StrictMode>
     );
 }

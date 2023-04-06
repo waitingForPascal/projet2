@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-   
-
-    <div id="listeUsager"></div>
+   <div id="listeUsager"></div>
+   <div id="adminFooter"></div>
 @endsection
 
 @section('scripts')

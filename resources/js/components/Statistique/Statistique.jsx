@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Button, Col, Row, Statistic, Drawer } from "antd";
 import * as Echarts from "echarts";
+import Footer from "../Footer/Footer";
+import Entete from '../Entete/Entete';
 
 export default function Statistique() {
     const [usagers, setUsagers] = useState([]);
@@ -374,7 +376,7 @@ export default function Statistique() {
     };
 
     return (
-        <div>
+        <div className="wrapper my">
             <Row gutter={16}>
                 <Col span={12}>
                     <Statistic
@@ -484,6 +486,9 @@ export default function Statistique() {
                     marginBottom: "60px",
                 }}
             ></div>
+            
+
+
         </div>
     );
 }
@@ -494,6 +499,8 @@ if (document.getElementById("statistique")) {
     Index.render(
         <React.StrictMode>
             <Statistique />
+            <Footer />
+
         </React.StrictMode>
     );
 }

@@ -60,10 +60,6 @@
                     </a>
                 </li>
 
-                <li class="navEntete-item retournCellier">
-                    <a class="" href="{{ route('accueil') }}">Liste des cellier</a>     
-                </li>
-
                 <li class="navEntete-item">
                     <a class="" href="{{ route('logout') }}">Se déconnecter</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

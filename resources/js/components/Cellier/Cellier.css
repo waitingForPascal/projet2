@@ -1,10 +1,4 @@
-.button-middle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%; /* Set the height of the container */
-    margin: 20px 0 10px 0;
-  }
+
 
   /* .button-middle button{
     background-color: #0e8388;
@@ -295,5 +289,55 @@
     }
   }
 
+  .btn-bouteille-container{
+    display: flex;
+    justify-content: space-between;
+    width: 280px; 
+    margin: 0 auto;
+  }
+
+  .btn-bouteille-container button{
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 10px;
+    
+  }
+
+  .rechercher{
+    width:280px;
+    height: 50px;
+  }
+
+  .rechercher input {
+    padding: 5px;
+  }
   
-  
+  .button-middle button{
+    display: none;
+  }
+
+  .admin-lg-accueil{
+    display: none;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .rechercher{
+      width:75%;
+    }
+
+    .button-middle button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%; /* Set the height of the container */
+        margin: 20px auto;
+        width: 280px;
+        }
+
+        .admin-lg-accueil{
+          display: block;
+        }
+    
+  }
+

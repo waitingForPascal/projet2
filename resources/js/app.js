@@ -19,6 +19,7 @@ import "./components/Cellier/Cellier";
 import "./components/ListeUsager/ListeUsager";
 import "./components/Bouteille/Bouteille";
 import "./components/Statistique/Statistique";
-import "./components/Ajout/Ajout";
+import "./components/AdminFooter/AdminFooter";
+import "./components/NotFound/NotFound";
 
 // Créer des composants dans les composants, créer des vues, router, puis importer

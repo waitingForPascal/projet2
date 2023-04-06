@@ -30,12 +30,16 @@
 }
 
 
-@media only screen and (min-width: 768px) {
+/* @media only screen and (min-width: 768px) {
   .footer-container {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    position: fixed;
+    left: 0;
   }
   
-  /* .footer-menu {
+  .footer-menu {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -59,6 +63,6 @@
   .active {
     background-color: #0e8388;
     color: #fff;
-  } */
   }
+  } */
 
