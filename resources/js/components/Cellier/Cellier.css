@@ -289,12 +289,10 @@
   }
 
   @media screen and (min-width: 1320px) {
-    .carteBouteilleCellier{
-      /* height: 600px; */
-    }
+
   }
 
-  .btn-bouteille-container{
+  .btn-bouteille-container {
     display: flex;
     justify-content: space-between;
     width: 280px; 
@@ -327,6 +325,18 @@
   }
 
   @media only screen and (min-width: 768px) {
+
+    .carteBouteilleCellier__img {
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    .iconSAQ {
+      position: absolute;
+      top: 5px; right: 5px;
+      max-width: 10%;
+    } 
+
     .rechercher{
       width:75%;
     }
@@ -345,4 +355,3 @@
         }
     
   }
-

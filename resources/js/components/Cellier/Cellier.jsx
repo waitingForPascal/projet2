@@ -697,7 +697,6 @@ export default function Cellier() {
                     Ajouter une bouteille
                 </Button>
             </div>
-
             <div className="btn-bouteille-container"> 
 
                 <div>
@@ -719,53 +718,7 @@ export default function Cellier() {
                 </div>
 
             </div>
-                <Search
-                    placeholder="Rechercher"
-                    className="rechercher"
-                    onSearch={handleRecherche}
-                    enterButton
-                />
-            <div>
 
-      {modeListe ? (
-        <List dataSource={data.sort(trierBouteilles)} renderItem={(item, index) => (
-          <List.Item
-            key={item.id}
-            className={index % 2 === 0 ? "listeBtCell even" : "listeBtCell odd"}
-          >
-            <List.Item.Meta
-              className="listeBouteilleTitre"
-              title={<div>{index + 1}. {item.nom}</div>}
-              description={<div></div>}
-            />
-            <div className="quantiteBoutCellierListe">
-              <p>X {item.quantite}</p>
-              <p>{item.prix}</p>
-              <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={() => handleUpdate(item)}></Button>
-              <Button
-                className="userBtn"
-                danger
-                shape="circle"
-                icon={<DeleteOutlined />}
-                onClick={() => {
-                  setIdBoutASupprim(item.id);
-                  setModalSupprimeBoutteilCellier(item.id);
-                }}
-              ></Button>
-              <div>
-                {item.ganreliste !== 0 ? (
-                  <a href={item.url_saq} target="_blank">
-                    <img src="/img/icons/iconSAQListe.png" alt="En savoir plus" style={{ maxWidth: "30px" }}/>
-                  </a>
-                ) : (
-                  <></>
-                )}
-              </div>
-            </div>
-          </List.Item>
-        )}
-        />
-            ) : (
               <Row justify="center" align="middle" gutter={[0, 16]} className="monCellier">
                   {data.map((item, index) => (
                       <Col
@@ -777,7 +730,6 @@ export default function Cellier() {
                           xxl={4}
                           key={item.id}
                       >
-
                           <Card
                               key={item.id}
                               title={item.title}
@@ -842,8 +794,10 @@ export default function Cellier() {
                   </Col>
               ))}
           </Row>
-        )}
-    </div>
+
+            
+
+
             {/* modal ajouter une nouvelle boutteille au cellier */}
             <Modal
                 open={modalMethodEnregistrerBouteille}
