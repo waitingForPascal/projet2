@@ -5,7 +5,6 @@ import { CloseCircleOutlined } from "@ant-design/icons";
 import "./Footer.css";
 import moment from "moment";
 
-
 import {
     FaChartBar,
     FaPlus,
@@ -14,8 +13,6 @@ import {
     FaCartPlus,
     FaGem,
 } from "react-icons/fa";
-
-
 
 export default function Footer() {
     const [admin, setadmin] = useState(false);
@@ -95,9 +92,8 @@ export default function Footer() {
                         nom: value.nom,
                     })
                     .then((res) => {
-                        axios.get("/getTousCelliers").then((res) => {
-                            setData(res.data);
-                        });
+                        // console.log("1");
+                        // window.location.reload();
                     });
             })
             .catch((err) => {
@@ -390,456 +386,437 @@ export default function Footer() {
     };
 
     return (
-        
-            <div className="">
-                {admin ? (
-                    <div className="footer-container">
-                        <div className="footer-menu">
-                            <a
-                                href="/listeUsager"
-                                className="footer-menu-item"
-                                onClick={() => handleItemClick(0)}
-                                style={{
-                                    color:
-                                        activeIndex === 0 ? "#0e8388" : "black",
-                                }}
-                            >
-                                <FaHospitalUser size={24} />
-                                <span className="footer-menu-title">
-                                    ListeUsager
-                                </span>
-                            </a>
-
-                            <a
-                                href="/statistique"
-                                className="footer-menu-item"
-                                style={{
-                                    color:
-                                        activeIndex === 1 ? "#0e8388" : "black",
-                                }}
-                                onClick={() => handleItemClick(1)}
-                            >
-                                <FaChartBar size={24} />
-                                <span className="footer-menu-title">
-                                    Statistiques
-                                </span>
-                            </a>
-
-                            <a
-                                href="#"
-                                className="footer-menu-item"
-                                style={{
-                                    color:
-                                        activeIndex === 2 ? "#0e8388" : "black",
-                                }}
-                                onClick={() => showModal(2)}
-                            >
-                                <FaDatabase size={24} />
-                                <span className="footer-menu-title">
-                                    ImporterBouteilles
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="footer-container">
-                        <div className="footer-menu">
-                            <a
-                                href="/home"
-                                className="footer-menu-item"
-                                onClick={() => handleItemClick(0)}
-                                style={{
-                                    color:
-                                        activeIndex === 0 ? "#0e8388" : "black",
-                                }}
-                            >
-                                <FaGem size={24} />
-                                <span className="footer-menu-title">
-                                    MesCelliers
-                                </span>
-                            </a>
-
-                            <a
-                                href="#"
-                                className="footer-menu-item"
-                                style={{
-                                    color:
-                                        activeIndex === 1 ? "#0e8388" : "black",
-                                }}
-                                onClick={() => handleItemClick(1)}
-                            >
-                                <FaPlus size={24} />
-                                <span className="footer-menu-title">
-                                    {elBtn}
-                                </span>
-                            </a>
-
-                            <a
-                                href="#"
-                                className="footer-menu-item"
-                                style={{
-                                    color:
-                                        activeIndex === 2 ? "#0e8388" : "black",
-                                }}
-                                onClick={() => handleItemClick(2)}
-                            >
-                                <FaCartPlus size={24} />
-                                <span className="footer-menu-title">
-                                    Liste D'Achat
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                )}
-
-                <Modal
-                    title="Salut"
-                    open={isModalOpen}
-                    onOk={handleOk}
-                    okText="Confirmer"
-                    onCancel={handleCancel}
-                    cancelText="Supprimer"
-                >
-                    <p>{message}</p>
-                </Modal>
-
-                {/* modal modifier cellier */}
-                <Modal
-                    open={isOpen}
-                    title="Modification de cellier"
-                    okText="Mettre à jour"
-                    cancelText="Annuler"
-                    onCancel={() => {
-                        setIsOpen(false);
-                    }}
-                    onOk={() => modCellierFormOk()}
-                >
-                    {/* Rechercher l'utilisation de useRef */}
-                    <Form ref={modBouteilleForm} layout="vertical">
-                        <Form.Item
-                            name="nom"
-                            label="Nom"
-                            rules={[
-                                {
-                                    required: true,
-                                    message:
-                                        "Please input the title of collection!",
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Form>
-                </Modal>
-
-                {/* modal ajouter cellier */}
-                <Modal
-                    open={modalAjoutCellier}
-                    title="Ajouter un cellier"
-                    okText="Ajouter"
-                    cancelText="Annuler"
-                    onCancel={() => {
-                        setmodalAjoutCellier(false);
-                    }}
-                    onOk={() => ajouteCeliierFormOk()}
-                >
-                    {/* Rechercher l'utilisation de useRef */}
-                    <Form ref={ajoutCellierForm} layout="vertical">
-                        <Form.Item
-                            name="nom"
-                            label="Nom"
-                            rules={[
-                                {
-                                    required: true,
-                                    message:
-                                        "Please input the title of collection!",
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Form>
-                </Modal>
-
-                {/* modal ajouter une nouvelle boutteille au cellier */}
-                <Modal
-                    open={modalMethodEnregistrerBouteille}
-                    title="Ajouter une bouteille"
-                    okText="Ajouter"
-                    cancelText="Annuler"
-                    onCancel={() => {
-                        console.log("coucou");
-                        setModalMethodEnregistrerBouteille(false);
-                    }}
-                    footer={[
-                        <Button
-                            key="Ajouter"
-                            type="primary"
-                            disabled={!btnAjoutBouteilleDisponible}
-                            onClick={() => {
-                                ajouterBoutteilAuCellierFormOk();
+        <div className="">
+            {admin ? (
+                <div className="footer-container">
+                    <div className="footer-menu">
+                        <a
+                            href="/listeUsager"
+                            className="footer-menu-item"
+                            onClick={() => handleItemClick(0)}
+                            style={{
+                                color: activeIndex === 0 ? "#0e8388" : "black",
                             }}
                         >
-                            Ajouter
-                        </Button>,
-                        <Button
-                            key="annuler"
-                            onClick={() =>
-                                setModalMethodEnregistrerBouteille(false)
-                            }
+                            <FaHospitalUser size={24} />
+                            <span className="footer-menu-title">
+                                ListeUsager
+                            </span>
+                        </a>
+
+                        <a
+                            href="/statistique"
+                            className="footer-menu-item"
+                            style={{
+                                color: activeIndex === 1 ? "#0e8388" : "black",
+                            }}
+                            onClick={() => handleItemClick(1)}
                         >
-                            Annuler
-                        </Button>,
-                    ]}
-                >
-                    Séléctionnez une bouteille :
-                    <Select
-                        showSearch
-                        className="nom_bouteille"
-                        onChange={choisirVin}
-                        filterOption={(input, option) =>
-                            option.children
-                                .toLowerCase()
-                                .indexOf(input.toLowerCase()) >= 0
-                        }
-                        defaultValue="default"
-                        ref={selectBouteilleRef}
+                            <FaChartBar size={24} />
+                            <span className="footer-menu-title">
+                                Statistiques
+                            </span>
+                        </a>
+
+                        <a
+                            href="#"
+                            className="footer-menu-item"
+                            style={{
+                                color: activeIndex === 2 ? "#0e8388" : "black",
+                            }}
+                            onClick={() => showModal(2)}
+                        >
+                            <FaDatabase size={24} />
+                            <span className="footer-menu-title">
+                                ImporterBouteilles
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            ) : (
+                <div className="footer-container">
+                    <div className="footer-menu">
+                        <a
+                            href="/home"
+                            className="footer-menu-item"
+                            onClick={() => handleItemClick(0)}
+                            style={{
+                                color: activeIndex === 0 ? "#0e8388" : "black",
+                            }}
+                        >
+                            <FaGem size={24} />
+                            <span className="footer-menu-title">
+                                MesCelliers
+                            </span>
+                        </a>
+
+                        <a
+                            href="#"
+                            className="footer-menu-item"
+                            style={{
+                                color: activeIndex === 1 ? "#0e8388" : "black",
+                            }}
+                            onClick={() => handleItemClick(1)}
+                        >
+                            <FaPlus size={24} />
+                            <span className="footer-menu-title">{elBtn}</span>
+                        </a>
+
+                        <a
+                            href="#"
+                            className="footer-menu-item"
+                            style={{
+                                color: activeIndex === 2 ? "#0e8388" : "black",
+                            }}
+                            onClick={() => handleItemClick(2)}
+                        >
+                            <FaCartPlus size={24} />
+                            <span className="footer-menu-title">
+                                Liste D'Achat
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            )}
+
+            <Modal
+                title="Salut"
+                open={isModalOpen}
+                onOk={handleOk}
+                okText="Confirmer"
+                onCancel={handleCancel}
+                cancelText="Supprimer"
+            >
+                <p>{message}</p>
+            </Modal>
+
+            {/* modal modifier cellier */}
+            <Modal
+                open={isOpen}
+                title="Modification de cellier"
+                okText="Mettre à jour"
+                cancelText="Annuler"
+                onCancel={() => {
+                    setIsOpen(false);
+                }}
+                onOk={() => modCellierFormOk()}
+            >
+                {/* Rechercher l'utilisation de useRef */}
+                <Form ref={modBouteilleForm} layout="vertical">
+                    <Form.Item
+                        name="nom"
+                        label="Nom"
+                        rules={[
+                            {
+                                required: true,
+                                message:
+                                    "Please input the title of collection!",
+                            },
+                        ]}
                     >
-                        <Option value="default" key="default" disabled>
-                            --- Bouteilles existantes chez SAQ ---
-                        </Option>
-                        {bouteilleSaq.map((bouteille) =>
-                            bouteille.ganreliste === null ? (
-                                <Option value={bouteille.id} key={bouteille.id}>
-                                    {bouteille.nom}
-                                </Option>
-                            ) : null
-                        )}
-                    </Select>
-                    {/* Modal ajout une bouteille listée */}
-                    <Form
-                        ref={formulaireAjoutBouteille}
-                        layout="vertical"
-                        validateTrigger="onBlur"
-                        onValuesChange={(changedValues, allValues) => {
-                            // console.log(onValuesChange)
-                            if (
-                                allValues.nom.length < 3 ||
-                                allValues.prix == undefined ||
-                                allValues.prix == "" ||
-                                allValues.type_vin == undefined ||
-                                allValues.type_vin == "" ||
-                                allValues.quantite == undefined ||
-                                allValues.quantite == "" ||
-                                allValues.dateAchat == undefined ||
-                                allValues.dateAchat == ""
-                            ) {
-                                setBtnAjoutBouteilleDisponible(false);
-                            } else setBtnAjoutBouteilleDisponible(true);
+                        <Input />
+                    </Form.Item>
+                </Form>
+            </Modal>
+
+            {/* modal ajouter cellier */}
+            <Modal
+                open={modalAjoutCellier}
+                title="Ajouter un cellier"
+                okText="Ajouter"
+                cancelText="Annuler"
+                onCancel={() => {
+                    setmodalAjoutCellier(false);
+                }}
+                onOk={() => ajouteCeliierFormOk()}
+            >
+                {/* Rechercher l'utilisation de useRef */}
+                <Form ref={ajoutCellierForm} layout="vertical">
+                    <Form.Item
+                        name="nom"
+                        label="Nom"
+                        rules={[
+                            {
+                                required: true,
+                                message:
+                                    "Please input the title of collection!",
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Form>
+            </Modal>
+
+            {/* modal ajouter une nouvelle boutteille au cellier */}
+            <Modal
+                open={modalMethodEnregistrerBouteille}
+                title="Ajouter une bouteille"
+                okText="Ajouter"
+                cancelText="Annuler"
+                onCancel={() => {
+                    console.log("coucou");
+                    setModalMethodEnregistrerBouteille(false);
+                }}
+                footer={[
+                    <Button
+                        key="Ajouter"
+                        type="primary"
+                        disabled={!btnAjoutBouteilleDisponible}
+                        onClick={() => {
+                            ajouterBoutteilAuCellierFormOk();
                         }}
                     >
-                        <div className="formAjoutBoutAuCellier">
-                            {bouteilleChoisiEstNonListe ? (
-                                <>
-                                    <Form.Item
-                                        name="nom"
-                                        label="Nom de la bouteille (Obligatoire)"
-                                        initialValue={boutSelectione.nom}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    "Veuillez entrer au moins 3 caractères !",
-                                            },
-                                        ]}
+                        Ajouter
+                    </Button>,
+                    <Button
+                        key="annuler"
+                        onClick={() =>
+                            setModalMethodEnregistrerBouteille(false)
+                        }
+                    >
+                        Annuler
+                    </Button>,
+                ]}
+            >
+                Séléctionnez une bouteille :
+                <Select
+                    showSearch
+                    className="nom_bouteille"
+                    onChange={choisirVin}
+                    filterOption={(input, option) =>
+                        option.children
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0
+                    }
+                    defaultValue="default"
+                    ref={selectBouteilleRef}
+                >
+                    <Option value="default" key="default" disabled>
+                        --- Bouteilles existantes chez SAQ ---
+                    </Option>
+                    {bouteilleSaq.map((bouteille) =>
+                        bouteille.ganreliste === null ? (
+                            <Option value={bouteille.id} key={bouteille.id}>
+                                {bouteille.nom}
+                            </Option>
+                        ) : null
+                    )}
+                </Select>
+                {/* Modal ajout une bouteille listée */}
+                <Form
+                    ref={formulaireAjoutBouteille}
+                    layout="vertical"
+                    validateTrigger="onBlur"
+                    onValuesChange={(changedValues, allValues) => {
+                        // console.log(onValuesChange)
+                        if (
+                            allValues.nom.length < 3 ||
+                            allValues.prix == undefined ||
+                            allValues.prix == "" ||
+                            allValues.type_vin == undefined ||
+                            allValues.type_vin == "" ||
+                            allValues.quantite == undefined ||
+                            allValues.quantite == "" ||
+                            allValues.dateAchat == undefined ||
+                            allValues.dateAchat == ""
+                        ) {
+                            setBtnAjoutBouteilleDisponible(false);
+                        } else setBtnAjoutBouteilleDisponible(true);
+                    }}
+                >
+                    <div className="formAjoutBoutAuCellier">
+                        {bouteilleChoisiEstNonListe ? (
+                            <>
+                                <Form.Item
+                                    name="nom"
+                                    label="Nom de la bouteille (Obligatoire)"
+                                    initialValue={boutSelectione.nom}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer au moins 3 caractères !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="text" />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Prix (Obligatoire)"
+                                    name="prix"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer le prix de la bouteille.",
+                                        },
+                                    ]}
+                                >
+                                    <Input step={0.01} min="0" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="quantite"
+                                    label="Quantité (Obligatoire)"
+                                    initialValue={1}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer la quantité !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="number" min="1" step="1" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="dateAchat"
+                                    label="Date d'achat (Obligatoire)"
+                                    initialValue={Aujourdhui}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer la date d'achat !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="date" />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Type de vin (Obligatoire)"
+                                    name="type_vin"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez choisir le type de vin.",
+                                        },
+                                    ]}
+                                >
+                                    <Select defaultValue="default">
+                                        <Option
+                                            value="default"
+                                            key="default"
+                                            disabled
+                                        >
+                                            --- Sélétionez le type ---
+                                        </Option>
+                                        <Option value="1">Vin rouge</Option>
+                                        <Option value="2">Vin blanc</Option>
+                                        <Option value="3">Vin rosé</Option>
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item
+                                    label="Veuillez sélectionner le pays (optionnelle)"
+                                    name="pays"
+                                >
+                                    <Select
+                                        showSearch
+                                        filterOption={(input, option) =>
+                                            option.label
+                                                .toLowerCase()
+                                                .indexOf(input.toLowerCase()) >=
+                                            0
+                                        }
                                     >
-                                        <Input type="text" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        label="Prix (Obligatoire)"
-                                        name="prix"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    "Veuillez entrer le prix de la bouteille.",
-                                            },
-                                        ]}
-                                    >
-                                        <Input step={0.01} min="0" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="quantite"
-                                        label="Quantité (Obligatoire)"
-                                        initialValue={1}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    "Veuillez entrer la quantité !",
-                                            },
-                                        ]}
-                                    >
-                                        <Input type="number" min="1" step="1" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="dateAchat"
-                                        label="Date d'achat (Obligatoire)"
-                                        initialValue={Aujourdhui}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    "Veuillez entrer la date d'achat !",
-                                            },
-                                        ]}
-                                    >
-                                        <Input type="date" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        label="Type de vin (Obligatoire)"
-                                        name="type_vin"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    "Veuillez choisir le type de vin.",
-                                            },
-                                        ]}
-                                    >
-                                        <Select defaultValue="default">
+                                        {listePays.map((pays) => (
                                             <Option
-                                                value="default"
-                                                key="default"
-                                                disabled
+                                                key={pays.value}
+                                                value={pays.value}
+                                                label={pays.label}
                                             >
-                                                --- Sélétionez le type ---
+                                                {pays.label}
                                             </Option>
-                                            <Option value="1">Vin rouge</Option>
-                                            <Option value="2">Vin blanc</Option>
-                                            <Option value="3">Vin rosé</Option>
-                                        </Select>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label="Veuillez sélectionner le pays (optionnelle)"
-                                        name="pays"
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                                <Collapse bordered={false}>
+                                    <Panel
+                                        header="Options supplémentaires"
+                                        key="1"
                                     >
-                                        <Select
-                                            showSearch
-                                            filterOption={(input, option) =>
-                                                option.label
-                                                    .toLowerCase()
-                                                    .indexOf(
-                                                        input.toLowerCase()
-                                                    ) >= 0
-                                            }
+                                        <Form.Item
+                                            label="Millesime"
+                                            name="millesime"
                                         >
-                                            {listePays.map((pays) => (
-                                                <Option
-                                                    key={pays.value}
-                                                    value={pays.value}
-                                                    label={pays.label}
-                                                >
-                                                    {pays.label}
-                                                </Option>
-                                            ))}
-                                        </Select>
-                                    </Form.Item>
-                                    <Collapse bordered={false}>
-                                        <Panel
-                                            header="Options supplémentaires"
-                                            key="1"
+                                            <Input type="date" />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Garde"
+                                            name="garde_jusqua"
                                         >
-                                            <Form.Item
-                                                label="Millesime"
-                                                name="millesime"
-                                            >
-                                                <Input type="date" />
-                                            </Form.Item>
-                                            <Form.Item
-                                                label="Garde"
-                                                name="garde_jusqua"
-                                            >
-                                                <Input type="date" />
-                                            </Form.Item>
-                                            <Form.Item label="Note" name="note">
-                                                <Input
-                                                    type="number"
-                                                    min={0}
-                                                    max={5}
-                                                />
-                                            </Form.Item>
-                                            <Form.Item
-                                                label="Image"
-                                                name="image"
-                                            >
-                                                <Input />
-                                            </Form.Item>
-                                            <Form.Item
-                                                label="Format"
-                                                name="format"
-                                            >
-                                                <Input />
-                                            </Form.Item>
-                                            <Form.Item
-                                                label="Description"
-                                                name="description"
-                                            >
-                                                <Input.TextArea />
-                                            </Form.Item>
-                                        </Panel>
-                                    </Collapse>
-                                    <Form.Item
-                                        hidden
-                                        label="ganreliste"
-                                        name="ganreliste"
-                                        initialValue="0"
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                </>
-                            ) : (
-                                <>
-                                    <CardeBouteilleListe
-                                        bouteille={boutSelectione}
-                                    />
-                                    <Form.Item
-                                        name="quantite"
-                                        label="Quantite"
-                                        initialValue={1}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    "Veuillez entrer la quantité !",
-                                            },
-                                        ]}
-                                    >
-                                        <Input type="number" min="1" step="1" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="dateAchat"
-                                        label="Date d'achat"
-                                        initialValue={Aujourdhui}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    "Veuillez entrer la date d'achat !",
-                                            },
-                                        ]}
-                                    >
-                                        <Input type="date" />
-                                    </Form.Item>
-                                </>
-                            )}
-                        </div>
-                    </Form>
-                </Modal>
-                
-
-            </div>
-      
+                                            <Input type="date" />
+                                        </Form.Item>
+                                        <Form.Item label="Note" name="note">
+                                            <Input
+                                                type="number"
+                                                min={0}
+                                                max={5}
+                                            />
+                                        </Form.Item>
+                                        <Form.Item label="Image" name="image">
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item label="Format" name="format">
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Description"
+                                            name="description"
+                                        >
+                                            <Input.TextArea />
+                                        </Form.Item>
+                                    </Panel>
+                                </Collapse>
+                                <Form.Item
+                                    hidden
+                                    label="ganreliste"
+                                    name="ganreliste"
+                                    initialValue="0"
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </>
+                        ) : (
+                            <>
+                                <CardeBouteilleListe
+                                    bouteille={boutSelectione}
+                                />
+                                <Form.Item
+                                    name="quantite"
+                                    label="Quantite"
+                                    initialValue={1}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer la quantité !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="number" min="1" step="1" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="dateAchat"
+                                    label="Date d'achat"
+                                    initialValue={Aujourdhui}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Veuillez entrer la date d'achat !",
+                                        },
+                                    ]}
+                                >
+                                    <Input type="date" />
+                                </Form.Item>
+                            </>
+                        )}
+                    </div>
+                </Form>
+            </Modal>
+        </div>
     );
 }
 
