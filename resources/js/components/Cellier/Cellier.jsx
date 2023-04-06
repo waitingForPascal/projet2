@@ -687,7 +687,7 @@ export default function Cellier() {
                         Retourner
                     </a>
                 </Button>
-            </div>
+            </div> */}
             <div className="button-middle">
                 <Button
                     className="boutonAjoutBouteille"
@@ -696,7 +696,7 @@ export default function Cellier() {
                     <PlusCircleOutlined />
                     Ajouter une bouteille
                 </Button>
-            </div> */}
+            </div>
             <div className="btn-bouteille-container"> 
 
                 <div>

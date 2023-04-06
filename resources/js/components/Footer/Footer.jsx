@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Card, Button, Modal, Select, Form, Input, Collapse } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
-
 import "./Footer.css";
 import moment from "moment";
+
 
 import {
     FaChartBar,
@@ -12,7 +12,7 @@ import {
     FaHospitalUser,
     FaDatabase,
     FaCartPlus,
-    FaUserAlt,
+    FaGem,
 } from "react-icons/fa";
 
 
@@ -453,7 +453,7 @@ export default function Footer() {
                                         activeIndex === 0 ? "#0e8388" : "black",
                                 }}
                             >
-                                <FaUserAlt size={24} />
+                                <FaGem size={24} />
                                 <span className="footer-menu-title">
                                     MesCelliers
                                 </span>
@@ -836,6 +836,8 @@ export default function Footer() {
                         </div>
                     </Form>
                 </Modal>
+                
+
             </div>
       
     );
