@@ -174,7 +174,7 @@ if (document.getElementById("admin")) {
         <React.StrictMode>
             <Admin />
 
-            <Footer />
+            {/* <Footer /> */}
         </React.StrictMode>
     );
 }

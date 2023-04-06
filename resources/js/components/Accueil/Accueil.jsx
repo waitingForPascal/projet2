@@ -9,8 +9,7 @@ import {
 } from "@ant-design/icons";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import "./Accueil.css";
-import Footer from '../Footer/Footer';
-
+import Footer from "../Footer/Footer";
 
 const { confirm } = Modal;
 
@@ -128,21 +127,8 @@ export default function Accueil() {
 
     return (
         <div className="my">
-            {/* ovrire le modal d'ajout de cellier */}
-            {/* <div className="btn-container">
-                <Button
-                    className="btn-ajouter"
-                    style={{ visibility: admin ? "hidden" : "visible" }}
-                    icon={<PlusCircleOutlined />}
-                    onClick={() => {
-                        setmodalAjoutCellier(true);
-                    }}
-                >
-                    Ajouter un cellier
-                </Button>
-            </div> */}
-
             {/* afficher des celliers */}
+            {/* <button className="jia">+</button> */}
             <Row justify="center" align="middle" gutter={[0, 16]}>
                 {data.map((cellier) => (
                     <Col
@@ -275,7 +261,6 @@ if (document.getElementById("accueil")) {
         <React.StrictMode>
             <Accueil />
             <Footer />
-
         </React.StrictMode>
     );
 }

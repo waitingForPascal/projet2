@@ -35,13 +35,6 @@ Route::get('/cellier/{id}', function ($id) {
 |
 */
 Auth::routes();
-// ------------------------------test
-Route::get('/aaa', [BouteilleController::class, 'modifierUnBouteille']);
-
-Route::get('test', function () {
-    return view('test');
-});
-// ------------------------------test
 
 
 // --------------------------------peut être utile à l'avenir
@@ -138,6 +131,11 @@ Route::post('/ajouteBouteilleNl' , [BouteilleController::class, 'storeNl']);
 
 //importer des bouteilles du SAQ
 Route::get('/importerBouteille', [BouteilleController::class, 'importerBouteillesSAQ']);
+
+Route::fallback(function () {
+    return view('notfound');
+    // return view('errors.404');
+});
 
 // Aller dans la page pour importer des bouteilles de SAQ
 // Route::get('/bouteilleSAQ', [BouteilleController::class, 'bouteilleSAQ']);
