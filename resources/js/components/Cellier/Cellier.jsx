@@ -29,10 +29,10 @@ import {
     AppstoreOutlined,
     UpOutlined,
     DownOutlined,
+    ArrowDownOutlined,
+    ArrowUpOutlined 
 } from "@ant-design/icons";
 
-import { Button, Select, Modal, Space, Form, Input, Collapse, Card, Row , Col, List} from "antd";
-import { SearchOutlined, DeleteOutlined, EditOutlined, CloseCircleOutlined, PlusCircleOutlined, ArrowDownOutlined, ArrowUpOutlined, FieldNumberOutlined, GlobalOutlined, MenuOutlined, AppstoreOutlined, UpOutlined, DownOutlined, DollarOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import "./Cellier.css";
 import moment from "moment";
