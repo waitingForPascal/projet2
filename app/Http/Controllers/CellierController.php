@@ -20,7 +20,6 @@ class CellierController extends Controller
     public function index()
     {
         // afficher les celliers d'utilisateur conneté
-
          // obtenir les information d'usager connecté
          $id_user_connecte = Auth::user()->id;
          $celliers = Cellier::where('user_id', $id_user_connecte)->get();
@@ -51,8 +50,6 @@ class CellierController extends Controller
      */
     public function cellierParId(Request $request)
     {
-        //
-        //return "Gestion des celliers est en construction !";
 
         $idCellier = $request->cellier_id;
         $cellier = Cellier::select('celliers.id', 'celliers.nom', 'celliers.user_id','users.name', 'bouteilles_celliers.bouteille_id','bouteilles.nom', 'bouteilles.prix','bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description' )
@@ -149,9 +146,6 @@ class CellierController extends Controller
     {
         return view('test', ['data' => $request->json()->all()]);
     }
-
-
-
 
 
     // obtenir les bouteilles dans le cellier spécial

@@ -17,7 +17,6 @@ export default function Accueil() {
     const [data, setData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [modalAjoutCellier, setmodalAjoutCellier] = useState(false);
-    // const [modBouteille, setmodBouteille] = useState(null);
     const [modCellier, setmodCellier] = useState(null);
     const modBouteilleForm = useRef(null);
     const ajoutCellierForm = useRef(null);

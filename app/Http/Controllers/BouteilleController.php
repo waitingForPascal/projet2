@@ -163,14 +163,7 @@ class BouteilleController extends Controller
 
 
 
-
-
-
-
-
-
-
-// just pour test
+    // just pour test
     public function data(Cellier $cellier, $id)
     {
         $bouteilles = Bouteilles_cellier::select('bouteilles_celliers.id','bouteilles.id as id_bouteilles', 'celliers.id as id_bouteille_cellier','bouteilles_celliers.bouteille_id','bouteilles_celliers.date_achat','bouteilles_celliers.quantite', 'bouteilles.nom', 'bouteilles.type', 'bouteilles.image', 'bouteilles.code_saq', 'bouteilles.url_saq', 'bouteilles.pays', 'bouteilles.description', 'types.type','users.id as user_Id')
@@ -179,26 +172,13 @@ class BouteilleController extends Controller
         ->join('types', 'types.id', '=', 'bouteilles.type')
         ->join('users', 'users.id', '=', 'celliers.user_id')
         ->get();
-
-
-
-
-
         return response()->json($id);
-
-
-    }
-
-
-    public function bouteilleSAQ()
-    {
-        return view('bouteilleSAQ');
     }
 
 
     public function importerBouteillesSAQ(Request $request)
     {
-        $nombrePageDebut = 1; //Permet d'importer séquentiellement plusieurs pages, dans notre cas on définir le début 1 et le fin 10
+        $nombrePageDebut = 1; //Permet d'importer séquentiellement plusieurs pages, dans notre cas on définir le début 1 et le fin 5 pour faire présentation
         $nombrePageFin = 5; 
         $nombreProduit = 24; //24, 48 ou 96	
 
@@ -284,9 +264,7 @@ class BouteilleController extends Controller
 
         //var_dump($noeud -> getElementsByTagName("a")->item(1)->textContent);
         $nom = $noeud -> getElementsByTagName("a")->item(1)->textContent;
-        //var_dump($a_titre);
 		$info -> nom = self::nettoyerEspace(trim($nom));
-		//var_dump($info -> nom);
 		// Type, format et pays
 		$aElements = $noeud -> getElementsByTagName("strong");
 		foreach ($aElements as $node) {

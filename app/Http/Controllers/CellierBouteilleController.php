@@ -59,21 +59,14 @@ class cellierBouteilleController extends Controller
     //public function store(Request $request)
     public function store(Request $request)
     {
-
-
-
         $objBouteille = $request->json()->all();
-
-
          DB::table('bouteilles_celliers')->insert([
                  'date_achat'   => $objBouteille['date_achat'],
                  'quantite'     => $objBouteille['quantite'],
                  'bouteille_id' => $objBouteille['bouteille_id'],
                  'cellier_id'   => $objBouteille['cellier_id'],
              ]);
-
             //return $objBouteille;
-
 
     }
 
